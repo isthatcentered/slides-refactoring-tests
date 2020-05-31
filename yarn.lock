@@ -792,6 +792,11 @@
   resolved "https://registry.yarnpkg.com/@code-surfer/themes/-/themes-3.1.0.tgz#fd05db12f99f8bc771d6f7ca03dfdc7d1bc963e0"
   integrity sha512-2QCxEHWzUWfbn5vaqq0tJFuuHhddlBAzEP6gJlO7dCoNrn4GnPpVfsnxOioqJtzoMy8gAv6ecMZlnZvnQ1u8Og==
 
+"@code-surfer/themes@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@code-surfer/themes/-/themes-3.1.1.tgz#b7ec59e3bdf552bd41a1240fe1d999595f4aeb61"
+  integrity sha512-XKoRsVgr09DPVfhmUeULzVykjjsV7OPPSexgF3T1NBG9sAoZcPe5aJljFyc3hutR90cLhavbDWCeikYqryPpfg==
+
 "@emotion/babel-plugin-jsx-pragmatic@^0.1.3":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin-jsx-pragmatic/-/babel-plugin-jsx-pragmatic-0.1.3.tgz#e06489b00bda80304e7198be76f448dd267df397"
@@ -8958,6 +8963,11 @@ prepend-http@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
+
+prettier@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.5.tgz#d6d56282455243f2f92cc1716692c08aa31522d4"
+  integrity sha512-7PtVymN48hGcO4fGjybyBSIWDsLU4H4XlvOHfq91pz9kkGlonzwTfYkaIEwiRg/dAJF9YlbsduBAgtYLi+8cFg==
 
 pretty-bytes@^4.0.2:
   version "4.0.2"

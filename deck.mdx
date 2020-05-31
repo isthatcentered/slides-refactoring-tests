@@ -3,13 +3,1318 @@ import {
   CodeSurferColumns,
   Step,
 } from "code-surfer";
-import { github, vsDark } from "@code-surfer/themes";
+import {Appear} from "mdx-deck"
+import { github, vsDark, shadesOfPurple, base } from "@code-surfer/themes";
+import ciFailBadNamingSrc from "./static/test_with_bad_naming_run_fail.png"
+import image from "./components/image"
+export const theme = base;
 
-export const theme = vsDark;
+export const splitCodeSampleProps = {themes: [vsDark, base]}
 
 # Hello 👋
 
-You are using [MDX Deck](https://github.com/jxnblk/mdx-deck) and [Code Surfer](https://codesurfer.pomb.us)
+---
+
+🥰?
+
+<Notes>
+
+How to fall back in love with tests again
+
+</Notes>
+
+---
+   
+🏗 + 💯 + 👌 + 🤸‍
+<!-- 
+- Structure 🏗
+- Expressiveness 💯
+- Feedback 👌
+- Flexibility 🤸‍
+-->
+
+---
+
+👃 → 👷‍♂️
+
+---
+
+# 🏗
+
+
+<Notes>
+
+- Structure
+
+- Test = recette
+- On prend ingredients
+- On les transforme
+- Vérifie obtenu correspond photo
+- Suite étapes à suivre pour arriver à un état précis
+- Donc test = outil communication
+    - Toute team doit pouvoir suivre/corriger/faire eévoluer recette 
+- Si titre recette pas bon
+- Pas de liste d'ingrédients
+- Comme ça qu'un test fini abandonné et cassé
+- Aka ouvre fichier comprends pas ce qui se passe
+- + deadline
+- Donc besoin suite conventions/templates pour que tt le monde puisse contrbuer rapidement 
+
+</Notes>
+
+--- 
+
+<!--
+****************************
+****************************
+** 👃 UFOCUSED TESTS
+****************************
+****************************
+-->
+
+👃: Unfocused test (🤹‍♂️)
+
+<Notes>
+
+- Test qui part dans tous les sens
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```js 7,9 showNumbers
+test("<LoginPage/>", () => {
+  const navigateSpy = spyOn(navigate)
+  const page = render(<LoginPage/>)
+  const email = page.getByLabel(/email/i)
+  type(email, "credentials.email")
+  expect(page.getByLabel(/submit/i)).not.ToBeInDom()
+  const password = page.getByLabel(/password/i)
+  type(password, "credentials.password")
+  const submitButton = page.getByLabel(/submit/i)
+  click(submitButton)
+  expect(navigateSpy).toHaveBeenCalledWith("/")
+})
+```
+
+```diff 5,8,10 showNumbers
+```
+
+```diff 6 showNumbers
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- Nouveaux ingrédients en cours recette [click]
+- Entre temps effectue action [click]
+- Et puis finallement vérifie pas oublié qqc [click]
+- Bref, marche, mais compliqué à comprendre
+- Comment on clarifie
+- template commun à tous tests
+
+</Notes>
+
+---
+
+Arrange, Act, Assert 
+
+<Notes>
+
+- AAA
+- Comme recette, liste ingrédients, tranformation, vérifie que ça corresond à photo
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```js showNumbers
+test("<LoginPage/>", () => {
+  const navigateSpy = spyOn(navigate)
+  const page = render(<LoginPage/>)
+  const email = page.getByLabel(/email/i)
+  type(email, "credentials.email")
+  expect(page.getByLabel(/submit/i)).not.ToBeInDom()
+  const password = page.getByLabel(/password/i)
+  type(password, "credentials.password")
+  const submitButton = page.getByLabel(/submit/i)
+  click(submitButton)
+  expect(navigateSpy).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 2:6 subtitle="Prepare ingredients"
+test("<LoginPage/>", () => {
+  const navigateSpy = spyOn(navigate)
+  const page = render(<LoginPage/>)
+  const email = page.getByLabel(/email/i)
+  const password = page.getByLabel(/password/i)
+  const submitButton = page.getByLabel(/submit/i)
+  type(email, "credentials.email")
+  expect(page.getByLabel(/submit/i)).not.ToBeInDom()
+  type(password, "credentials.password")
+  click(submitButton)
+  expect(navigateSpy).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 7:9 subtitle="Transform it"
+test("<LoginPage/>", () => {
+  const navigateSpy = spyOn(navigate)
+  const page = render(<LoginPage/>)
+  const email = page.getByLabel(/email/i)
+  const password = page.getByLabel(/password/i)
+  const submitButton = page.getByLabel(/submit/i)
+  type(email, "credentials.email")
+  type(password, "credentials.password")
+  click(submitButton)
+  expect(page.getByLabel(/submit/i)).not.ToBeInDom()
+  expect(navigateSpy).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 6 10:11 subtitle='Check'
+test("<LoginPage/>", () => {
+  const navigateSpy = spyOn(navigate)
+  const page = render(<LoginPage/>)
+  const email = page.getByLabel(/email/i)
+  const password = page.getByLabel(/password/i)
+  const submitButton = page.getByLabel(/submit/i)
+  type(email, "credentials.email")
+  type(password, "credentials.password")
+  click(submitButton)
+  expect(page.getByLabel(/submit/i)).not.ToBeInDom()
+  expect(navigateSpy).toHaveBeenCalledWith("/")
+})
+```
+
+```diff showNumbers 2:6 subtitle="Arrange"
+```
+
+```diff showNumbers 7:9 subtitle="Act"
+```
+
+```diff showNumbers 10:11 subtitle="Assert"
+```
+
+```js showNumbers 1:12 subtitle='Highlight the steps'
+test("<LoginPage/>", () => {
+  const navigateSpy = spyOn(navigate)
+  const page = render(<LoginPage/>)
+  const email = page.getByLabel(/email/i)
+  const password = page.getByLabel(/password/i)
+  const submitButton = page.getByLabel(/submit/i)
+
+  type(email, "credentials.email")
+  type(password, "credentials.password")
+  click(submitButton)
+
+  expect(page.getByLabel(/submit/i)).not.ToBeInDom()
+  expect(navigateSpy).toHaveBeenCalledWith("/")
+})
+```
+
+```diff showNumbers 2:6 subtitle="Given"
+```
+
+```diff showNumbers 8:10 subtitle="When"
+```
+
+```diff showNumbers 12:13 subtitle="Then"
+```
+
+```diff 12 subtitle='Belongs to another test'
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- Comment on fixe ce test ?
+- [click] 
+- Setup au début. 
+- Prépare ingrédients 
+- [click]
+- Ingredients ready -> transforme
+- [click]
+- Check match attentes  
+- [click]
+- AKA
+    - A [click]
+    - A [click]
+    - A 
+- Add spaces because we're gentlemens [click]
+- Dans specs, probablement croisé sous le nom GWT
+    - G [click]
+    - W [click]
+    - T [click] 
+- Noté assertion en trop [click] = autre test
+
+</Notes>
+
+---
+
+<CodeSurferColumns {...splitCodeSampleProps}>
+
+<Step>
+
+```js showNumbers subtitle="After"
+test("<LoginPage/>", () => {
+  const navigateSpy = spyOn(navigate)
+  const page = render(<LoginPage/>)
+  const email = page.getByLabel(/email/i)
+  type(email, "credentials.email")
+  expect(page.getByLabel(/submit/i)).not.ToBeInDom()
+  const password = page.getByLabel(/password/i)
+  type(password, "credentials.password")
+  const submitButton = page.getByLabel(/submit/i)
+  click(submitButton)
+  expect(navigateSpy).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers subtitle='After'
+test("<LoginPage/>", () => {
+  const navigateSpy = spyOn(navigate)
+  const page = render(<LoginPage/>)
+  const email = page.getByLabel(/email/i)
+  const password = page.getByLabel(/password/i)
+  const submitButton = page.getByLabel(/submit/i)
+
+  type(email, "credentials.email")
+  type(password, "credentials.password")
+  click(submitButton)
+
+  expect(page.getByLabel(/submit/i)).not.ToBeInDom()
+  expect(navigateSpy).toHaveBeenCalledWith("/")
+})
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<!--
+****************************
+****************************
+** 👃 JUNK DRAWER
+****************************
+****************************
+-->
+
+👃: Junk drawer (🗑🗄)
+
+<Notes>
+
+- Fourre tout
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```js showNumbers
+test("<LoginPage/>", () => {
+  // ...
+}) 
+```
+
+```diff showNumbers 1[6:19] subtitle="Just one test for the whole page ?"
+```
+
+```js showNumbers
+test("<LoginPage/>", () => {
+  // verify can't submit if empty form
+
+  // verify email validation
+  
+  // Verify password validation
+    
+  // verify loading state
+    
+  // verify login fail displays error
+    
+  // verify login fail redirect error
+
+  // more stuff
+}) 
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- [click]
+- Juste un test pour la page login ? [click]
+- mhhhh
+
+</Notes>
+
+---
+
+Use naming to Scope
+
+---
+
+<CodeSurfer>
+
+```js 1[6:39]
+test("method -> condition -> behavior", ()=>{})
+```
+
+```js 1[6:18]
+test("<LoginPage/> -> condition -> behavior", ()=>{})
+```
+
+```js 1[23:35]
+test("<LoginPage/> -> failed login -> behavior", ()=>{})
+```
+
+```js 1[39:60]
+test("<LoginPage/> -> failed login -> displays server error", ()=>{})
+```
+
+```js 1[7:54]
+test("<LoginPage/> failed login displays server error", ()=>{})
+```
+
+```js subtitle="Grouping by method"
+describe("<LoginPage/>", () => {
+  test("Failed login displays server error", ()=>{})
+}) 
+```
+
+```js 
+describe("<LoginPage/>", () => {
+  test("Invalid credentials displays server error", ()=>{})
+  test("Pending submission displays loader", ()=>{})
+  test("Successful login redirects to dashboard", ()=>{})
+}) 
+```
+
+```js subtitle="Nesting tests by condition"
+describe("<LoginPage/>", () => {
+  describe("Failed login", () => {}) 
+  describe("Invalid form", () => {})
+  describe("Successful login", () => {})
+}) 
+```
+
+```js subtitle="(Can help surfacing other requirements)"
+describe("<LoginPage/>", () => {
+  describe("Failed login", () => {
+    test("Displays server error", ()=>{})
+    test("Requires captcha on subsequent attempts", ()=>{})
+    //...
+  }) 
+  describe("Invalid form", () => {})
+  describe("Successful login", () => {})
+}) 
+```
+
+</CodeSurfer>
+
+
+---
+
+<CodeSurferColumns {...splitCodeSampleProps}>
+
+<Step>
+
+```js showNumbers subtitle="before"
+test("<LoginPage/>", () => {
+    // verify can't submit if empty form
+    
+    // verify email validation
+    
+    // Verify password validation
+    
+    // verify loading state
+    
+    // verify login fail displays error
+    
+    // verify login fail redirect error
+    
+    // more stuff
+}) 
+```
+
+```js subtitle="After" 
+describe("<LoginPage/>", () => {
+  test("Invalid credentials displays server error", ()=> {})
+  test("Pending submission displays loader", ()=> {})
+  test("Successful login redirects to dashboard", ()=> {})
+}) 
+```
+
+</Step> 
+
+</CodeSurferColumns>  
+
+<Notes>
+
+- Now we have battery of small focused test (B/A)
+- We probably surfaced more edge cases
+
+</Notes> 
+
+---
+
+I don't care
+
+<Notes>
+
+- Au delà difficulté à aborder test
+- Side effect = useless ci
+
+</Notes>
+
+---
+
+<!-- <Image  src={ciFailBadNamingSrc} alt="Tests with non specific names produce useless failures" >
+</Image> -->
+// IMG: Tests with non specific names produce useless failures
+
+<Notes>
+
+- Guess what the error is when you broke:
+- Validation ?
+- Redirection ?
+- Error message ? 
+- Yup
+
+</Notes>
+
+---
+
+// IMG: Specific test names help reduce the debug area
+
+<Notes>
+
+- Can start investigating right away
+
+</Notes>
+
+---
+
+<!--
+****************************
+****************************
+** 👃 Unicorns everywhere
+****************************
+****************************
+-->
+
+👃: Unicorns everywhere (🦄🗺)
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```js subtitle="Service A" showNumbers
+test("add() validation passed saves user to database", async () => {
+  const db = await bootDb()
+  const validator = new IdentityValidator()
+  const user = makeUser({ ldap: 1234 })
+  const repository = new UserRepository(db, validator)
+
+  await repository.add(user)
+
+  expect(await db.get("users").first()).toMatchObject(user)
+}) 
+```
+
+```js subtitle="Service B" showNumbers
+test("add() validation passed saves product to database", async () => {
+  const db = { add: jest.fn() }
+  const validator = { allows: jest.fn() }
+  const product = "product"
+  const repository = new ProductsRepository(db, validator)
+  validator.mockResolvedValue(true)
+
+  await repository.add(product)
+
+  expect(db.add).toHaveBeenCalledWith("products", product)
+}) 
+```
+
+</Step>
+
+<Step>
+
+```diff 2:4,9 subtitle="Real collaborators"
+```
+
+```diff
+```
+
+</Step>
+
+<Step>
+
+```diff 
+```
+
+```diff 2:4,6,10 subtitle="Mocks only"
+```
+
+</Step>
+
+<Step>
+
+```diff 4,7,9
+```
+
+```diff 4,8,10
+```
+
+</Step>
+
+<Step>
+
+```diff 
+```
+
+```diff 
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+<Notes>
+
+- Chacun fait comme il le sent sur le moment
+- Contribuer = 20 mins à comprendre test first
+- Suite 10 tests chacun complètement différent
+
+</Notes>   
+
+---
+
+
+Stick to your guns
+
+aka soit tous unit tests utilisen bdd soit tous mockent, mais pas un coup l'un, un coup l'autre
+
+folders pour integ/end to end et unit tests par ex
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```js subtitle="Service A" showNumbers
+test("add() validation passed saves user to database", async () => {
+    const db = { add: jest.fn() }
+    const validator = { allows: jest.fn() }
+    const user = "user"
+    const repository = new ProductsRepository(db, validator)
+    validator.mockResolvedValue(true)
+    
+    await repository.add(user)
+    
+    expect(db.add).toHaveBeenCalledWith("users", user)
+}) 
+```
+
+```js subtitle="Service B" showNumbers
+test("add() validation passed saves product to database", async () => {
+  const db = { add: jest.fn() }
+  const validator = { allows: jest.fn() }
+  const product = "product"
+  const repository = new ProductsRepository(db, validator)
+  validator.mockResolvedValue(true)
+
+  await repository.add(product)
+
+  expect(db.add).toHaveBeenCalledWith("products", product)
+}) 
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<!--
+*****************************************************************************
+*****************************************************************************
+** Expressiveness 💯 *********************************************************
+*****************************************************************************
+*****************************************************************************
+-->
+
+# Expressiveness 💯
+
+<Notes>
+
+- Declarative vs imperative recipe
+- Bon niveau de détail
+- Communicate intent
+
+
+</Notes>
+
+--- 
+
+<!--
+****************************
+****************************
+** 👃 LOST IN DETAILS
+****************************
+****************************
+-->
+
+👃: Lost in details (📚🤔)
+
+---
+
+<CodeSurfer>
+
+```js showNumbers 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = render(<LoginPage />)
+    const emailInput = page.getByLabelText(/email/i)
+    const passwordInput = page.getByLabelText(/password/i)
+    const submitButton = page.getByRole("button", { name: /login/i })
+    when(login(credentials)).mockResolvedValue()
+    
+    fireEvent.change(emailInput, {
+        target: { value: "brucewayne@wayneenterprises.com" },
+    })
+    fireEvent.change(passwordInput, { target: { value: "imbatman" } })
+    fireEvent.submit(submitButton)
+    await new Promise(resolve => process.nextTick(resolve))
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```diff 12:17 showNumbers subtitle="😳"
+```
+
+```diff 7,12:14 showNumbers 
+```
+
+```js showNumbers 
+const type = (target, value, page) => {
+  const input = page.getByLabelText(target)
+  fireEvent.change(input, {
+      target: { value },
+  })
+}
+
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = render(<LoginPage />)
+    const emailInput = page.getByLabelText(/email/i)
+    const passwordInput = page.getByLabelText(/password/i)
+    const submitButton = page.getByRole("button", { name: /login/i })
+    when(login(credentials)).mockResolvedValue()
+    
+    fireEvent.change(emailInput, {
+        target: { value: "brucewayne@wayneenterprises.com" },
+    })
+    fireEvent.change(passwordInput, { target: { value: "imbatman" } })
+    fireEvent.submit(submitButton)
+    await new Promise(resolve => process.nextTick(resolve))
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 
+const type = (target, value, page) => {
+  const input = page.getByLabelText(target)
+  fireEvent.change(input, {
+      target: { value },
+  })
+}
+
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = render(<LoginPage />)
+    const submitButton = page.getByRole("button", { name: /login/i })
+    when(login(credentials)).mockResolvedValue()
+    
+    type(/email/i, "brucewayne@wayneenterprises.com", page)
+    type(/password/i, "imbatman", page)
+    fireEvent.submit(submitButton)
+    await new Promise(resolve => process.nextTick(resolve))
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 
+const type = (target, value, page) => {
+  const input = page.getByLabelText(target)
+  fireEvent.change(input, {
+      target: { value },
+  })
+}
+
+const submit = (target, page) => {
+  const input = page.getByRole("button", {name:target})
+  fireEvent.submit(input)
+}
+
+
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = render(<LoginPage />)
+    when(login(credentials)).mockResolvedValue()
+    
+    type(/email/i, "brucewayne@wayneenterprises.com", page)
+    type(/password/i, "imbatman", page)
+    submit(submitButton, page)
+    await new Promise(resolve => process.nextTick(resolve))
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 
+const type = (target, value, page) => {
+  const input = page.getByLabelText(target)
+  fireEvent.change(input, {
+      target: { value },
+  })
+}
+
+const submit = (target, page) => {
+  const input = page.getByRole("button", {name:target})
+  fireEvent.submit(input)
+}
+
+const waitForPendingPromisesToComplete = ()=> new Promise(resolve => process.nextTick(resolve))
+
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = render(<LoginPage />)
+    when(login(credentials)).mockResolvedValue()
+    
+    type(/email/i, "brucewayne@wayneenterprises.com", page)
+    type(/password/i, "imbatman", page)
+    submit(submitButton, page)
+    await waitForPendingPromisesToComplete()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```diff 23:26
+```
+
+```diff 23[55:59],24[35:39],25[26:30]
+```
+
+```js showNumbers 
+const waitForPendingPromisesToComplete = ()=> new Promise(resolve => process.nextTick(resolve))
+
+const customRender = (component) => {
+  const page = render(component)
+
+    const type = (target, value) => {
+      const input = page.getByLabelText(target)
+      fireEvent.change(input, {
+          target: { value },
+      })
+    }
+    
+    const submit = (target) => {
+      const input = page.getByRole("button", {name:target})
+      fireEvent.submit(input)
+    }
+
+    const waitForPendingPromisesToComplete = ()=> new Promise(resolve => process.nextTick(resolve))
+
+  return {...page, type, submit, waitForPendingPromisesToComplete}
+}
+
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = render(<LoginPage />)
+    when(login(credentials)).mockResolvedValue()
+    
+    type(/email/i, "brucewayne@wayneenterprises.com", page)
+    type(/password/i, "imbatman", page)
+    submit(submitButton, page)
+    await waitForPendingPromisesToComplete()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 
+const customRender = (component) => {
+  const page = render(component)
+
+    const type = (target, value) => {
+      const input = page.getByLabelText(target)
+      fireEvent.change(input, {
+          target: { value },
+      })
+    }
+    
+    const submit = (target) => {
+      const input = page.getByRole("button", {name:target})
+      fireEvent.submit(input)
+    }
+
+    const waitForPendingPromisesToComplete = ()=> new Promise(resolve => process.nextTick(resolve))
+
+  return {...page, type, submit, waitForPendingPromisesToComplete}
+}
+
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = customRender(<LoginPage />)
+    when(login(credentials)).mockResolvedValue()
+    
+    page.type(/email/i, "brucewayne@wayneenterprises.com")
+    page.type(/password/i, "imbatman")
+    page.submit(submitButton)
+    await page.waitForPendingPromisesToComplete()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 
+const customRender = (component) => {
+  const page = render(component)
+
+    const type = (target, value) => {
+      const input = page.getByLabelText(target)
+      fireEvent.change(input, {
+          target: { value },
+      })
+    }
+    
+    const submit = (target) => {
+      const input = page.getByRole("button", {name:target})
+      fireEvent.submit(input)
+    }
+
+    const waitForPendingPromisesToComplete = ()=> new Promise(resolve => process.nextTick(resolve))
+
+  return {...page, type, submit, waitForPendingPromisesToComplete}
+}
+
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```diff 27[10:23],29[10:25],30[5:10,16:21]
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- 5 sec to tell me what this is doing
+- Hard, even though there are only a few lines
+- Let's see how we can clarify what this does
+- Generic helpers
+- Go on a tangeant (realize you control everything ,frameworks are not made for you, that's why they're akward)
+- You can go even further and talk in domain term for that page/method
+
+</Notes>
+
+---
+
+What, not how
+
+---
+
+<CodeSurferColumns {...splitCodeSampleProps}>
+
+<Step>
+
+```js showNumbers 7:17 subtitle="Before" 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = render(<LoginPage />)
+    const emailInput = page.getByLabelText(/email/i)
+    const passwordInput = page.getByLabelText(/password/i)
+    const submitButton = page.getByRole("button", { name: /login/i })
+    when(login(credentials)).mockResolvedValue()
+    
+    fireEvent.change(emailInput, {
+        target: { value: "brucewayne@wayneenterprises.com" },
+    })
+    fireEvent.change(passwordInput, { target: { value: "imbatman" } })
+    fireEvent.submit(submitButton)
+    await new Promise(resolve => process.nextTick(resolve))
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 6:10 subtitle="After" 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+<Notes>
+
+- Easy to understand
+- Domain terms
+- Centralized knowledge (bonus)
+
+</Notes>
+
+--- 
+
+<!--
+****************************
+****************************
+** 👃 SUSPICIOUS VALUES
+****************************
+****************************
+-->
+
+👃: Suspicious values (👮‍♂️📦)
+
+<Notes>
+
+- Valeurs suspectes
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```js showNumbers
+const count = 2
+```
+
+```js showNumbers
+const date = "20/03/2018"
+```
+
+```js showNumbers 3:4 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "credentials.email",
+       password: "credentials.password",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers
+    const route = WHATEVER
+    const service = new SomeService(route)
+
+    service.methodThatDoesntUseRoute()
+```
+
+</CodeSurfer>
+
+
+<Notes>
+
+- Why 2, why not 1
+- And why not 0
+- Whay "20/03/2018" why not 21st ?
+- Does it really have to be a valid email ?
+- If data shape doesn't matter, show it (credentials.email)
+- If value doesn't matter at all, show it (WHATEVER) 
+
+</Notes>
+
+---
+
+Make the unimportant obviously unimportant
+
+---
+
+<CodeSurferColumns {...splitCodeSampleProps}>
+
+<Step>
+
+```js showNumbers 2:5
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 2:5
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "credentials.email",
+       password: "credentials.password",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+</Step>
+
+<CodeSurferColumns>
+
+<Notes>
+
+- Clear that the value shape doesn't matter for this test
+- If expectation on value passing, you'll get a better message (tracer object)
+
+</Notes>
+
+---
+
+<!--
+****************************
+****************************
+** 👃 EVERYTHING BOLD
+****************************
+****************************
+-->
+
+👃: Everything bold (🌏👨‍🦲)
+
+---
+
+<CodeSurfer>
+
+```js showNumbers
+    const user =  {
+      firstname: "Bruce",
+      lastname: "Wayne",
+      email: "brucewayne@wayneenterprises.com",
+      password: "admmin"
+    }
+    const validator = new IdentityValidator()
+    const repository = new UserRepository(validator) 
+
+    repository.add(user)
+
+    expect(repository.all().first()).toMatchObject(user)
+```
+
+```diff 1:6
+```
+
+```diff 7
+```
+
+```diff
+```
+
+
+</CodeSurfer>
+
+<Notes>
+
+- What in this user makes this test pass/fail
+- I see a validator, so there's probably something going on
+- I should be able to tell what
+- How can we make that more obvious
+
+</Notes>
+
+---
+
+
+<CodeSurfer>
+
+```js 1:2,3[8:10] title="Focus 🤓"
+console.log(1);
+
+console.log(2);
+console.log(3);
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```js title="steps"
+console.log(1);
+console.log(2);
+console.log(3);
+```
+
+```js 1
+console.log(1);
+console.log(2);
+console.log(3);
+```
+
+```js
+console.log(1);
+console.log(2);
+console.log(3);
+console.log(4);
+console.log(5);
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurferColumns {...splitCodeSampleProps}>
+
+<Step title="Columsn: First Step">
+
+```js
+console.log(1);
+console.log(2);
+```
+
+```js
+console.log("a");
+console.log("b");
+```
+
+</Step>
+
+<Step title="Columns: Second Step">
+
+```js 2
+console.log(1);
+console.log(2);
+```
+
+```js 2
+console.log("a");
+console.log("b");
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurfer title="diffs">
+
+```js
+console.log(1);
+console.log(2);
+console.log(3);
+```
+
+```diff 1 subtitle="log 1"
+
+
+```
+
+```diff 2 subtitle="log 2"
+
+```
+
+```diff 3 subtitle="log 3"
+
+```
+
+</CodeSurfer>
 
 ---
 
