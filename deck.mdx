@@ -1156,7 +1156,7 @@ test("<LoginPage/>", async () => {
 
 </Step>
 
-<CodeSurferColumns>
+</CodeSurferColumns>
 
 <Notes>
 
@@ -1182,11 +1182,13 @@ test("<LoginPage/>", async () => {
 <CodeSurfer>
 
 ```js showNumbers
+test("Valiation success adds user to repository", () => {
     const user =  {
       firstname: "Bruce",
       lastname: "Wayne",
       email: "brucewayne@wayneenterprises.com",
-      password: "admmin"
+      password: "admmin",
+      ldap: "1234"
     }
     const validator = new IdentityValidator()
     const repository = new UserRepository(validator) 
@@ -1194,17 +1196,83 @@ test("<LoginPage/>", async () => {
     repository.add(user)
 
     expect(repository.all().first()).toMatchObject(user)
+})
 ```
 
-```diff 1:6
+```diff 2:7
 ```
 
-```diff 7
+```diff 9
 ```
 
 ```diff
 ```
 
+```js showNumbers subtitle="Factory"
+const makeUser = (overrides) => ({
+    firstname: "user.firstname",
+    lastname: "user.lastname",
+    email: "user.email",
+    password: "user.password",
+    ldap: "user.ldap",
+  ...overrides
+})
+
+test("Valiation success adds user to repository", () => {
+    const user =  {
+      firstname: "Bruce",
+      lastname: "Wayne",
+      email: "brucewayne@wayneenterprises.com",
+      password: "admmin",
+      ldap: "1234"
+    }
+    const validator = new IdentityValidator()
+    const repository = new UserRepository(validator) 
+
+    repository.add(user)
+
+    expect(repository.all().first()).toMatchObject(user)
+})
+```
+
+```js showNumbers 11:14
+const makeUser = (overrides) => ({
+    firstname: "user.firstname",
+    lastname: "user.lastname",
+    email: "user.email",
+    password: "user.password",
+    ldap: "user.ldap",
+  ...overrides
+})
+
+test("Valiation success adds user to repository", () => {
+    const user =  makeUser({
+      email: "brucewayne@wayneenterprises.com",
+      ldap: "1234"
+    })
+    const validator = new IdentityValidator()
+    const repository = new UserRepository(validator) 
+
+    repository.add(user)
+
+    expect(repository.all().first()).toMatchObject(user)
+})
+```
+
+```diff 12:13
+```
+
+```js showNumbers subtitle="Named factory"
+test("Valiation success adds user to repository", () => {
+    const user =  makeUser.approvedByIdentity()
+    const validator = new IdentityValidator()
+    const repository = new UserRepository(validator) 
+
+    repository.add(user)
+
+    expect(repository.all().first()).toMatchObject(user)
+})
+```
 
 </CodeSurfer>
 
@@ -1219,8 +1287,207 @@ test("<LoginPage/>", async () => {
 
 ---
 
+Highlight what matters
+
+---
+
+<CodeSurferColumns {...splitCodeSampleProps}>
+
+<Step>
+
+```js showNumbers 2:8
+test("Valiation success adds user to repository", () => {
+    const user =  {
+      firstname: "Bruce",
+      lastname: "Wayne",
+      email: "brucewayne@wayneenterprises.com",
+      password: "admmin",
+      ldap: "1234"
+    }
+    const validator = new IdentityValidator()
+    const repository = new UserRepository(validator) 
+
+    repository.add(user)
+
+    expect(repository.all().first()).toMatchObject(user)
+})
+```
+
+```js showNumbers 2:5
+test("Valiation success adds user to repository", () => {
+    const user =  makeUser({
+      email: "brucewayne@wayneenterprises.com",
+      ldap: "1234"
+    })
+    const validator = new IdentityValidator()
+    const repository = new UserRepository(validator) 
+
+    repository.add(user)
+
+    expect(repository.all().first()).toMatchObject(user)
+})
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<!--
+****************************
+****************************
+** 👃 Duplicate naming
+****************************
+****************************
+-->
+
+👃: Duplicate naming (👶👶)
+
+---
 
 <CodeSurfer>
+
+```js showNumbers
+// Calls do something
+doSomething()
+```
+
+```js showNumbers 2:5
+test("Valiation success adds user to repository", () => {
+    const user =  makeUser({
+      email: "brucewayne@wayneenterprises.com",
+      ldap: "1234"
+    })
+    const validator = new IdentityValidator()
+    const repository = new UserRepository(validator) 
+
+    repository.add(user)
+
+    expect(repository.all().first()).toMatchObject(user)
+})
+```
+
+```js showNumbers 2:5
+test("Valiation success adds user to repository", () => {
+    const identityApprovedUser =  makeUser({
+      email: "brucewayne@wayneenterprises.com",
+      ldap: "1234"
+    })
+    const validator = new IdentityValidator()
+    const repository = new UserRepository(validator) 
+
+    repository.add(user)
+
+    expect(repository.all().first()).toMatchObject(user)
+})
+```
+
+```js showNumbers 
+test("Matching user in db returns match", async () => {
+    const user1 =  makeUser({
+      ldap: "user_1_ldap"
+    })
+    const user2 = makeUser({
+      ldap: "user_2_ldap"
+    })  
+    const db = new Db()
+    const repository = new UserRepository() 
+
+    db.add("users", user1)
+    db.add("users", user2)
+
+    const found = await repository.get({ldap: user1.ldap})
+
+    expect(found).toMatchObject(user1)
+})
+```
+
+```diff 2:7
+```
+
+```js showNumbers 2[11:23],5[11:25],16
+test("Matching user in db returns match", async () => {
+    const matchingUser =  makeUser({
+      ldap: "user_1_ldap"
+    })
+    const nonMatchingUser = makeUser({
+      ldap: "user_2_ldap"
+    })  
+    const db = new Db()
+    const repository = new UserRepository() 
+
+    db.add("users", matchingUser)
+    db.add("users", nonMatchingUser)
+
+    const found = await repository.get({ldap: user1.ldap})
+
+    expect(found).toMatchObject(matchingUser)
+})
+```
+
+</CodeSurfer>
+
+---
+
+Put naming to work
+
+--- 
+
+<CodeSurferColumns {...splitCodeSampleProps}>
+
+<Step>
+
+```js showNumbers 2[11:16],5[11:16],16
+test("Matching user in db returns match", async () => {
+    const user1 =  makeUser({
+      ldap: "user_1_ldap"
+    })
+    const user2 = makeUser({
+      ldap: "user_2_ldap"
+    })  
+    const db = new Db()
+    const repository = new UserRepository() 
+
+    db.add("users", user1)
+    db.add("users", user2)
+
+    const found = await repository.get({ldap: user1.ldap})
+
+    expect(found).toMatchObject(user1)
+})
+```
+
+```js showNumbers 2[11:23],5[11:25],16
+test("Matching user in db returns match", async () => {
+    const matchingUser =  makeUser({
+      ldap: "user_1_ldap"
+    })
+    const nonMatchingUser = makeUser({
+      ldap: "user_2_ldap"
+    })  
+    const db = new Db()
+    const repository = new UserRepository() 
+
+    db.add("users", matchingUser)
+    db.add("users", nonMatchingUser)
+
+    const found = await repository.get({ldap: user1.ldap})
+
+    expect(found).toMatchObject(matchingUser)
+})
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurfer>
+
+
+
 
 ```js 1:2,3[8:10] title="Focus 🤓"
 console.log(1);
