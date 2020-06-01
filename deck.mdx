@@ -1484,6 +1484,381 @@ test("Matching user in db returns match", async () => {
 
 ---
 
+Feedback 👌 
+
+<Notes>
+
+- When fail, in ci/during refactor 
+- Don't want to waste time understanding failure
+- Failure should be expressive enough to tell you clearly what was expected and what happened
+- Otherwise, time lost 
+- Like undefined is not a function
+- True, but I still have no clue what the problem is
+- Failures should give you clues, breadcrumbs on the path to solving a bug
+see justin searls
+
+</Notes>
+
+---
+
+<!--
+****************************
+****************************
+** 👃 NAN
+****************************
+****************************
+-->
+
+👃: Not a number (🎰)
+
+<Notes>
+
+- Ever had that error
+- Not quite useful right 
+- Like undefined is not a function
+- True, but I still have no clue what the problem is
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```bash 
+🛑 Fail: "chars() returns every char in string"
+        
+         Error: expected( 0 ).toBe( 5 ) 
+```
+
+```js showNumbers 3
+test("chars() returns every char in string", () => {
+  // ...stuff
+  expect(chars(string).length).toBe(5)
+})
+```
+
+```js showNumbers 3
+test("chars() returns every char in string", () => {
+  // ...stuff
+  expect(chars(string)).toHaveLength(5)
+})
+```
+
+```bash 
+🛑 Fail: "chars() returns every char in string"
+        
+         Error: expect(received).toHaveLength(expected)
+         
+         Expected length: 10
+         Received length: 0
+         Received array:  []
+```
+
+```bash 
+🛑 Fail: "Cannot re-submit form until post completion"
+        
+         Error: expect(received).toBe(expected) // Object.is equality
+         
+         Expected: false
+         Received: true
+```
+
+
+```js showNumbers 3
+test("Cannot re-submit form until post completion", () => {
+  // ...stuff
+  expect(button.disabled).toBe(true)
+})
+```
+
+```js showNumbers 3
+test("Cannot re-submit form until post completion", () => {
+  // ...stuff
+  expect(button).toBeDisabled()
+})
+```
+
+```bash 
+🛑 Fail: "Cannot re-submit form until post completion"
+        
+         Error: expect(element).toBeDisabled()
+         
+         <button /> is not disabled:
+```
+
+</CodeSurfer>
+
+---
+
+Leverage matchers
+
+---
+
+<CodeSurferColumns {...splitCodeSampleProps}>
+
+<Step>
+
+```bash 
+🛑 Fail: "chars() returns every char in string"
+        
+         Error: expected( 0 ).toBe( 5 ) 
+```
+
+```bash 
+🛑 Fail: "chars() returns every char in string"
+        
+         Error: expect(received).toHaveLength(expected)
+         
+         Expected length: 10
+         Received length: 0
+         Received array:  []
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<!--
+****************************
+****************************
+** 👃 Memory dump
+****************************
+****************************
+-->
+
+👃: Memory dump (🧠🗑)
+
+<Notes>
+
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```bash
+🛑 Fail: "Returns users sorted by id descending"
+        Error: expect(received).toEqual(expected) // deep equality
+        
+        - Expected
+        + Received
+        
+        @@ -4,11 +4,11 @@
+                "city": "user.address.city",
+                "street": "user.address.city",
+              },
+              "birthdate": "user.birthdate",
+              "firstname": "user.firstname",
+        -     "id": 3,
+        +     "id": 1,
+              "lastname": "user.lastname",
+            },
+            Object {
+              "address": Object {
+                "city": "user.address.city",
+        @@ -24,9 +24,9 @@
+                "city": "user.address.city",
+                "street": "user.address.city",
+              },
+              "birthdate": "user.birthdate",
+              "firstname": "user.firstname",
+        -     "id": 1,
+        +     "id": 3,
+              "lastname": "user.lastname",
+            },
+          ]
+```
+
+```js showNumbers
+test(`Orders users by id descending`, () => {
+  // ...stuff
+
+  const result = orderUsers(users)
+
+  expect(result).toEqual([user3, user2, user1])
+})
+```
+
+```js showNumbers 
+test(`Orders users by id descending`, () => {
+  // ...stuff
+
+  const result = orderUsers(users).map(prop("id"))
+  
+  expect(result).toEqual([3, 2, 1])
+})
+```
+
+```diff 4[35:51],6[26:35]
+```
+
+```bash
+🛑 Fail: "Returns users sorted by id descending"
+        Error: expect(received).toEqual(expected) // deep equality
+        
+        - Expected
+        + Received
+        
+          Array [
+        -   3,
+        -   2,
+            1,
+        +   2,
+        +   3,
+          ]
+```
+
+```bash
+🛑 Fail: "Gets user by id"
+        Error: expect(received).toBe(expected) // Object.is equality
+        
+        - Expected
+        + Received
+        
+        @@ -2,9 +2,9 @@
+            "address": Object {
+              "city": "user.address.city",
+              "street": "user.address.city",
+            },
+            "birthdate": "user.birthdate",
+        -   "firstname": "John",
+        -   "id": 2,
+        +   "firstname": "Bob",
+        +   "id": 1,
+            "lastname": "user.lastname",
+          }
+```
+
+```js
+test(`Gets user by id`, async () => {
+    // ...stuff
+
+    const result = await repository.get(user2.id)
+
+    expect(result).toBe(user2)
+})
+```
+
+```js
+test(`Gets user by id`, async () => {
+    // ...stuff
+
+    const result = await repository.get(user2.id)
+
+    expect(result.firstname).toBe(user2.firstname)
+})
+```
+
+```bash
+🛑 Fail: "Gets user by id"
+        Error: expect(received).toBe(expected) // Object.is equality
+        
+        Expected: "John"
+        Received: "Bob"
+```
+
+</CodeSurfer>
+
+---
+
+<!--
+****************************
+****************************
+** 👃 TRACE FAIL
+****************************
+****************************
+-->
+
+👃: Trace fail (🗺😢)
+
+<Notes>
+
+- You just want to test delegaton
+- That something has been passed to something else
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```bash
+🛑 Fail: "Saves user to database"
+        Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+        
+        Expected: {"address": {"city": "address.city", "street": "address.city"}, "birthdate": "birthdate", "firstname": "firstname", "lastname": "lastname"}
+        Received: undefined
+```
+
+```js 2,6,8
+test(`Saves user in database c`, async () => {
+    const user = withDescription(makeUser(), "user")
+    const db = { add: jest.fn() }
+    const repository = new UserRepository(db)
+    
+    await repository.create(user)
+    
+    expect(db.add).toHaveBeenCalledWith(user)
+})
+```
+
+```js
+test(`Saves user in database c`, async () => {
+    const user = "user"
+    const db = { add: jest.fn() }
+    const repository = new UserRepository(db)
+    
+    await repository.create(user)
+    
+    expect(db.add).toHaveBeenCalledWith(user)
+})
+```
+
+```bash
+🛑 Fail: "Saves user to database"
+        Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+        
+        Expected: "user"
+        Received: undefined
+```
+
+</CodeSurfer>
+
+---
+
+Use placeholders
+
+---
+
+<CodeSurferColumns {...splitCodeSampleProps}>
+
+<Step>
+
+```bash
+🛑 Fail: "Saves user to database"
+        Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+        
+        Expected: {"address": {"city": "address.city", "street": "address.city"}, "birthdate": "birthdate", "firstname": "firstname", "lastname": "lastname"}
+        Received: undefined
+```
+
+```bash
+🛑 Fail: "Saves user to database"
+        Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+        
+        Expected: "user"
+        Received: undefined
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
 <CodeSurfer>
 
 
