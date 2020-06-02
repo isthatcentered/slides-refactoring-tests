@@ -12,8 +12,8 @@ export const theme = base;
 
 export const splitCodeSampleProps = {themes: [vsDark, base]}
 
-# Hello 👋
-<Caption style={{ marginTop: -32 }}>Warning, lots of emojis</Caption>
+
+# Readable tests
 
 ---
 
@@ -146,8 +146,8 @@ test("<Signup/>", async () => {
 
 
 
-<EmojiSlide>
-Tests = 🏃‍♂️📚
+<EmojiSlide caption="Tests are a runnable specification">
+🏃‍♂️📚
 </EmojiSlide>  
 
 <Notes>
@@ -174,10 +174,9 @@ Tests = 🏃‍♂️📚
 
 <br/>
 
-- pb arrive quand spec evolue/add feature
-- Livraison à la priorité
-- Donc si test trop compliqué
-- Test abandonné
+- Test hardcore devient problématique quand
+- Dure à lire plus pression = bye bye
+- = Test premier truc à sauter
 
 </Notes>
 
@@ -187,8 +186,7 @@ Tests = 🏃‍♂️📚
 
 <Notes>
 
-- test abandonné = pièce en + en tête cahque modif
-- tendence inversée + en tête que ds tests
+- test en moins = pièce en plus
 
 </Notes>
 
@@ -199,7 +197,8 @@ Tests = 🏃‍♂️📚
 
 <Notes>
 
-- Doit check manuellement de + en +
+- tendence inversée + en tête que ds tests
+- 2 pas arrières pour 1 en avant
 
 </Notes>
 
@@ -210,8 +209,8 @@ Tests = 🏃‍♂️📚
 <Notes>
 
 - Jusque moment ou tendance complètement inversée
-- Doit avoir l'ensemble de l'app en tête à chaque changement
-- A chaque changement vous devez tout vérifier 
+- A chaque changement doit tout vérifier 
+- impossible toute app en tête 
 
 </Notes>
 
@@ -257,6 +256,19 @@ Tests = 🏃‍♂️📚
 
 </Notes>
 
+---
+
+// logo JS
+
+<Notes>
+
+- Aptable à n'importe quel language
+- Probleme -> piste possible pour le résoudre
+- Donc important = principe
+- La façon dont fait et juste une piste possible
+
+</Notes>
+
    
 <!-- 
 🏗 + 💯 + 👌 + 🤸‍
@@ -276,8 +288,8 @@ Tests = 🏃‍♂️📚
 
 - Structure
 
-- Si on veut que faciliter la contribution à nos tests,
-- la première étape c'est que chacun ne réinvente pas la roue
+- Si contribution facile lors évolution
+- Pas réinventer roue
 - Voyage héros (HP, Roi lien, Matrix, Seigneur anneaux)
 - Détails différents mais structure est la même
 - Est-ce qu'on peut faire pareil
@@ -431,7 +443,9 @@ test("<LoginPage/>", () => {
 
 - Vérifie redirigé vers page d'accueil quand on se log
 - Qu'est-ce qui fait test compliqué ?
-- Mélange: [setup][actions][vérification]
+- Quand test fail, et besoin + infos
+- check assertions -> actions -> arrange
+- Ici, sont cachées, Mélange: [setup][actions][vérification]
 - En gros, dur à suivre
 
 <br/>
@@ -531,9 +545,6 @@ test("<LoginPage/>", () => {
 }) 
 ```
 
-```diff showNumbers 1[6:19] subtitle="Just one test for the whole page ?"
-```
-
 ```js showNumbers
 test("<LoginPage/>", () => {
   // verify can't submit if empty form
@@ -551,20 +562,6 @@ test("<LoginPage/>", () => {
   // more stuff
 }) 
 ```
-
-</CodeSurfer>
-
-<Notes>
-
-- [click]
-- Juste un test pour la page login ? [click]
-- mhhhh
-
-</Notes>
-
----
-
-<CodeSurfer>
 
 ```js 1[6:39]
 test("method -> condition -> behavior", ()=>{})
@@ -586,7 +583,7 @@ test("<LoginPage/> -> failed login -> displays server error", ()=>{})
 test("<LoginPage/> failed login displays server error", ()=>{})
 ```
 
-```js subtitle="Grouping by method"
+```js 
 describe("<LoginPage/>", () => {
   test("Failed login displays server error", ()=>{})
 }) 
@@ -600,7 +597,7 @@ describe("<LoginPage/>", () => {
 }) 
 ```
 
-```js subtitle="Nesting tests by condition"
+```js 
 describe("<LoginPage/>", () => {
   describe("Failed login", () => {}) 
   describe("Invalid form", () => {})
@@ -608,7 +605,7 @@ describe("<LoginPage/>", () => {
 }) 
 ```
 
-```js subtitle="(Can help surfacing other requirements)"
+```js 
 describe("<LoginPage/>", () => {
   describe("Failed login", () => {
     test("Displays server error", ()=>{})
@@ -621,6 +618,15 @@ describe("<LoginPage/>", () => {
 ```
 
 </CodeSurfer>
+
+<Notes>
+
+- Juste 1 test ?
+- Suspect
+- Comment faire mieux ?
+- Scoper via convention nommage
+
+</Notes>
 
 
 ---
@@ -719,6 +725,13 @@ describe("<LoginPage/>", () => {
 
 👃: Unicorns everywhere (🦄🗺)
 
+
+<Notes>
+
+- Chaque test = licorne/réinvente la roue
+
+</Notes>
+
 ---
 
 <CodeSurferColumns>
@@ -798,9 +811,11 @@ test("add() validation passed saves product to database", async () => {
 
 <Notes>
 
-- Chacun fait comme il le sent sur le moment
-- Contribuer = 20 mins à comprendre test first
+- 2 tests font exactement mm chose
+- Prend truc, ajout, verifie ajouté
+- Dur Contribuer
 - Suite 10 tests chacun complètement différent
+- Comment faire mieux ?
 
 </Notes>   
 
@@ -814,7 +829,6 @@ Stick to your guns
 - Aka même type d'objet, même type de test
 
 </Notes>
-
 
 ---
 
@@ -854,6 +868,13 @@ test("add() validation passed saves product to database", async () => {
 
 </CodeSurferColumns>
 
+<Notes>
+
+- Choisit strategie test et on s'y colle
+- Ici test services via mock 
+
+</Notes>
+
 ---
 
 <!--
@@ -868,9 +889,10 @@ test("add() validation passed saves product to database", async () => {
 
 <Notes>
 
-- Declarative vs imperative recipe
-- Bon niveau de détail
-- Communicate intent
+- test = recette
+- Doit être compréhensible si faire évoluer
+- Recette impérative vs declarative
+- Expressivité = Trouver bon niveau de détail
 
 </Notes>
 
@@ -1011,13 +1033,16 @@ test("<LoginPage/>", async () => {
     const submitButton = page.getByRole("button", { name: /login/i })
     when(login(credentials)).mockResolvedValue()
     
-    page.type(/email/i, "brucewayne@wayneenterprises.com" )
-    page.type(/email/i, "imbatman" )
+    page.type(/email/i, credentials.email )
+    page.type(/password/i, credentials.password )
     fireEvent.submit(submitButton)
     await new Promise(resolve => process.nextTick(resolve))
     
     expect(navigate).toHaveBeenCalledWith("/")
 })
+```
+
+```diff 25
 ```
 
 ```js showNumbers 
@@ -1049,8 +1074,8 @@ test("<LoginPage/>", async () => {
     const submitButton = page.getByRole("button", { name: /login/i })
     when(login(credentials)).mockResolvedValue()
     
-    page.type(/email/i, "brucewayne@wayneenterprises.com" )
-    page.type(/email/i, "imbatman" )
+    page.type(/email/i, credentials.email )
+    page.type(/password/i, credentials.password )
     fireEvent.submit(submitButton)
     await new Promise(resolve => process.nextTick(resolve))
     
@@ -1086,13 +1111,16 @@ test("<LoginPage/>", async () => {
     const page = customRender(<LoginPage />)
     when(login(credentials)).mockResolvedValue()
     
-    page.type(/email/i, "brucewayne@wayneenterprises.com" )
-    page.type(/email/i, "imbatman" )
+    page.type(/email/i, credentials.email )
+    page.type(/password/i, credentials.password )
     page.submit(/login/i)
     await new Promise(resolve => process.nextTick(resolve))
     
     expect(navigate).toHaveBeenCalledWith("/")
 })
+```
+
+```diff 31
 ```
 
 ```js showNumbers 
@@ -1125,8 +1153,8 @@ test("<LoginPage/>", async () => {
     const page = customRender(<LoginPage />)
     when(login(credentials)).mockResolvedValue()
     
-    page.type(/email/i, "brucewayne@wayneenterprises.com" )
-    page.type(/email/i, "imbatman" )
+    page.type(/email/i, credentials.email )
+    page.type(/password/i, credentials.password )
     page.submit(/login/i)
     await page.waitForPendingPromisesToComplete()
     
@@ -1134,19 +1162,16 @@ test("<LoginPage/>", async () => {
 })
 ```
 
-```diff 
+```diff 30:33
 ```
 
-```diff 27 
+```diff 28 
 ```
 
-```diff 29:30 
+```diff 30:31 
 ```
 
-```diff 31:32
-```
-
-```diff 34
+```diff 32:33
 ```
 
 ```js showNumbers 
@@ -1178,7 +1203,7 @@ const renderLoginPage = () => {
 
   const fillInLoginForm = (credentials) => {
       page.type(/email/i, credentials.email )
-      page.type(/email/i, credentials.password )
+      page.type(/password/i, credentials.password )
   }
 
   const login = async () => {
@@ -1197,8 +1222,8 @@ test("<LoginPage/>", async () => {
     const page = customRender(<LoginPage />)
     when(login(credentials)).mockResolvedValue()
     
-    page.type(/email/i, "brucewayne@wayneenterprises.com" )
-    page.type(/email/i, "imbatman" )
+    page.type(/email/i, credentials.email )
+    page.type(/password/i, credentials.password )
     page.submit(/login/i)
     page.waitForPendingPromisesToComplete()
     
@@ -1235,7 +1260,7 @@ const renderLoginPage = () => {
 
   const fillInLoginForm = (credentials) => {
       page.type(/email/i, credentials.email )
-      page.type(/email/i, credentials.password )
+      page.type(/password/i, credentials.password )
   }
 
   const login = async () => {
@@ -1266,9 +1291,8 @@ test("<LoginPage/>", async () => {
 <Notes>
 
 - 5 sec to tell me what this is doing
-- Hard, to understand even for someone that know the api
-- Too many small pieces composed together
-- Can't understand idea/concept behind
+- Compliqué alors que peu de lignes
+- Pièces bas niveau cachent concept global
 - How can we make that better ?
 
 <br/>
@@ -1276,7 +1300,7 @@ test("<LoginPage/>", async () => {
 - Framework is not for you
 - Compose low level pieces into helpers
 - Create page/item specific helpers to match domain
-- Create page objects
+- Create interactor/page obejct
 
 </Notes>
 
@@ -1808,13 +1832,153 @@ test("Matching user in db returns match", async () => {
 
 <Notes>
 
+- L'invité mystère
 
 </Notes>
 
 ---
 
-returns first item in table
-bootdb -> expect(usersTable.first().name).toBe("john")
+
+<CodeSurfer>
+
+```js showNumbers
+test(`Returns first item in table`, async () => {
+  const db = await bootDb()
+  const usersTable = Table.from(db.get("users"))
+
+  expect(usersTable.first().name).toBe("John")
+})
+```
+
+```diff 5[40:45]
+```
+
+```js
+// fixtures/db/users.json
+[
+  {
+    name: "John"
+    // ...other props
+  },
+  // ...other users 
+]
+```
+
+```js showNumbers
+test(`Returns first item in table`, async () => {
+  const firstUser = makeUser({name: "first_user"})
+  const secondUser = makeUser({name: "second_user"})
+  const usersDb = (await bootDb()).get("users")
+  const usersTable = Table.from(usersDb)
+
+  db.add(firstUser)
+  db.add(secondUser)
+  const result = usersTable.first()
+
+  expect(result.name).toBe(firstUser.name)
+})
+```
+
+```diff 2:3
+```
+
+```diff 7:8
+```
+
+```diff 11[10:21,28:41]
+```
+
+</CodeSurfer>
+
+
+<Notes>
+
+pb
+- Check récupère premier item dans table
+- The fuck did john come from ?!
+- Qq'un forcement changer propriété et tout casser
+- Cas ou mutation fixtures dans appli legacy -> 3 jours debug
+
+<br/>
+
+comment faire mieux
+- Assume DB starts empty + reset
+- On sait ou vient nom
+- controle donnée
+
+
+nom refactor
+B/A
+
+</Notes>
+
+---
+
+Control your data
+
+---
+
+<CodeSurferColumns {...splitCodeSampleProps}>
+
+<Step>
+
+```js showNumbers
+test(`Returns first item in table`, async () => {
+  const db = await bootDb()
+  const usersTable = Table.from(db.get("users"))
+
+  expect(usersTable.first().name).toBe("John")
+})
+```
+
+```js showNumbers
+test(`Returns first item in table`, async () => {
+  const firstUser = makeUser({name: "first_user"})
+  const secondUser = makeUser({name: "second_user"})
+  const usersDb = (await bootDb()).get("users")
+  const usersTable = Table.from(usersDb)
+
+  db.add(firstUser)
+  db.add(secondUser)
+  const result = usersTable.first()
+
+  expect(result.name).toBe(firstUser.name)
+})
+```
+
+</Step>
+
+
+<Step>
+
+```diff 4
+```
+
+```diff 2:11
+```
+
+</Step>
+
+<Step>
+
+```diff 5[40:46]
+```
+
+```diff 2,11[28:42]
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+<Notes>
+
+- Plus long
+- Mais pas risque intervention divine
+- Controle mes données
+- Peut tracer d'ou vient valeur attendue
+
+</Notes>
 
 ---
 
