@@ -690,9 +690,9 @@ describe("<LoginPage/>", () => {
 
 ---
 
-<!-- <Image  src={ciFailBadNamingSrc} alt="Tests with non specific names produce useless failures" >
-</Image> -->
-// IMG: Tests with non specific names produce useless failures
+<TestReport name="<LoginPage/>" >
+    <span style={{color:"lightgray"}}>// Some random error</span>
+</TestReport>
 
 <Notes>
 
@@ -706,7 +706,9 @@ describe("<LoginPage/>", () => {
 
 ---
 
-// IMG: Specific test names help reduce the debug area
+<TestReport name="<LoginPage/> Successful login redirects to dashboard" >
+    <span style={{color:"lightgray"}}>// Some error that makes more sense now</span>
+</TestReport>
 
 <Notes>
 

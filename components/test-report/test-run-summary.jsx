@@ -1,6 +1,11 @@
 import React from "react";
 import TestStatusIcon from "./test-status-icon";
 
+const getRandomNumber = (min, max) => () =>
+  Math.ceil(Math.random() * (max - min) + min);
+
+const getRunTime = getRandomNumber(2, 60)
+
 const RootStyles = (props) => (
   <div
     {...props}
@@ -35,7 +40,7 @@ const TestSummary = ({ name, passed, ...props }) => (
         color: "#868687",
       }}
     >
-      6 ms
+      {getRunTime()} ms
     </div>
   </div>
 );
