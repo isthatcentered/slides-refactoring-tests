@@ -7,6 +7,7 @@ import {Image, Appear} from 'mdx-deck'
 import { github, vsDark, shadesOfPurple, base } from "@code-surfer/themes";
 import ciFailBadNamingSrc from "./static/test_with_bad_naming_run_fail.png"
 import image from "./components/image"
+import TestReport, { Matchers } from "./components/test-report"
 import {Inline, Caption, Figure, EmojiSlide, TestsVsDevKnowledgeTable } from "./components"
 export const theme = base;
 
@@ -2014,13 +2015,13 @@ see justin searls
 
 ---
 
-<CodeSurfer>
+<TestReport name="chars() returns every char in string">
+    <Matchers.ToBe actual={5} expected={0} />
+</TestReport>
 
-```bash 
-🛑 Fail: "chars() returns every char in string"
-        
-         Error: expected( 0 ).toBe( 5 ) 
-```
+---
+
+<CodeSurfer>
 
 ```js showNumbers 3
 test("chars() returns every char in string", () => {
@@ -2036,25 +2037,23 @@ test("chars() returns every char in string", () => {
 })
 ```
 
-```bash 
-🛑 Fail: "chars() returns every char in string"
-        
-         Error: expect(received).toHaveLength(expected)
-         
-         Expected length: 10
-         Received length: 0
-         Received array:  []
-```
+</CodeSurfer>
 
-```bash 
-🛑 Fail: "Cannot re-submit form until post completion"
-        
-         Error: expect(received).toBe(expected) // Object.is equality
-         
-         Expected: false
-         Received: true
-```
+---
 
+<TestReport name="chars() returns every char in string">
+    <Matchers.ToHaveLength actual={0} expected={10} passed={[]} />
+</TestReport>
+
+---
+
+<TestReport name="Cannot re-submit form until post completion">
+    <Matchers.ToBe actual={false} expected={true} />
+</TestReport>
+
+---
+
+<CodeSurfer>
 
 ```js showNumbers 3
 test("Cannot re-submit form until post completion", () => {
@@ -2070,15 +2069,13 @@ test("Cannot re-submit form until post completion", () => {
 })
 ```
 
-```bash 
-🛑 Fail: "Cannot re-submit form until post completion"
-        
-         Error: expect(element).toBeDisabled()
-         
-         <button /> is not disabled:
-```
-
 </CodeSurfer>
+
+---
+
+<TestReport name="Cannot re-submit form until post completion">
+    <Matchers.ToBeDisabled />
+</TestReport>
 
 ---
 
