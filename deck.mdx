@@ -1893,7 +1893,6 @@ test(`Returns first item in table`, async () => {
 
 <Notes>
 
-pb
 - Check récupère premier item dans table
 - The fuck did john come from ?!
 - Qq'un forcement changer propriété et tout casser
@@ -1901,14 +1900,9 @@ pb
 
 <br/>
 
-comment faire mieux
 - Assume DB starts empty + reset
 - On sait ou vient nom
 - controle donnée
-
-
-nom refactor
-B/A
 
 </Notes>
 
@@ -2357,241 +2351,531 @@ Use placeholders
 
 ---
 
-<CodeSurfer>
+<EmojiSlide caption="Flexibility">🤸‍</EmojiSlide>
 
+<Notes>
 
+make test xp easy
+tests shouldn't break unless behavior changed
+tests shouldn't break because a collaborator broke only break for relevant reasons
+shouldn't feel like dying because you're adding one param to the constructor and have to update 15 tests
+shouldn't break because another part of the spec for this method has changed (objectMatchig)
 
-
-```js 1:2,3[8:10] title="Focus 🤓"
-console.log(1);
-
-console.log(2);
-console.log(3);
-```
-
-</CodeSurfer>
+</Notes>
 
 ---
 
+<!--
+****************************
+****************************
+** 👃 THE CREEP
+****************************
+****************************
+-->
+
+<EmojiSlide caption="The creep">🔎😏</EmojiSlide>  
+
+---
+
+
 <CodeSurfer>
 
-```js title="steps"
-console.log(1);
-console.log(2);
-console.log(3);
+```js showNumbers
+test(`Switches to loading state on data fetch`, ( ) => {
+  const page = createComponent(SomePageComponent)
+  const instance = page.getComponentInstance()
+    
+  instance._getData()
+
+  expect(instance.loading).toBe(true)
+})
 ```
 
-```js 1
-console.log(1);
-console.log(2);
-console.log(3);
+```diff 3
 ```
 
-```js
-console.log(1);
-console.log(2);
-console.log(3);
-console.log(4);
-console.log(5);
+```diff 7
+```
+
+```diff 5[12:19]
+```
+
+```js showNumbers
+test(`Switches to loading state on data fetch`, ( ) => {
+  const page = createComponent(SomePageComponent)
+  
+  page.click(/refresh/i)
+
+  expect(instance.loading).toBe(true)
+})
+```
+
+```js showNumbers
+test(`Switches to loading state on data fetch`, ( ) => {
+  const page = createComponent(SomePageComponent)
+  
+  page.click(/refresh/i)
+
+  expect(page).toHaveText("Loading...")
+})
+```
+
+```js showNumbers
+test(`Displays a loader on page refresh`, ( ) => {
+  const page = createComponent(SomePageComponent)
+  
+  page.click(/refresh/i)
+
+  expect(page).toHaveText("Loading...")
+})
 ```
 
 </CodeSurfer>
+<Notes>
+
+- Checks state loading once started fetching page data
+
+<br/>
+
+- This is a view but
+- Assertion on internal state
+- Via private method 
+- Fragile: Will break on refactor of state/method
+- Not what we care about (aka showing a loader)
+
+<br/>
+
+- Test via public api, here, view
+- rename test
+
+</Notes>
+
+---
+
+Test it the way you'll use it
 
 ---
 
 <CodeSurferColumns {...splitCodeSampleProps}>
 
-<Step title="Columsn: First Step">
+<Step>
 
-```js
-console.log(1);
-console.log(2);
+```js showNumbers
+test(`Switches to loading state on data fetch`, ( ) => {
+  const page = createComponent(SomePageComponent)
+  const instance = page.getComponentInstance()
+    
+  instance._getData()
+
+  expect(instance.loading).toBe(true)
+})
 ```
 
-```js
-console.log("a");
-console.log("b");
+```js showNumbers
+test(`Displays a loader on page refresh`, ( ) => {
+  const page = createComponent(SomePageComponent)
+  
+  page.click(/refresh/i)
+
+  expect(page).toHaveText("Loading...")
+})
 ```
 
 </Step>
 
-<Step title="Columns: Second Step">
 
-```js 2
-console.log(1);
-console.log(2);
+<Step>
+
+```diff 3[25:44],5[12:19],7[10:25]
 ```
 
-```js 2
-console.log("a");
-console.log("b");
+```diff 4[8:12],6[16:25]
+```
+
+</Step>
+
+<Step>
+
+```diff 1[7:45]
+```
+
+```diff 1[7:39]
 ```
 
 </Step>
 
 </CodeSurferColumns>
 
+
+<Notes>
+
+- Language totally different (instance, getData vs click, hasText)
+- Protected from refactor
+- Actually tests what matters
+- Test name matches spec
+
+</Notes>
+
 ---
 
-<CodeSurfer title="diffs">
+<!--
+****************************
+****************************
+** 👃 Overspecified
+****************************
+****************************
+-->
 
-```js
-console.log(1);
-console.log(2);
-console.log(3);
-```
-
-```diff 1 subtitle="log 1"
-
-
-```
-
-```diff 2 subtitle="log 2"
-
-```
-
-```diff 3 subtitle="log 3"
-
-```
-
-</CodeSurfer>
+<EmojiSlide caption="Overspecified">📚😓</EmojiSlide>
 
 ---
 
 <CodeSurfer>
 
-```js title="This is a title" subtitle="and this a subtitle"
-function lorem(ipsum, dolor = 1) {
-  const sit = ipsum == null ? 0 : ipsum.sit;
-  dolor = sit - amet(dolor);
-  return sit
-    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
-    : [];
-}
+```js showNumbers
+test(`Merges all errors under "error" key`, () => {
+  const validationSchema = {
+    email: Validators.email(),
+  } 
+  const validate = Validator.from(validationSchema)
 
-function incididunt(ipsum, ut = 1) {
-  ut = labore.et(amet(ut), 0);
-  const sit = ipsum == null ? 0 : ipsum.sit;
-
-  if (!sit || ut < 1) {
-    return [];
-  }
-
-  let dolore = 0;
-  let magna = 0;
-  const aliqua = new eiusmod(labore.ut(sit / ut));
-
-  while (dolore < sit) {
-    aliqua[magna++] = consectetur(
-      ipsum,
-      dolore,
-      (dolore += ut)
-    );
-  }
-
-  return aliqua;
-}
+  const report = validate({email: "invalid_email"})
+  
+  expect(report).toEqual({
+    errors: {
+      email: `"Invalid email" is not a valid email`
+    }, 
+    count: 1
+  })
+})
 ```
 
-```js
-function lorem(ipsum, dolor = 1) {
-  const sit = ipsum == null ? 0 : ipsum.sit;
-  dolor = sit - amet(dolor);
-  return sit
-    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
-    : [];
-}
-
-function adipiscing(...elit) {
-  if (!elit.sit) {
-    return [];
-  }
-
-  const sed = elit[0];
-  return eiusmod.tempor(sed) ? sed : [sed];
-}
-
-function incididunt(ipsum, ut = 1) {
-  ut = labore.et(amet(ut), 0);
-  const sit = ipsum == null ? 0 : ipsum.sit;
-
-  if (!sit || ut < 1) {
-    return [];
-  }
-
-  let dolore = 0;
-  let magna = 0;
-  const aliqua = new eiusmod(labore.ut(sit / ut));
-
-  while (dolore < sit) {
-    aliqua[magna++] = consectetur(
-      ipsum,
-      dolore,
-      (dolore += ut)
-    );
-  }
-
-  return aliqua;
-}
+```diff 9:14
 ```
 
-```diff 1[10:14],2[15:19],3[22:27],10:12
+```diff 11[14:52]
+```
 
+```js showNumbers
+test(`Merges all errors under "error" key`, () => {
+  const validationSchema = {
+    email: Validators.email(),
+  } 
+  const validate = Validator.from(validationSchema)
+
+  const report = validate({email: "invalid_email"})
+  
+  expect(report).toEqual({
+    errors: {
+      email: expect.any(String)
+    }, 
+    count: 1
+  })
+})
+```
+
+```diff 13
+```
+
+```js 9:13
+test(`Merges all errors under "error" key`, () => {
+  const validationSchema = {
+    email: Validators.email(),
+  } 
+  const validate = Validator.from(validationSchema)
+
+  const report = validate({email: "invalid_email"})
+  
+  expect(report).toMatchObject({
+    errors: {
+      email: expect.any(String)
+    }
+  })
+})
 ```
 
 </CodeSurfer>
 
+<Notes>
+
+- Verifies validation report matches expectations
+
+<br/>
+
+- Only care about shape of error
+- Yet assertion on everything
+- What if new key in report/rename count to total
+- Breaks for unrelated reasons
+- Depends on email validation msg
+
+<br/>
+
+comment faire mieux
+- Don't depend on external obj behavior (email)
+- Only assert on part that matters, ignore the rest
+
+nom refactor
+B/A
+
+</Notes>
+
 ---
 
-<CodeSurferColumns themes={[vsDark, github]}>
+Assert only on what matters to the test
+
+---
+
+<CodeSurferColumns {...splitCodeSampleProps}>
 
 <Step>
 
-```js
-const magna = aliqua => aliqua.ut((enim, ad) => enim, 0);
+```js showNumbers
+test(`Merges all errors under "error" key`, () => {
+  const validationSchema = {
+    email: Validators.email(),
+  } 
+  const validate = Validator.from(validationSchema)
+
+  const report = validate({email: "invalid_email"})
+  
+  expect(report).toEqual({
+    errors: {
+      email: `"Invalid email" is not a valid email`
+    }, 
+    count: 1
+  })
+})
 ```
 
-```js
-const minim = (ad, enim) => dolore.magna(ad / enim);
+```js showNumbers
+test(`Merges all errors under "error" key`, () => {
+  const validationSchema = {
+    email: Validators.email(),
+  } 
+  const validate = Validator.from(validationSchema)
+
+  const report = validate({email: "invalid_email"})
+  
+  expect(report).toMatchObject({
+    errors: {
+      email: expect.any(String)
+    }
+  })
+})
 ```
 
 </Step>
 
 <Step>
 
-```js
-const lorem = (ipsum, dolor, sit) => {
-  const amet = dolor - ipsum;
-  return consectetur.adipiscing(
-    {
-      elit: sed.eiusmod(sit - dolor) / amet + 2,
-    },
-    (tempor, incididunt) => ipsum + amet * incididunt
-  );
-};
-
-const magna = aliqua => aliqua.ut((enim, ad) => enim, 0);
+```diff 6
 ```
 
-```js
-const minim = (ad, enim) => dolore.magna(ad / enim);
-
-const sed = (eiusmod, tempor, incididunt) => {
-  const ut = tempor - eiusmod;
-  return labore.et(
-    {
-      amet: dolore.magna(incididunt - tempor) / ut + 2,
-    },
-    (aliqua, elit) => eiusmod + ut * elit
-  );
-};
+```diff 9[18:32],10:13
 ```
 
 </Step>
 
 </CodeSurferColumns>
 
+
+<Notes>
+
+- Précisé assertions
+- Enlevé dépendance comportement email
+- Peut changer forme report sans risque
+- Attention matcher permissif, si vous attendiez clé
+
+</Notes>
+
 ---
 
-docs:  
-[codesurfer.pomb.us](https://codesurfer.pomb.us)
+<!--
+****************************
+****************************
+** 👃 REDUNDANT COVERAGE
+****************************
+****************************
+-->
+
+<EmojiSlide caption="Redundant coverage">
+🙈🙈
+</EmojiSlide>
+
+---
+
+<CodeSurfer>
+
+```js showNumbers
+test("add() validation passed saves user to database", async () => {
+  const db = await bootDb()
+  const validator = new IdentityValidator()
+  const user = makeUser({ ldap: 1234 })
+  const repository = new UserRepository(db, validator)
+
+  await repository.add(user)
+
+  expect(await db.get("users").first()).toMatchObject(user)
+})
+```
+
+```diff 3
+```
+
+```diff 2:4
+```
+
+```js showNumbers
+test("add() validation passed saves user to database", async () => {
+  const db = await bootDb()
+  const validator = { allows: jest.fn() }
+  const user = makeUser({ ldap: 1234 })
+  const repository = new UserRepository(db, validator)
+  when(validator.allows(user)).resolve(true)
+  
+  await repository.add(user)
+
+  expect(await db.get("users").first()).toMatchObject(user)
+})
+```
+
+```js showNumbers
+test("add() validation passed saves user to database", async () => {
+  const db = await bootDb()
+  const validator = { allows: jest.fn() }
+  const user = "user"
+  const repository = new UserRepository(db, validator)
+  when(validator.allows(user)).resolve(true)
+  
+  await repository.add(user)
+
+  expect(await db.get("users").first()).toMatchObject(user)
+})
+```
+
+```js showNumbers
+test("add() validation passed saves user to database", async () => {
+  const db = { add: jest.fn() }
+  const validator = { allows: jest.fn() }
+  const user = "user"
+  const repository = new UserRepository(db, validator)
+  when(validator.allows(user)).resolve(true)
+  
+  await repository.add(user)
+
+  expect(db.add).toHaveBeenCalledWith("users", user)
+})
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- Checks valid user added to db
+
+<br/>
+
+- Dépend des règles validation identity
+- Probablement d'un lien db avec le ldap et l'ident
+- Breaks if identity changes
+
+<br/>
+
+- Création frontiere/séparation interieur/exterieur (collabs)
+- Mock validator
+- Remove dependency on user
+- Remove dependency on db
+
+</Notes>
+
+---
+
+Enforce boundaries
+
+---
+
+<CodeSurferColumns {...splitCodeSampleProps}>
+
+<Step>
+
+```js showNumbers
+test("add() validation passed saves user to database", async () => {
+  const db = await bootDb()
+  const validator = new IdentityValidator()
+  const user = makeUser({ ldap: 1234 })
+  const repository = new UserRepository(db, validator)
+
+  await repository.add(user)
+
+  expect(await db.get("users").first()).toMatchObject(user)
+})
+```
+
+```js showNumbers
+test("add() validation passed saves user to database", async () => {
+  const db = { add: jest.fn() }
+  const validator = { allows: jest.fn() }
+  const user = "user"
+  const repository = new UserRepository(db, validator)
+  when(validator.allows(user)).resolve(true)
+  
+  await repository.add(user)
+
+  expect(db.add).toHaveBeenCalledWith("users", user)
+})
+```
+
+</Step>
+
+<Step>
+
+```diff 2,3,4
+```
+
+```diff 
+```
+
+</Step>
+
+<Step>
+
+```diff 
+```
+
+```diff 2,3,4
+```
+
+</Step>
+
+<Step>
+
+```diff 
+```
+
+```diff 6
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+<Notes>
+
+- Imposé limites
+- Clair que si bug c'est pas dans les collabs
+- Small debug area
+- Controle collabs, pas besoin trouver ldap invalide
+- Plus compliqué à mairiser
+
+</Notes>
+
+
+
+<!--
+
+desc
+pb
+how better ?
+name refactor
+B/A commentarytradeofs evaluation
+-->

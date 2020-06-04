@@ -38,7 +38,7 @@ export const Figure = ({ children, caption, ...props }) => (
 );
 
 export const EmojiSlide = ({ children, caption }) => (
-  <Figure class="EmojiSlide" caption={caption}>
+  <Figure caption={caption}>
     <div style={{ fontSize: 88 }}>{children}</div>
   </Figure>
 );
