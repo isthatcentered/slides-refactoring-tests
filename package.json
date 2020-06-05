@@ -5,21 +5,28 @@
     "start": "mdx-deck deck.mdx",
     "build": "mdx-deck build deck.mdx",
     "test": "echo \"there are no tests\"",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "NODE_ENV=production start-storybook -s ./public -p 6006 --ci",
+    "build-storybook": "NODE_ENV=production build-storybook"
   },
   "devDependencies": {
-      "@babel/core": "^7.10.2",
-      "@storybook/addon-actions": "^5.3.19",
-      "@storybook/addon-links": "^5.3.19",
-      "@storybook/addons": "^5.3.19",
-      "@storybook/react": "^5.3.19",
-      "babel-loader": "^8.1.0",
-
-      "@code-surfer/themes": "^3.1.1",
+    "@code-surfer/themes": "^3.1.1",
     "code-surfer": "3.1.1",
     "mdx-deck": "3.1.0",
     "prettier": "^2.0.5"
   },
-  "name": "my-deck"
+  "name": "my-deck",
+  "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-react": "^7.10.1",
+    "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-docs": "^5.3.19",
+    "@storybook/react": "^5.3.19",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-react-docgen": "^4.1.0",
+    "babel-plugin-remove-graphql-queries": "^2.9.3",
+    "gatsby-plugin-postcss": "^2.3.3",
+    "tailwindcss": "^1.4.6",
+    "typeface-gothic-a1": "^0.0.61"
+  }
 }

@@ -6,11 +6,12 @@ import {
 import {Image, Appear} from 'mdx-deck'
 import { github, vsDark, shadesOfPurple, base } from "@code-surfer/themes";
 import ciFailBadNamingSrc from "./static/test_with_bad_naming_run_fail.png"
-import image from "./components/image"
-import TestReport, { Matchers } from "./components/test-report"
-import {Inline, Caption, Figure, EmojiSlide, TestsVsDevKnowledgeTable } from "./components"
+import image from "./src/components/image"
+import TestReport, { Matchers } from "./src/components/test-report"
+import {Inline, Caption, Figure, EmojiSlide, TestsVsDevKnowledgeTable } from "./src/components"
 export const theme = base;
-
+import "./src/styles.css"
+import "typeface-gothic-a1"
 export const splitCodeSampleProps = {themes: [vsDark, base]}
 
 
