@@ -122,8 +122,7 @@ test("<Signup/>", async () => {
 
 <Notes>
 
-- Moment ou souvient 18h, time to go home
-- Moment ou test OFFICIELEMENT abandonné
+- Moment ou souvient 18h, piscine, time to go home
 
 </Notes>
 
@@ -175,9 +174,9 @@ test("<Signup/>", async () => {
 
 <br/>
 
-- Test hardcore devient problématique quand
-- Dure à lire plus pression = bye bye
-- = Test premier truc à sauter
+- Problème arrive quand deadline
+- Par défaut Test = premier truc à sauter
+- Donc refactor bc Si dur à aborder, tchao direct
 
 </Notes>
 
@@ -188,6 +187,7 @@ test("<Signup/>", async () => {
 <Notes>
 
 - test en moins = pièce en plus
+- cas erreur feature + cas erreur test supprimé
 
 </Notes>
 
@@ -198,6 +198,7 @@ test("<Signup/>", async () => {
 
 <Notes>
 
+- Et à chaque test en moins doit garder + en + en mémoire 
 - tendence inversée + en tête que ds tests
 - 2 pas arrières pour 1 en avant
 
@@ -254,6 +255,7 @@ test("<Signup/>", async () => {
 - but aujourd'hui: 
 - Identifier smells qui font test difficile maintenir
 - Voir pistes pour faire mieux
+- combo smell -> refactor
 
 </Notes>
 
@@ -289,10 +291,14 @@ test("<Signup/>", async () => {
 
 - Structure
 
-- Si contribution facile lors évolution
-- Pas réinventer roue
+- Veut contribution facile sous pression
+
+- Impossible si chaque test réinvente la roue (naming, organisation, strategie)
+
 - Voyage héros (HP, Roi lien, Matrix, Seigneur anneaux)
+
 - Détails différents mais structure est la même
+
 - Est-ce qu'on peut faire pareil
 
 </Notes>
@@ -336,19 +342,19 @@ test("<LoginPage/>", () => {
 })
 ```
 
-```diff 2:4,7,9
+```diff 6,11 showNumbers
 ```
 
 ```diff 5,8,10 showNumbers
 ```
 
-```diff 6,11 showNumbers
+```diff 2:4,7,9
 ```
 
 ```diff 
 ```
 
-```js showNumbers 2:6 subtitle="Setup"
+```js showNumbers 2:6 
 test("<LoginPage/>", () => {
   const navigateSpy = spyOn(navigate)
   const page = render(<LoginPage/>)
@@ -363,7 +369,7 @@ test("<LoginPage/>", () => {
 })
 ```
 
-```js showNumbers 7:9 subtitle="Transformations"
+```js showNumbers 7:9 
 test("<LoginPage/>", () => {
   const navigateSpy = spyOn(navigate)
   const page = render(<LoginPage/>)
@@ -378,7 +384,7 @@ test("<LoginPage/>", () => {
 })
 ```
 
-```js showNumbers 6 10:11 subtitle='Verifications'
+```js showNumbers 6 10:11 
 test("<LoginPage/>", () => {
   const navigateSpy = spyOn(navigate)
   const page = render(<LoginPage/>)
@@ -443,7 +449,11 @@ test("<LoginPage/>", () => {
 <Notes>
 
 - Vérifie redirigé vers page d'accueil quand on se log
+
+<br/>
+
 - Qu'est-ce qui fait test compliqué ?
+- Fouilli 
 - Quand test fail, et besoin + infos
 - check assertions -> actions -> arrange
 - Ici, sont cachées, Mélange: [setup][actions][vérification]
@@ -512,9 +522,10 @@ test("<LoginPage/>", () => {
 
 <Notes>
 
-- Idée rapide de ce que fait test
-- Je sais ou trouver immediatement AAA
-- Pas besoin de chercher 
+- Si failure
+- Peux localiser rapidement assertions et remonter
+- Pas besoin de chercher
+- Accessoirement, spaces = fais mois peur 
 
 </Notes>
 
@@ -672,7 +683,8 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
-- Now we have battery of small focused test (B/A)
+- Part d'un test dump
+- Set tests concentrés sur pb unique
 - We probably surfaced more edge cases
 
 </Notes> 
@@ -892,10 +904,15 @@ test("add() validation passed saves product to database", async () => {
 
 <Notes>
 
-- test = recette
-- Doit être compréhensible si faire évoluer
-- Recette impérative vs declarative
-- Expressivité = Trouver bon niveau de détail
+- Manque expressivité 
+
+<br/>
+- Veut test maintenable
+- Travaillé structure = capable trouver marque rapidement/nouveau test
+- Etape suivant = arriver à comprendre ce qui se passe
+- Trouver bon niveau de détail pour compréhension rapide
+- Mettre en valeur ce qui importance dans test
+- Cacher le reste
 
 </Notes>
 
