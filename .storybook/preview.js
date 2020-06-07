@@ -1,6 +1,5 @@
 import React from "react";
 import { action } from "@storybook/addon-actions";
-
 // Gatsby's Link overrides:
 // Gatsby Link calls the `enqueue` & `hovering` methods on the global variable ___loader.
 // This global object isn't set in storybook context. We override it to empty functions (no-op),
