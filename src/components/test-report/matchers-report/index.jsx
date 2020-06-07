@@ -84,6 +84,27 @@ export const ToBe = ({ expected, actual }) => (
   </CustomMatcherReport>
 );
 
+export const ToHaveBeenCalledWith = ({ expected, actual, fnName }) => (
+  <CustomMatcherReport matcher="toHaveBeenCalledWith" received={fnName}>
+    {({ Line, Expectation, Value, Result }) => (
+      <>
+        <Line>
+          Expected:{" "}
+          <Expectation>
+            <Value>{expected}</Value>
+          </Expectation>
+        </Line>
+        <Line>
+          Received:{" "}
+          <Result>
+            <Value>{actual}</Value>
+          </Result>
+        </Line>
+      </>
+    )}
+  </CustomMatcherReport>
+);
+
 export const ToBeDisabled = () => (
   <CustomMatcherReport
     received="element"

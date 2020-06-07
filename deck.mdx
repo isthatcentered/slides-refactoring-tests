@@ -1449,10 +1449,20 @@ test("<LoginPage/>", async () => {
 ```
 
 ```js showNumbers
+test(`Some service test`, (  ) => {
     const route = WHATEVER
     const service = new SomeService(route)
 
     service.methodThatDoesntUseRoute()
+
+    // ...assertions
+})
+```
+
+```diff 5
+```
+
+```diff 2
 ```
 
 </CodeSurfer>
@@ -1464,10 +1474,43 @@ test("<LoginPage/>", async () => {
 - And why not 0
 - Whay "20/03/2018" why not 21st ?
 - Does it really have to be a valid email ?
+- Leads to programming par superstition
 - If data shape doesn't matter, show it (credentials.email)
 - If value doesn't matter at all, show it (WHATEVER) 
 
 </Notes>
+
+---
+
+<TestReport name="Some service test">
+    <Matchers.ToBe  actual="whatever" expected={true} />
+</TestReport>
+
+---
+
+<CodeSurfer>
+
+```js showNumbers
+test(`Some service test`, (  ) => {
+    const route = placeholder("ROUTE_PLACEHOLDER")
+    const service = new SomeService(route)
+
+    service.methodThatDoesntUseRoute()
+
+    // ...assertions
+})
+```
+
+```diff 2[19:51]
+```
+
+</CodeSurfer>
+
+---
+
+<TestReport name="Some service test">
+    <Matchers.ToBe  actual="ROUTE_PLACEHOLDER" expected={true} />
+</TestReport>
 
 ---
 
@@ -1517,7 +1560,10 @@ test("<LoginPage/>", async () => {
 
 <Notes>
 
-- Clear that the value shape doesn't matter for this test
+- Avant: "dois passer email valide", "possiblement combo email/pwd"
+- Programmation par superstition
+- After: shape doesn't matter
+- Value shape doesn't matter for this test
 - If expectation on value passing, you'll get a better message (tracer object)
 
 </Notes>
