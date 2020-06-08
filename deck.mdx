@@ -296,11 +296,13 @@ test("<Signup/>", async () => {
 
 - Impossible si chaque test réinvente la roue (naming, organisation, strategie)
 
-- Voyage héros (HP, Roi lien, Matrix, Seigneur anneaux)
+- Voyage héros (matrix, hp, roi lion, sda, ...)
 
-- Détails différents mais structure est la même
+- Dans categorie, objectif:
 
-- Est-ce qu'on peut faire pareil
+- Tous tests similaires. Mm nommage, organisation, stratégie
+
+- Histoire change, mais mm structure 
 
 </Notes>
 
@@ -596,19 +598,6 @@ test("<LoginPage/> -> failed login -> displays server error", ()=>{})
 test("<LoginPage/> failed login displays server error", ()=>{})
 ```
 
-```js 
-describe("<LoginPage/>", () => {
-  test("Failed login displays server error", ()=>{})
-}) 
-```
-
-```js 
-describe("<LoginPage/>", () => {
-  test("Invalid credentials displays server error", ()=>{})
-  test("Pending submission displays loader", ()=>{})
-  test("Successful login redirects to dashboard", ()=>{})
-}) 
-```
 
 ```js 
 describe("<LoginPage/>", () => {
@@ -638,6 +627,7 @@ describe("<LoginPage/>", () => {
 - Suspect
 - Comment faire mieux ?
 - Scoper via convention nommage
+- nesting par condition
 
 </Notes>
 
@@ -842,7 +832,7 @@ Stick to your guns
 
 <Notes>
 
-- Aka même type d'objet, même type de test
+- Choisit stratégie et on s'y colle 
 
 </Notes>
 
@@ -886,7 +876,6 @@ test("add() validation passed saves product to database", async () => {
 
 <Notes>
 
-- Choisit strategie test et on s'y colle
 - Ici test services via mock 
 
 </Notes>
@@ -945,7 +934,7 @@ test("<LoginPage/>", async () => {
     const emailInput = page.getByLabelText(/email/i)
     const passwordInput = page.getByLabelText(/password/i)
     const submitButton = page.getByRole("button", { name: /login/i })
-    when(login(credentials)).mockResolvedValue()
+    when(login(credentials)).mockResolvedValue(true)
     
     fireEvent.change(emailInput, {
         target: { value: credentials.email },
@@ -960,6 +949,16 @@ test("<LoginPage/>", async () => {
 
 ```diff 12:17 showNumbers
 ```
+
+```diff 12[5:20] showNumbers
+```
+
+```diff 13 showNumbers
+```
+
+```diff 7[29:52] showNumbers
+```
+
 
 ```diff 7,12:14 showNumbers 
 ```
@@ -981,7 +980,7 @@ test("<LoginPage/>", async () => {
     const emailInput = page.getByLabelText(/email/i)
     const passwordInput = page.getByLabelText(/password/i)
     const submitButton = page.getByRole("button", { name: /login/i })
-    when(login(credentials)).mockResolvedValue()
+    when(login(credentials)).mockResolvedValue(true)
     
     fireEvent.change(emailInput, {
         target: { value: credentials.email },
@@ -992,9 +991,6 @@ test("<LoginPage/>", async () => {
     
     expect(navigate).toHaveBeenCalledWith("/")
 })
-```
-
-```diff 1[30:34]
 ```
 
 ```js showNumbers 
@@ -1020,7 +1016,7 @@ test("<LoginPage/>", async () => {
     const emailInput = page.getByLabelText(/email/i)
     const passwordInput = page.getByLabelText(/password/i)
     const submitButton = page.getByRole("button", { name: /login/i })
-    when(login(credentials)).mockResolvedValue()
+    when(login(credentials)).mockResolvedValue(true)
     
     fireEvent.change(emailInput, {
         target: { value: credentials.email },
@@ -1054,7 +1050,7 @@ test("<LoginPage/>", async () => {
     }
     const page = customRender(<LoginPage />)
     const submitButton = page.getByRole("button", { name: /login/i })
-    when(login(credentials)).mockResolvedValue()
+    when(login(credentials)).mockResolvedValue(true)
     
     page.type(/email/i, credentials.email )
     page.type(/password/i, credentials.password )
@@ -1095,7 +1091,7 @@ test("<LoginPage/>", async () => {
     }
     const page = customRender(<LoginPage />)
     const submitButton = page.getByRole("button", { name: /login/i })
-    when(login(credentials)).mockResolvedValue()
+    when(login(credentials)).mockResolvedValue(true)
     
     page.type(/email/i, credentials.email )
     page.type(/password/i, credentials.password )
@@ -1132,7 +1128,7 @@ test("<LoginPage/>", async () => {
        password: "imbatman",
     }
     const page = customRender(<LoginPage />)
-    when(login(credentials)).mockResolvedValue()
+    when(login(credentials)).mockResolvedValue(true)
     
     page.type(/email/i, credentials.email )
     page.type(/password/i, credentials.password )
@@ -1174,7 +1170,7 @@ test("<LoginPage/>", async () => {
        password: "imbatman",
     }
     const page = customRender(<LoginPage />)
-    when(login(credentials)).mockResolvedValue()
+    when(login(credentials)).mockResolvedValue(true)
     
     page.type(/email/i, credentials.email )
     page.type(/password/i, credentials.password )
@@ -1222,7 +1218,7 @@ const customRender = (component) => {
 const renderLoginPage = () => {
   const page = customRender(<LoginPage />)
   
-  const allowLoginFor = (credentials) => when(login(credentials)).mockResolvedValue()
+  const allowLoginFor = (credentials) => when(login(credentials)).mockResolvedValue(true)
 
   const fillInLoginForm = (credentials) => {
       page.type(/email/i, credentials.email )
@@ -1243,7 +1239,7 @@ test("<LoginPage/>", async () => {
        password: "imbatman",
     }
     const page = customRender(<LoginPage />)
-    when(login(credentials)).mockResolvedValue()
+    when(login(credentials)).mockResolvedValue(true)
     
     page.type(/email/i, credentials.email )
     page.type(/password/i, credentials.password )
@@ -1279,7 +1275,7 @@ const customRender = (component) => {
 const renderLoginPage = () => {
   const page = customRender(<LoginPage />)
   
-  const allowLoginFor = (credentials) => when(login(credentials)).mockResolvedValue()
+  const allowLoginFor = (credentials) => when(login(credentials)).mockResolvedValue(true)
 
   const fillInLoginForm = (credentials) => {
       page.type(/email/i, credentials.email )
@@ -1309,21 +1305,30 @@ test("<LoginPage/>", async () => {
 })
 ```
 
+```diff 46
+```
+
+```diff 48
+```
+```diff 49
+```
+
 </CodeSurfer>
 
 <Notes>
 
 - 5 sec to tell me what this is doing
 - Compliqué alors que peu de lignes
-- Pièces bas niveau cachent concept global
 - How can we make that better ?
 
 <br/>
 
-- Framework is not for you
+- Framework gives low level pieces
+- needs to work for anybody, any use case
+- Pièces bas niveau cachent concept global
 - Compose low level pieces into helpers
 - Create page/item specific helpers to match domain
-- Create interactor/page obejct
+- (intercators) Global "page" helpers -> "LoginPage" helpers 
 
 </Notes>
 
@@ -1382,8 +1387,10 @@ test("<LoginPage/>", async () => {
 
 <Notes>
 
-- Easy to understand
-- Domain terms
+- 10 -> 5 lignes
+- Parle termes domaine "LoginPage"
+- Se lit comme spec "remplis login form", "log toi" 
+- Compréhensible en 5s
 - Centralized knowledge (bonus)
 
 </Notes>
@@ -1452,6 +1459,23 @@ test("<LoginPage/>", async () => {
 
 ```js showNumbers
 test(`Some service test`, (  ) => {
+    const route = new Route({path: "/"})
+    const service = new SomeService(route)
+
+    service.methodThatDoesntUseRoute()
+
+    // ...assertions
+})
+```
+
+```diff 2
+```
+
+```diff 5
+```
+
+```js showNumbers
+test(`Some service test`, (  ) => {
     const route = WHATEVER
     const service = new SomeService(route)
 
@@ -1461,10 +1485,7 @@ test(`Some service test`, (  ) => {
 })
 ```
 
-```diff 5
-```
-
-```diff 2
+```diff 
 ```
 
 </CodeSurfer>
@@ -1477,8 +1498,12 @@ test(`Some service test`, (  ) => {
 - Whay "20/03/2018" why not 21st ?
 - Does it really have to be a valid email ?
 - Leads to programming par superstition
+
+<br/>
+  
 - If data shape doesn't matter, show it (credentials.email)
 - If value doesn't matter at all, show it (WHATEVER) 
+- Si test fail, clair pb ailleurs
 
 </Notes>
 
@@ -1504,6 +1529,10 @@ test(`Some service test`, (  ) => {
 ```
 
 ```diff 2[19:51]
+```
+
+```js showNumbers
+const placeholder = ( name ) => name
 ```
 
 </CodeSurfer>
@@ -1540,7 +1569,7 @@ test("<LoginPage/>", async () => {
 })
 ```
 
-```js showNumbers 2:5
+```js showNumbers 2[100]
 test("<LoginPage/>", async () => {
     const credentials = {
        email: "credentials.email",
@@ -1554,6 +1583,16 @@ test("<LoginPage/>", async () => {
     
     expect(navigate).toHaveBeenCalledWith("/")
 })
+```
+
+</Step>
+
+<Step>
+
+```diff 2[100]
+```
+
+```diff 2:5
 ```
 
 </Step>
@@ -1613,7 +1652,7 @@ test("Valiation success adds user to repository", () => {
 ```diff
 ```
 
-```js showNumbers subtitle="Factory"
+```js showNumbers 
 const makeUser = (overrides) => ({
     firstname: "user.firstname",
     lastname: "user.lastname",
@@ -1631,6 +1670,30 @@ test("Valiation success adds user to repository", () => {
       password: "admmin",
       ldap: "1234"
     }
+    const validator = new IdentityValidator()
+    const repository = new UserRepository(validator) 
+
+    repository.add(user)
+
+    expect(repository.all().first()).toMatchObject(user)
+})
+```
+
+```diff 1[19:27],7
+```
+
+```js showNumbers 11:14
+const makeUser = (overrides) => ({
+    firstname: "user.firstname",
+    lastname: "user.lastname",
+    email: "user.email",
+    password: "user.password",
+    ldap: "user.ldap",
+  ...overrides
+})
+
+test("Valiation success adds user to repository", () => {
+    const user =  makeUser()
     const validator = new IdentityValidator()
     const repository = new UserRepository(validator) 
 
@@ -1667,7 +1730,7 @@ test("Valiation success adds user to repository", () => {
 ```diff 12:13
 ```
 
-```js showNumbers subtitle="Named factory"
+```js showNumbers 
 test("Valiation success adds user to repository", () => {
     const user =  makeUser.approvedByIdentity()
     const validator = new IdentityValidator()
@@ -1682,6 +1745,10 @@ test("Valiation success adds user to repository", () => {
 </CodeSurfer>
 
 <Notes>
+
+- Test vérifie utilisateur bien ajouté à bdd
+
+<br/>
 
 - What in this user makes this test pass/fail
 - I see a validator, so there's probably something going on
@@ -1718,7 +1785,7 @@ test("Valiation success adds user to repository", () => {
 })
 ```
 
-```js showNumbers 2:5
+```js showNumbers 5[100]
 test("Valiation success adds user to repository", () => {
     const user =  makeUser({
       email: "brucewayne@wayneenterprises.com",
@@ -1735,7 +1802,26 @@ test("Valiation success adds user to repository", () => {
 
 </Step>
 
+
+<Step>
+
+```diff 5[100]
+```
+
+```diff 2:5
+```
+
+</Step>
+
 </CodeSurferColumns>
+
+
+<Notes>
+
+- Avant: Impossible savoir ce qui fait test pass/fail
+- Après: Only Combo email password matters
+
+</Notes>
 
 ---
 
@@ -1748,6 +1834,12 @@ test("Valiation success adds user to repository", () => {
 -->
 
 👃: Duplicate naming (👶👶)
+
+<Notes>
+
+From duplicate comment
+
+</Notes>
 
 ---
 
@@ -1788,7 +1880,7 @@ test("Valiation success adds user to repository", () => {
 })
 ```
 
-```js showNumbers 
+```js showNumbers 2:7,14,16
 test("Matching user in db returns match", async () => {
     const user1 =  makeUser({
       ldap: "user_1_ldap"
@@ -1825,7 +1917,7 @@ test("Matching user in db returns match", async () => {
     db.add("users", matchingUser)
     db.add("users", nonMatchingUser)
 
-    const found = await repository.get({ldap: user1.ldap})
+    const found = await repository.get({ldap: matchingUser.ldap})
 
     expect(found).toMatchObject(matchingUser)
 })
@@ -1833,9 +1925,32 @@ test("Matching user in db returns match", async () => {
 
 </CodeSurfer>
 
+
+<Notes>
+
+- Duplicate comment = dis ce que tu vas faire et le fait. J'ai vu
+
+<br/>
+
+
+- Terme domaine: identityApprovedUser
+
+<br/>
+
+- Test vérifie retourne utilisateur matche critères  
+- Que veut dire "ldap_user1" et "ldap_user_2"
+
+</Notes>
+
 ---
 
 Put naming to work
+
+<Notes>
+
+- utiliser nommage pour mettre en valeur spécificités
+
+</Notes>
 
 --- 
 
@@ -1843,7 +1958,7 @@ Put naming to work
 
 <Step>
 
-```js showNumbers 2[11:16],5[11:16],16
+```js showNumbers 2[11:16],5[11:16],16,14[40:57]
 test("Matching user in db returns match", async () => {
     const user1 =  makeUser({
       ldap: "user_1_ldap"
@@ -1863,7 +1978,7 @@ test("Matching user in db returns match", async () => {
 })
 ```
 
-```js showNumbers 2[11:23],5[11:25],16
+```js showNumbers 2[200],5[200],16[200]
 test("Matching user in db returns match", async () => {
     const matchingUser =  makeUser({
       ldap: "user_1_ldap"
@@ -1877,7 +1992,7 @@ test("Matching user in db returns match", async () => {
     db.add("users", matchingUser)
     db.add("users", nonMatchingUser)
 
-    const found = await repository.get({ldap: user1.ldap})
+    const found = await repository.get({ldap: matchingUser.ldap})
 
     expect(found).toMatchObject(matchingUser)
 })
@@ -1885,7 +2000,29 @@ test("Matching user in db returns match", async () => {
 
 </Step>
 
+
+<Step>
+
+```diff 2[200],5[200],16[200] 
+```
+
+```diff 2[11:23],5[11:25],16,14[40:200]
+```
+
+</Step>
+
+
 </CodeSurferColumns>
+
+
+<Notes>
+
+- Avant: Obligé lire test pour comprendre à quoi chaque user sert
+- Dois remonter ldap, comparer ldap,...
+- Après: Clair dès début, l'un mathc, pas l'autre. Pas besoin lire
+- Proche spec
+
+</Notes>
 
 ---
 
@@ -1919,7 +2056,10 @@ test(`Returns first item in table`, async () => {
 })
 ```
 
-```diff 5[40:45]
+```diff 5
+```
+
+```diff 2:5
 ```
 
 ```js
@@ -1931,6 +2071,15 @@ test(`Returns first item in table`, async () => {
   },
   // ...other users 
 ]
+```
+
+```js showNumbers
+test(`Returns first item in table`, async () => {
+  const db = await bootDb()
+  const usersTable = Table.from(db.get("users"))
+
+  expect(usersTable.first().name).toBe("John")
+})
 ```
 
 ```js showNumbers
@@ -1963,8 +2112,12 @@ test(`Returns first item in table`, async () => {
 <Notes>
 
 - Check récupère premier item dans table
+
+<br/>
+
 - The fuck did john come from ?!
-- Qq'un forcement changer propriété et tout casser
+- Si fail, dur de remonter jusqu'au pb
+- Potentiellement failure non liée au code: changement fixtures
 - Cas ou mutation fixtures dans appli legacy -> 3 jours debug
 
 <br/>
@@ -1978,6 +2131,13 @@ test(`Returns first item in table`, async () => {
 ---
 
 Control your data
+
+
+<Notes>
+
+- Controler données/environnement
+
+</Notes>
 
 ---
 
@@ -1994,7 +2154,7 @@ test(`Returns first item in table`, async () => {
 })
 ```
 
-```js showNumbers
+```js showNumbers 6
 test(`Returns first item in table`, async () => {
   const firstUser = makeUser({name: "first_user"})
   const secondUser = makeUser({name: "second_user"})
@@ -2011,20 +2171,30 @@ test(`Returns first item in table`, async () => {
 
 </Step>
 
+<Step>
+
+```diff 5
+```
+
+```diff 
+```
+
+</Step>
+
 
 <Step>
 
 ```diff 4
 ```
 
-```diff 2:11
+```diff 
 ```
 
 </Step>
 
 <Step>
 
-```diff 5[40:46]
+```diff 4
 ```
 
 ```diff 2,11[28:42]
@@ -2036,10 +2206,12 @@ test(`Returns first item in table`, async () => {
 
 <Notes>
 
-- Plus long
-- Mais pas risque intervention divine
+- Avant: plus court mais impossible de tracer failure
+- Après:- Plus long
+- Pas risque intervention divine
 - Controle mes données
 - Peut tracer d'ou vient valeur attendue
+- Si failure, liée au code
 
 </Notes>
 
