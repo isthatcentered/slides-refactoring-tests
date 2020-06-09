@@ -8,6 +8,8 @@ import { github, vsDark, shadesOfPurple, base } from "@code-surfer/themes";
 import ciFailBadNamingSrc from "./static/test_with_bad_naming_run_fail.png"
 import image from "./src/components/image"
 import TestReport, { Matchers } from "./src/components/test-report"
+import Layout  from "./src/components/layout"
+import SplitBA  from "./src/components/split"
 import {Inline, Caption, Figure, EmojiSlide, TestsVsDevKnowledgeTable } from "./src/components"
 export const theme = base;
 import "./src/styles.css"
@@ -1457,37 +1459,21 @@ test("<LoginPage/>", async () => {
 })
 ```
 
-```js showNumbers
-test(`Some service test`, (  ) => {
-    const route = new Route({path: "/"})
-    const service = new SomeService(route)
-
-    service.methodThatDoesntUseRoute()
-
-    // ...assertions
+```js showNumbers 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "🕺",
+       password: "🙈",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
 })
 ```
-
-```diff 2
-```
-
-```diff 5
-```
-
-```js showNumbers
-test(`Some service test`, (  ) => {
-    const route = WHATEVER
-    const service = new SomeService(route)
-
-    service.methodThatDoesntUseRoute()
-
-    // ...assertions
-})
-```
-
-```diff 
-```
-
 </CodeSurfer>
 
 
@@ -1504,43 +1490,20 @@ test(`Some service test`, (  ) => {
 - If data shape doesn't matter, show it (credentials.email)
 - If value doesn't matter at all, show it (WHATEVER) 
 - Si test fail, clair pb ailleurs
+- Attention pas aller trop loin
 
 </Notes>
 
 ---
 
 <TestReport name="Some service test">
-    <Matchers.ToBe  actual="whatever" expected={true} />
+    <Matchers.ToHaveBeenCalledWith  actual="🕺" expected="🙈" fnName="login" />
 </TestReport>
 
 ---
 
-<CodeSurfer>
-
-```js showNumbers
-test(`Some service test`, (  ) => {
-    const route = placeholder("ROUTE_PLACEHOLDER")
-    const service = new SomeService(route)
-
-    service.methodThatDoesntUseRoute()
-
-    // ...assertions
-})
-```
-
-```diff 2[19:51]
-```
-
-```js showNumbers
-const placeholder = ( name ) => name
-```
-
-</CodeSurfer>
-
----
-
 <TestReport name="Some service test">
-    <Matchers.ToBe  actual="ROUTE_PLACEHOLDER" expected={true} />
+    <Matchers.ToHaveBeenCalledWith  actual="credentials.password" expected="credentials.email" fnName="login" />
 </TestReport>
 
 ---
@@ -1603,9 +1566,9 @@ test("<LoginPage/>", async () => {
 
 - Avant: "dois passer email valide", "possiblement combo email/pwd"
 - Programmation par superstition
-- After: shape doesn't matter
+- After: Reduced debug area
 - Value shape doesn't matter for this test
-- If expectation on value passing, you'll get a better message (tracer object)
+- Even failure tells you shape doens't matter
 
 </Notes>
 
@@ -2221,14 +2184,17 @@ Feedback 👌
 
 <Notes>
 
-- When fail, in ci/during refactor 
-- Don't want to waste time understanding failure
-- Failure should be expressive enough to tell you clearly what was expected and what happened
-- Otherwise, time lost 
-- Like undefined is not a function
-- True, but I still have no clue what the problem is
-- Failures should give you clues, breadcrumbs on the path to solving a bug
-see justin searls
+- Capables retrouver marques rapidement  
+- Comprendre étapes et détails font test pass/fail rapidement
+
+<br/>
+
+- Next: feedback  
+- When fail, in ci/during refactor (rester en flow)
+- Erreur doit être suffisante pour lancer investigations/comprendre cause pb
+- On a tests lisibles 
+- Encore mieux si pas besoin ouvrir test
+
 
 </Notes>
 
@@ -2237,18 +2203,17 @@ see justin searls
 <!--
 ****************************
 ****************************
-** 👃 NAN
+** 👃 Undefined is not a function
 ****************************
 ****************************
 -->
 
-👃: Not a number (🎰)
+👃: Undefined is not a function (🎰😘)
 
 <Notes>
 
 - Ever had that error
 - Not quite useful right 
-- Like undefined is not a function
 - True, but I still have no clue what the problem is
 
 </Notes>
@@ -2258,6 +2223,14 @@ see justin searls
 <TestReport name="chars() returns every char in string">
     <Matchers.ToBe actual={5} expected={0} />
 </TestReport>
+
+<Notes>
+
+- Vérifie char() retourne tableau contenant chaque char string
+- Pourtant message erreur parle de nombres 
+- C'est quoi 0, c'est quoi 5 ?
+
+</Notes>
 
 ---
 
@@ -2279,17 +2252,53 @@ test("chars() returns every char in string", () => {
 
 </CodeSurfer>
 
+
+<Notes>
+
+- Pb vient assertion
+- Générique toBe
+- Matcher générique = message générique
+- Framework fourni pleins matchers dédiés à pbs spécifiques
+- Avec message spécifiques
+- Ici Arrays
+- Donc job = choisir celui qui à meilleur message pour pb
+
+<br/>
+
+- toHaveLength 
+- dédié arrays
+- message super spécifique
+
+</Notes>
+
 ---
 
 <TestReport name="chars() returns every char in string">
-    <Matchers.ToHaveLength actual={0} expected={10} passed={[]} />
+    <Matchers.ToHaveLength actual={0} expected={5} passed={[]} />
 </TestReport>
+
+<Notes>
+
+- Clarifys 5 & 0 numbers are array length
+- Event prints the array 
+
+
+</Notes>
 
 ---
 
 <TestReport name="Cannot re-submit form until post completion">
     <Matchers.ToBe actual={false} expected={true} />
 </TestReport>
+
+
+<Notes>
+
+- Check peut pas re-soumettre formulaire quand requete en cours
+- Erreur: expected true but false
+- check used matcher
+
+</Notes>
 
 ---
 
@@ -2311,6 +2320,13 @@ test("Cannot re-submit form until post completion", () => {
 
 </CodeSurfer>
 
+<Notes>
+
+- True bc check .disabled
+- Matcher dédié
+
+</Notes>
+
 ---
 
 <TestReport name="Cannot re-submit form until post completion">
@@ -2319,33 +2335,33 @@ test("Cannot re-submit form until post completion", () => {
 
 ---
 
-Leverage matchers
+Choose the right matcher
 
 ---
 
-<CodeSurferColumns {...splitCodeSampleProps}>
+<SplitBA
+ left={
+        <TestReport zoom={.7} name="chars() returns every char in string">
+            <Matchers.ToBe actual={5} expected={0} />
+        </TestReport>
+ } 
+ right={
+        <TestReport zoom={.7} name="chars() returns every char in string">
+            <Matchers.ToHaveLength actual={0} expected={5} passed={[]} />
+        </TestReport>
+ } 
+/>
 
-<Step>
+<Notes>
 
-```bash 
-🛑 Fail: "chars() returns every char in string"
-        
-         Error: expected( 0 ).toBe( 5 ) 
-```
+- Avant: Erreur cryptique
+- Que signigient 0 & 5 ?
+- Confusionnant -> peut me faire aller chercher pb au mauais endroit
+- Après: 0 et 5 = array length 
+- Sais retourne tableau, il devrait contenir 10 items il est vide
+- Bon matcher donne indices utiles
 
-```bash 
-🛑 Fail: "chars() returns every char in string"
-        
-         Error: expect(received).toHaveLength(expected)
-         
-         Expected length: 10
-         Received length: 0
-         Received array:  []
-```
-
-</Step>
-
-</CodeSurferColumns>
+</Notes>
 
 ---
 
@@ -2361,45 +2377,53 @@ Leverage matchers
 
 <Notes>
 
+Memory dump c'est quoi ? C'est ça: (next slide)
+
+</Notes>
+
+---
+
+<TestReport name="Orders users by id descending">
+    <Matchers.ToEqual 
+        actual={[{
+          "address":  {
+              "city": "user.address.city",
+              "city": "user.address.city",
+              "street": "user.address.city",
+          },
+          "id": 3,
+          "birthdate": "user.birthdate",
+          "firstname": "user.firstname",
+          "lastname": "user.lastname",
+        }]} 
+       expected={[{
+            "address":  {
+                "city": "user.address.city",
+                "city": "user.address.city",
+                "street": "user.address.city",
+            },
+            "id": 1,
+            "birthdate": "user.birthdate",
+            "firstname": "user.firstname",
+            "lastname": "user.lastname",
+        }]} />
+</TestReport>
+
+
+<Notes>
+
+- CHeck users triés par id descendant
+- Dump tableaux aka débrouille toi
+- A nous comparer tableau a vs tableau B
+- Styles aident pas mais erreur bien affichée. Juste chiant à trouver
+- Agassant en cas de fail imprévue
+- J'imagine pb ordering. Mais lequel... (mauvais sens ? pas ordonné ?)
 
 </Notes>
 
 ---
 
 <CodeSurfer>
-
-```bash
-🛑 Fail: "Returns users sorted by id descending"
-        Error: expect(received).toEqual(expected) // deep equality
-        
-        - Expected
-        + Received
-        
-        @@ -4,11 +4,11 @@
-                "city": "user.address.city",
-                "street": "user.address.city",
-              },
-              "birthdate": "user.birthdate",
-              "firstname": "user.firstname",
-        -     "id": 3,
-        +     "id": 1,
-              "lastname": "user.lastname",
-            },
-            Object {
-              "address": Object {
-                "city": "user.address.city",
-        @@ -24,9 +24,9 @@
-                "city": "user.address.city",
-                "street": "user.address.city",
-              },
-              "birthdate": "user.birthdate",
-              "firstname": "user.firstname",
-        -     "id": 1,
-        +     "id": 3,
-              "lastname": "user.lastname",
-            },
-          ]
-```
 
 ```js showNumbers
 test(`Orders users by id descending`, () => {
@@ -2409,6 +2433,9 @@ test(`Orders users by id descending`, () => {
 
   expect(result).toEqual([user3, user2, user1])
 })
+```
+
+```diff 6
 ```
 
 ```js showNumbers 
@@ -2421,47 +2448,85 @@ test(`Orders users by id descending`, () => {
 })
 ```
 
+
+
 ```diff 4[35:51],6[26:35]
 ```
 
-```bash
-🛑 Fail: "Returns users sorted by id descending"
-        Error: expect(received).toEqual(expected) // deep equality
-        
-        - Expected
-        + Received
-        
-          Array [
-        -   3,
-        -   2,
-            1,
-        +   2,
-        +   3,
-          ]
-```
+</CodeSurfer>
 
-```bash
-🛑 Fail: "Gets user by id"
-        Error: expect(received).toBe(expected) // Object.is equality
-        
-        - Expected
-        + Received
-        
-        @@ -2,9 +2,9 @@
-            "address": Object {
+<Notes>
+
+- On prends tableau objet
+- Vérifie matche autre tableau objets
+- Donc dump
+- Comment mieux ?
+
+<br/>
+
+- Simplifier résultat
+- Order by id
+- Donc prends id et matche contre table number
+
+</Notes>
+
+---
+
+<TestReport name="Orders users by id descending">
+    <Matchers.ToEqual actual={[1,2,3]} expected={[3,2,1]} />
+ </TestReport>
+
+<Notes>
+
+- Le côté tri apparait dans test
+- Failure montre pb tri
+- (note pour aider ids= 1,2,3 plutot que 12,14,18)
+
+</Notes>
+
+---
+
+<TestReport name="Gets user by id">
+    <Matchers.ToEqual 
+        actual={{
+          "address":  {
+              "city": "user.address.city",
               "city": "user.address.city",
               "street": "user.address.city",
+          },
+          "id": 3,
+          "birthdate": "user.birthdate",
+          "firstname": "user.firstname",
+          "lastname": "user.lastname",
+        }} 
+       expected={{
+            "address":  {
+                "city": "user.address.city",
+                "city": "user.address.city",
+                "street": "user.address.city",
             },
+            "id": 1,
             "birthdate": "user.birthdate",
-        -   "firstname": "John",
-        -   "id": 2,
-        +   "firstname": "Bob",
-        +   "id": 1,
+            "firstname": "user.firstname",
             "lastname": "user.lastname",
-          }
-```
+        }}
+    />
+ </TestReport>
 
-```js
+<Notes>
+
+- Checks récup bon user
+- Mm chôse dump props user
+- A nous comparer objets
+- Dur localiser pb
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```js showNumbers
 test(`Gets user by id`, async () => {
     // ...stuff
 
@@ -2469,6 +2534,9 @@ test(`Gets user by id`, async () => {
 
     expect(result).toBe(user2)
 })
+```
+
+```diff 6 
 ```
 
 ```js
@@ -2481,15 +2549,33 @@ test(`Gets user by id`, async () => {
 })
 ```
 
-```bash
-🛑 Fail: "Gets user by id"
-        Error: expect(received).toBe(expected) // Object.is equality
-        
-        Expected: "John"
-        Received: "Bob"
-```
-
 </CodeSurfer>
+
+<Notes>
+
+- Vérifie objet vs objet
+- Comment mieux .
+- Cherche vérifier bon objet récupéré
+- Besoin pouvoir identifier si récup A ou B
+- Transfo résult
+
+</Notes>
+
+---
+
+<TestReport name="Gets user by id">
+    <Matchers.ToEqual 
+        actual="john"
+       expected="bob"
+    />
+ </TestReport>
+
+<Notes>
+
+- Match test j'attendais user A, eu user B
+- Aurait pu utiliser id, mais moins clair: 1 vs 2
+
+</Notes>
 
 ---
 
@@ -2505,8 +2591,28 @@ test(`Gets user by id`, async () => {
 
 <Notes>
 
-- You just want to test delegaton
+- Echec localisation 
+
+</Notes>
+
+---
+
+<TestReport name="Saves user to database">
+    <Matchers.ToHaveBeenCalledWith 
+        fnName="add()"
+        actual={null}
+        expected={{"address": {"city": "address.city", "street": "address.city"}, "birthdate": "birthdate", "firstname": "firstname", "lastname": "lastname"}}
+    />
+</TestReport>
+ 
+<Notes>
+
+- You just want to test delegation
 - That something has been passed to something else
+- Ex composant appelé avec bonnes props
+- Cheks user ajouté db
+- Via mock aka db.add appelé avec user
+- Ici arg attendu pas clair (user)
 
 </Notes>
 
@@ -2514,17 +2620,9 @@ test(`Gets user by id`, async () => {
 
 <CodeSurfer>
 
-```bash
-🛑 Fail: "Saves user to database"
-        Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
-        
-        Expected: {"address": {"city": "address.city", "street": "address.city"}, "birthdate": "birthdate", "firstname": "firstname", "lastname": "lastname"}
-        Received: undefined
-```
-
 ```js 2,6,8
 test(`Saves user in database c`, async () => {
-    const user = withDescription(makeUser(), "user")
+    const user = makeUser()
     const db = { add: jest.fn() }
     const repository = new UserRepository(db)
     
@@ -2546,45 +2644,149 @@ test(`Saves user in database c`, async () => {
 })
 ```
 
-```bash
-🛑 Fail: "Saves user to database"
-        Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
-        
-        Expected: "user"
-        Received: undefined
+</CodeSurfer>
+
+<Notes>
+
+- Test utilise objet complet donc dump objet complet
+- Mieux ? 
+- Utilise pas user donc tank it
+- remplace par tracer object/tracker aka identifiant
+
+</Notes>
+
+---
+
+<TestReport name="Saves user to database">
+    <Matchers.ToHaveBeenCalledWith 
+        fnName="add()"
+        actual={null}
+        expected="user"
+    />
+</TestReport>
+ 
+<Notes>
+
+- Pas besoin lire objet pour comprendre attendu
+- Parle language test "user" vs dump json
+- Attendais add avec user  
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```js showNumbers 2
+test(`Saves user in database c`, async () => {
+    const user = makeUser()
+    const db = { add: jest.fn() }
+    const repository = new UserRepository(db)
+    
+    await repository.create(user)
+    
+    expect(db.add).toHaveBeenCalledWith(user)
+})
+```
+
+```js showNumbers 
+test(`Saves user in database c`, async () => {
+    const user = withDescription(makeUser(), "user")
+    const db = { add: jest.fn() }
+    const repository = new UserRepository(db)
+    
+    await repository.create(user)
+    
+    expect(db.add).toHaveBeenCalledWith(user)
+})
+```
+
+```js showNumbers
+const withDescription = (object, description) => {
+  const copyWithCustomDescription = {
+    ...object,
+    toJSON: () => description
+  } 
+}
+```
+
+```js showNumbers 4
+const withDescription = (object, description) => {
+  const copyWithCustomDescription = {
+    ...object,
+    toJSON: () => description
+  } 
+}
 ```
 
 </CodeSurfer>
 
+<Notes>
+
+- If object does matter
+- Framework uses toJSON to display object
+- Override it
+
+</Notes>
+
 ---
 
-Use placeholders
+<TestReport name="Saves user to database">
+    <Matchers.ToHaveBeenCalledWith 
+        fnName="add()"
+        actual={null}
+        expected="user"
+    />
+</TestReport>
+ 
+<Notes>
+
+- Possible utiliser objet
+- Et profiter failure parlante
+
+</Notes>
 
 ---
 
-<CodeSurferColumns {...splitCodeSampleProps}>
+Use tracer objects
 
-<Step>
+<Notes>
 
-```bash
-🛑 Fail: "Saves user to database"
-        Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
-        
-        Expected: {"address": {"city": "address.city", "street": "address.city"}, "birthdate": "birthdate", "firstname": "firstname", "lastname": "lastname"}
-        Received: undefined
-```
+- Quand test délégation nommer objet attendu avec tracer
 
-```bash
-🛑 Fail: "Saves user to database"
-        Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
-        
-        Expected: "user"
-        Received: undefined
-```
+</Notes>
 
-</Step>
+---
 
-</CodeSurferColumns>
+<SplitBA
+ left={
+<TestReport zoom={.7} name="Saves user to database">
+    <Matchers.ToHaveBeenCalledWith 
+        fnName="add()"
+        actual={null}
+        expected={{"address": {"city": "address.city", "street": "address.city"}, "birthdate": "birthdate", "firstname": "firstname", "lastname": "lastname"}}
+    />
+</TestReport>
+ } 
+ right={
+    <TestReport zoom={.7} name="Saves user to database">
+        <Matchers.ToHaveBeenCalledWith 
+            fnName="add()"
+            actual={null}
+            expected="user"
+        />
+    </TestReport>
+ } 
+/>
+
+<Notes>
+
+- Avant: Devine user attendu avec combo add, db, props aident
+- Sur objet plus abstrait, difficile (expected {get, add,})
+- Après: Pas besoin deviner, sait quel objet attendu 
+
+
+</Notes>
 
 ---
 
@@ -2592,11 +2794,16 @@ Use placeholders
 
 <Notes>
 
-make test xp easy
-tests shouldn't break unless behavior changed
-tests shouldn't break because a collaborator broke only break for relevant reasons
-shouldn't feel like dying because you're adding one param to the constructor and have to update 15 tests
-shouldn't break because another part of the spec for this method has changed (objectMatchig)
+- On a tests facile à aborder
+- A comprendre
+- Avec des erreurs utiles
+
+<br/>
+
+- Dernière étape assurer flexibles
+- Test casse c'est pour bonne raison:
+- Quand comportement change
+- Pas quand refactor
 
 </Notes>
 
@@ -2611,6 +2818,14 @@ shouldn't break because another part of the spec for this method has changed (ob
 -->
 
 <EmojiSlide caption="The creep">🔎😏</EmojiSlide>  
+
+<Notes>
+
+- Le "creep"
+- Le pervers
+- Celui qui sait des chôses qui ne le regardent pas
+
+</Notes>
 
 ---
 
@@ -2631,11 +2846,15 @@ test(`Switches to loading state on data fetch`, ( ) => {
 ```diff 3
 ```
 
+```diff 5
+```
+
 ```diff 7
 ```
 
-```diff 5[12:19]
+```diff 
 ```
+
 
 ```js showNumbers
 test(`Switches to loading state on data fetch`, ( ) => {
@@ -2657,6 +2876,9 @@ test(`Switches to loading state on data fetch`, ( ) => {
 })
 ```
 
+```diff 1
+```
+
 ```js showNumbers
 test(`Displays a loader on page refresh`, ( ) => {
   const page = createComponent(SomePageComponent)
@@ -2668,22 +2890,25 @@ test(`Displays a loader on page refresh`, ( ) => {
 ```
 
 </CodeSurfer>
+
 <Notes>
 
-- Checks state loading once started fetching page data
+- Checks page passe en mode loading quand fetch données
 
 <br/>
 
-- This is a view but
-- Assertion on internal state
-- Via private method 
-- Fragile: Will break on refactor of state/method
-- Not what we care about (aka showing a loader)
+- View, mais test via détail implémentation vue (class sous jacente, methodes privées, fields)
+- Sait trop. Sait comment fonctionne vue 
+- Fragile, Will break on refactor of state/method
+- (accessoirement Aucune valeur, not what we care about (aka showing a loader))
+
 
 <br/>
 
 - Test via public api, here, view
-- rename test
+- Aka manière composant va etre utilisé
+- Aucune connaissance logique sous jacente
+- rename test (probablement language spec)
 
 </Notes>
 
@@ -2726,17 +2951,19 @@ test(`Displays a loader on page refresh`, ( ) => {
 ```diff 3[25:44],5[12:19],7[10:25]
 ```
 
-```diff 4[8:12],6[16:25]
+```diff 4[200] 
 ```
 
 </Step>
 
+
+
 <Step>
 
-```diff 1[7:45]
+```diff 5[200]
 ```
 
-```diff 1[7:39]
+```diff 4[8:12],6[16:25]
 ```
 
 </Step>
@@ -2746,10 +2973,15 @@ test(`Displays a loader on page refresh`, ( ) => {
 
 <Notes>
 
-- Language totally different (instance, getData vs click, hasText)
-- Protected from refactor
-- Actually tests what matters
-- Test name matches spec
+- Avant: utilise connaissance implémentation pour tester
+- Donc si impl change, casse
+
+<br/>
+
+- Après: Test via public api
+- Aka 0 connaissance fonctionnement interne 
+- Protégé refactor
+- Gagné en valeur au passage: Test peut pas passer si cassé pour utilisateur 
 
 </Notes>
 
@@ -2787,7 +3019,7 @@ test(`Merges all errors under "error" key`, () => {
 })
 ```
 
-```diff 9:14
+```diff 7:14
 ```
 
 ```diff 11[14:52]
@@ -2835,14 +3067,15 @@ test(`Merges all errors under "error" key`, () => {
 
 <Notes>
 
-- Verifies validation report matches expectations
+- Checks "validate()" retourne toutes erreurs trouvée dans propriété erreur de report 
 
 <br/>
 
 - Only care about shape of error
+- Veut seulement vérifier que clé erreur comprenant résultat chaque validateur
 - Yet assertion on everything
 - What if new key in report/rename count to total
-- Breaks for unrelated reasons
+- Breaks if key added
 - Depends on email validation msg
 
 <br/>
@@ -2851,14 +3084,17 @@ comment faire mieux
 - Don't depend on external obj behavior (email)
 - Only assert on part that matters, ignore the rest
 
-nom refactor
-B/A
-
 </Notes>
 
 ---
 
 Assert only on what matters to the test
+
+<Notes>
+
+- Vérifier seulement ce qui compte
+
+</Notes>
 
 ---
 
@@ -2905,6 +3141,17 @@ test(`Merges all errors under "error" key`, () => {
 
 <Step>
 
+```diff 9:14
+```
+
+```diff 6
+```
+
+</Step>
+
+
+<Step>
+
 ```diff 6
 ```
 
@@ -2918,10 +3165,17 @@ test(`Merges all errors under "error" key`, () => {
 
 <Notes>
 
-- Précisé assertions
-- Enlevé dépendance comportement email
-- Peut changer forme report sans risque
-- Attention matcher permissif, si vous attendiez clé
+- Avant: 
+- Test connait plus que ce dont il a besoin
+- Casse changement message validateur email
+- Casse ajout/rename clé report
+
+<br/>
+
+- Après:
+- Test seullement ce qui compte pour ce test
+- Peut évoluer autour, test continue passer
+- (Attention matcher permissif. Vérifie ce qui est spécifié présent, autorise tout le reste)
 
 </Notes>
 
