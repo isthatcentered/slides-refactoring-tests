@@ -4,7 +4,7 @@ import  Layout  from "../layout";
 
 export const toStorybook = () => (
   <Layout>
-    <Section title="Expressiveness" />
+    <Section title="Flexibility" emoji="🤸" />
   </Layout>
 );
 

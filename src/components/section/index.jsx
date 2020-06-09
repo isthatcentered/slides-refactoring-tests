@@ -1,26 +1,31 @@
 import * as React from "react";
+import theme from "../../theme";
+import Slide from "../slide";
 
-const styleComponent = (classes) => (props) => (
-  <div
-    {...props}
-    className={classes + " " + props.className}
-  />
-);
-
-const Slide = styleComponent("h-full flex");
-
-const Frame = styleComponent(
-  "border-primary-600 border-8 m-6 p-6"
-);
-
-const Section = ({ title }) => (
-  <Slide className="">
-    <Frame className="flex-1 flex items-center justify-center">
-      <h1 className="font-bold text-primary-600" style={{fontSize: 88}}>
+const Section = ({ title, emoji }) => {
+  const Emoji = () => (
+    <span
+      style={{ fontSize: 128*1.8 }}
+      aria-hidden={true}
+      children={emoji}
+    />
+  );
+  return (
+    <Slide>
+      <Emoji />
+      <h1
+        style={{
+          fontSize: 118*1.8,
+          fontWeight: "bold",
+          color: theme.colors.primaryDark,
+          padding: ".5em",
+        }}
+      >
         {title}
       </h1>
-    </Frame>
-  </Slide>
-);
+      <Emoji />
+    </Slide>
+  );
+};
 
 export default Section;

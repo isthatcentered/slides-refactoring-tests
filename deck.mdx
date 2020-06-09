@@ -8,16 +8,21 @@ import { github, vsDark, shadesOfPurple, base } from "@code-surfer/themes";
 import ciFailBadNamingSrc from "./static/test_with_bad_naming_run_fail.png"
 import image from "./src/components/image"
 import TestReport, { Matchers } from "./src/components/test-report"
-import Layout  from "./src/components/layout"
+import Section  from "./src/components/section"
+import Banner  from "./src/components/banner"
+import Chapter  from "./src/components/chapter"
 import SplitBA  from "./src/components/split"
 import {Inline, Caption, Figure, EmojiSlide, TestsVsDevKnowledgeTable } from "./src/components"
-export const theme = base;
 import "./src/styles.css"
+import SlidesTheme from "./src/theme.js"
 import "typeface-gothic-a1"
-export const splitCodeSampleProps = {themes: [vsDark, base]}
+
+export const theme = SlidesTheme
+
+export const splitCodeSampleProps = {themes: [vsDark , theme]}
 
 
-# Readable tests
+# 👋🌏
 
 ---
 
@@ -286,9 +291,7 @@ test("<Signup/>", async () => {
 
 ---
 
-
-<EmojiSlide caption="Structural smells">🏗</EmojiSlide>
-
+<Section title="Structure" emoji="🏗" />
 
 <Notes>
 
@@ -318,9 +321,7 @@ test("<Signup/>", async () => {
 ****************************
 -->
 
-<EmojiSlide caption="Unfocused test">
-🕺✅
-</EmojiSlide>  
+<Chapter emojis="🕺✅" title="Unfocused tests" />
 
 <Notes>
 
@@ -544,7 +545,7 @@ test("<LoginPage/>", () => {
 ****************************
 -->
 
-👃: Junk drawer (🗑🗄)
+<Chapter emojis="🗑🗄" title="Junk Drawer" />
 
 <Notes>
 
@@ -731,7 +732,7 @@ describe("<LoginPage/>", () => {
 ****************************
 -->
 
-👃: Unicorns everywhere (🦄🗺)
+<Chapter emojis="🦄🗺" title="Unicorns everywhere" />
 
 
 <Notes>
@@ -892,7 +893,8 @@ test("add() validation passed saves product to database", async () => {
 *****************************************************************************
 -->
 
-# Expressiveness 💯
+<Section title="Expressiveness" emoji="💯" />
+
 
 <Notes>
 
@@ -920,7 +922,7 @@ test("add() validation passed saves product to database", async () => {
 ****************************
 -->
 
-👃: Lost in details (📚🤔)
+<Chapter emojis="📚🤔" title="Lost in details" />
 
 ---
 
@@ -1407,7 +1409,7 @@ test("<LoginPage/>", async () => {
 ****************************
 -->
 
-👃: Suspicious values (👮‍♂️📦)
+<Chapter emojis="👮‍♂️📦" title="Suspicious values" />
 
 <Notes>
 
@@ -1582,7 +1584,7 @@ test("<LoginPage/>", async () => {
 ****************************
 -->
 
-👃: Everything bold (🌏👨‍🦲)
+<Chapter emojis="🌏👨‍🦲" title="Everything bold" />
 
 ---
 
@@ -1796,7 +1798,7 @@ test("Valiation success adds user to repository", () => {
 ****************************
 -->
 
-👃: Duplicate naming (👶👶)
+<Chapter emojis="👶👶" title="Duplicate naming" />
 
 <Notes>
 
@@ -1997,7 +1999,7 @@ test("Matching user in db returns match", async () => {
 ****************************
 -->
 
-👃: Mystery guest (👻🎁)
+<Chapter emojis="👻🎁" title="Mystery guest" />
 
 <Notes>
 
@@ -2180,7 +2182,7 @@ test(`Returns first item in table`, async () => {
 
 ---
 
-Feedback 👌 
+<Section title="Feedback" emoji="👌" />
 
 <Notes>
 
@@ -2208,7 +2210,7 @@ Feedback 👌
 ****************************
 -->
 
-👃: Undefined is not a function (🎰😘)
+<Chapter emojis="🎰🤡" title="Undefined is not a function" />
 
 <Notes>
 
@@ -2335,7 +2337,7 @@ test("Cannot re-submit form until post completion", () => {
 
 ---
 
-Choose the right matcher
+Choose the right matcher for your test // switch matchers
 
 ---
 
@@ -2357,9 +2359,13 @@ Choose the right matcher
 - Avant: Erreur cryptique
 - Que signigient 0 & 5 ?
 - Confusionnant -> peut me faire aller chercher pb au mauais endroit
-- Après: 0 et 5 = array length 
-- Sais retourne tableau, il devrait contenir 10 items il est vide
-- Bon matcher donne indices utiles
+
+<br/>
+
+- Après:
+- 0 et 5 = array length
+- diff entre failure correcte et bonne failure:  
+- Bonne failure donne contexte
 
 </Notes>
 
@@ -2373,11 +2379,11 @@ Choose the right matcher
 ****************************
 -->
 
-👃: Memory dump (🧠🗑)
+<Chapter emojis="🧠🗑" title="Memory dump" />
 
 <Notes>
 
-Memory dump c'est quoi ? C'est ça: (next slide)
+Memory dump 
 
 </Notes>
 
@@ -2412,11 +2418,14 @@ Memory dump c'est quoi ? C'est ça: (next slide)
 
 <Notes>
 
-- CHeck users triés par id descendant
-- Dump tableaux aka débrouille toi
-- A nous comparer tableau a vs tableau B
+- Check users triés par id descendant
+
+<br/>
+
+- Memory dump = Dump complet deux tableaux
+- A nous comparer tableau attendu vs reçu
+- Noyé d'infos inutiles
 - Styles aident pas mais erreur bien affichée. Juste chiant à trouver
-- Agassant en cas de fail imprévue
 - J'imagine pb ordering. Mais lequel... (mauvais sens ? pas ordonné ?)
 
 </Notes>
@@ -2448,9 +2457,10 @@ test(`Orders users by id descending`, () => {
 })
 ```
 
+```diff 4[35:51]
+```
 
-
-```diff 4[35:51],6[26:35]
+```diff 6[26:35]
 ```
 
 </CodeSurfer>
@@ -2465,8 +2475,9 @@ test(`Orders users by id descending`, () => {
 <br/>
 
 - Simplifier résultat
-- Order by id
-- Donc prends id et matche contre table number
+- Choisit moyen plus simple pour identifier item et vérifier trie
+- Order by id donc id
+- Match contre tableau id dans ordre attendu
 
 </Notes>
 
@@ -2516,6 +2527,9 @@ test(`Orders users by id descending`, () => {
 <Notes>
 
 - Checks récup bon user
+
+<br/>
+
 - Mm chôse dump props user
 - A nous comparer objets
 - Dur localiser pb
@@ -2553,10 +2567,8 @@ test(`Gets user by id`, async () => {
 
 <Notes>
 
-- Vérifie objet vs objet
-- Comment mieux .
-- Cherche vérifier bon objet récupéré
-- Besoin pouvoir identifier si récup A ou B
+- Cherche vérifier bon user récupéré
+- Comment distinguer deux users facilement -> firstname
 - Transfo résult
 
 </Notes>
@@ -2579,6 +2591,59 @@ test(`Gets user by id`, async () => {
 
 ---
 
+<SplitBA 
+    left={
+    <TestReport name="Orders users by id descending">
+        <Matchers.ToEqual 
+            actual={[{
+              "address":  {
+                  "city": "user.address.city",
+                  "city": "user.address.city",
+                  "street": "user.address.city",
+              },
+              "id": 3,
+              "birthdate": "user.birthdate",
+              "firstname": "user.firstname",
+              "lastname": "user.lastname",
+            }]} 
+           expected={[{
+                "address":  {
+                    "city": "user.address.city",
+                    "city": "user.address.city",
+                    "street": "user.address.city",
+                },
+                "id": 1,
+                "birthdate": "user.birthdate",
+                "firstname": "user.firstname",
+                "lastname": "user.lastname",
+            }]} />
+    </TestReport>
+    } 
+    right={
+    <TestReport name="Orders users by id descending">
+        <Matchers.ToEqual actual={[1,2,3]} expected={[3,2,1]} />
+     </TestReport>
+    } 
+/>
+
+<Notes>
+
+- Avant: 
+- A nous de faire le travail
+- Aucun indice sur le tri effectué (mauvais ordre ? pas de tri ? Quel item pose pb ?)
+- Pourrait mm être un item manquant
+
+<br/>
+
+- Après:
+- Comparaison immédiate et claire entre reçu et attendu
+- Aucun effort à faire
+- Mm sans lire nom pb évident -> attendais 3,2,1 reçu 1,2,3
+ 
+</Notes>
+
+---
+
 <!--
 ****************************
 ****************************
@@ -2587,7 +2652,7 @@ test(`Gets user by id`, async () => {
 ****************************
 -->
 
-👃: Trace fail (🗺😢)
+<Chapter emojis="🗺😢" title="Trace fail" />
 
 <Notes>
 
@@ -2790,7 +2855,7 @@ Use tracer objects
 
 ---
 
-<EmojiSlide caption="Flexibility">🤸‍</EmojiSlide>
+<Section title="Flexibility" emoji="🤸" />
 
 <Notes>
 
@@ -2817,7 +2882,7 @@ Use tracer objects
 ****************************
 -->
 
-<EmojiSlide caption="The creep">🔎😏</EmojiSlide>  
+<Chapter emojis="🔎😏" title="The creep" />
 
 <Notes>
 
@@ -2987,78 +3052,56 @@ test(`Displays a loader on page refresh`, ( ) => {
 
 ---
 
-<!--
-****************************
-****************************
-** 👃 Overspecified
-****************************
-****************************
--->
+<Chapter emojis="📚😓" title="Overspecified" />
 
-<EmojiSlide caption="Overspecified">📚😓</EmojiSlide>
+<Notes>
+
+- Trop spécifié
+
+</Notes>
 
 ---
 
 <CodeSurfer>
 
 ```js showNumbers
-test(`Merges all errors under "error" key`, () => {
-  const validationSchema = {
-    email: Validators.email(),
-  } 
-  const validate = Validator.from(validationSchema)
+test(`Lists all validation failures`, () => {
+  const orderWithInvalidSkuAndPrice = makeOrder({
+    sku: undefined,
+    price: undefined
+  }) 
 
-  const report = validate({email: "invalid_email"})
+  const report = validateOrder(orderWithInvalidSkuAndPrice)
   
   expect(report).toEqual({
-    errors: {
-      email: `"Invalid email" is not a valid email`
-    }, 
-    count: 1
+    sku: `"Sku" is required`,
+    price: `"Price" is required`,
   })
 })
 ```
 
-```diff 7:14
+```diff 9:12
 ```
 
-```diff 11[14:52]
+```diff 10[11:27],11[13:31]
+```
+
+
+```diff 
 ```
 
 ```js showNumbers
-test(`Merges all errors under "error" key`, () => {
-  const validationSchema = {
-    email: Validators.email(),
-  } 
-  const validate = Validator.from(validationSchema)
+test(`Lists all validation failures`, () => {
+  const orderWithInvalidSkuAndPrice = makeOrder({
+    sku: undefined,
+    price: undefined
+  }) 
 
-  const report = validate({email: "invalid_email"})
+  const report = validateOrder(orderWithInvalidSkuAndPrice)
   
   expect(report).toEqual({
-    errors: {
-      email: expect.any(String)
-    }, 
-    count: 1
-  })
-})
-```
-
-```diff 13
-```
-
-```js 9:13
-test(`Merges all errors under "error" key`, () => {
-  const validationSchema = {
-    email: Validators.email(),
-  } 
-  const validate = Validator.from(validationSchema)
-
-  const report = validate({email: "invalid_email"})
-  
-  expect(report).toMatchObject({
-    errors: {
-      email: expect.any(String)
-    }
+    sku: expect.any(String),
+    price: expect.any(String),
   })
 })
 ```
@@ -3067,72 +3110,68 @@ test(`Merges all errors under "error" key`, () => {
 
 <Notes>
 
-- Checks "validate()" retourne toutes erreurs trouvée dans propriété erreur de report 
+- Checks validateOrder liste toutes erreur validation
 
 <br/>
 
-- Only care about shape of error
-- Veut seulement vérifier que clé erreur comprenant résultat chaque validateur
-- Yet assertion on everything
-- What if new key in report/rename count to total
-- Breaks if key added
-- Depends on email validation msg
+- Veut vérifier toute clés en erreur présente
+- Que chaque clé à erreur
+- Implicitement on vérifie aussi l'erreur de validation (pas sa responsabilité)
+- Peut paraitre banal mais pas de raison que test casse pour correction faute orth/update message 
 
 <br/>
 
-comment faire mieux
-- Don't depend on external obj behavior (email)
-- Only assert on part that matters, ignore the rest
+- Débarasser dépendance msg erreur (grand thème séction)
+- Care about shape (string)
+- Utiliser matcher permissif 
 
 </Notes>
 
 ---
 
-Assert only on what matters to the test
+Only assert on what matters
 
 <Notes>
 
 - Vérifier seulement ce qui compte
+// use loose matcher
 
 </Notes>
 
----
+--- 
 
 <CodeSurferColumns {...splitCodeSampleProps}>
 
 <Step>
 
-```js showNumbers
-test(`Merges all errors under "error" key`, () => {
-  const validationSchema = {
-    email: Validators.email(),
-  } 
-  const validate = Validator.from(validationSchema)
+```js showNumbers subtitle="Before"
+test(`Lists all validation failures`, () => {
+  const orderWithInvalidSkuAndPrice = makeOrder({
+    sku: undefined,
+    price: undefined
+  }) 
 
-  const report = validate({email: "invalid_email"})
+  const report = validateOrder(orderWithInvalidSkuAndPrice)
   
   expect(report).toEqual({
-    errors: {
-      email: `"Invalid email" is not a valid email`
-    }, 
-    count: 1
+    sku: `"Sku" is required`,
+    price: `"Price" is required`,
   })
 })
 ```
 
-```js showNumbers
-test(`Merges all errors under "error" key`, () => {
-  const validationSchema = {
-    email: Validators.email(),
-  } 
-  const validate = Validator.from(validationSchema)
+```js showNumbers subtitle="After"
+test(`Lists all validation failures`, () => {
+  const orderWithInvalidSkuAndPrice = makeOrder({
+    sku: undefined,
+    price: undefined
+  }) 
 
-  const report = validate({email: "invalid_email"})
+  const report = validateOrder(orderWithInvalidSkuAndPrice)
   
-  expect(report).toMatchObject({
-    errors: {
-      email: expect.any(String)
-    }
+  expect(report).toEqual({
+    sku: expect.any(String),
+    price: expect.any(String),
   })
 })
 ```
@@ -3141,41 +3180,40 @@ test(`Merges all errors under "error" key`, () => {
 
 <Step>
 
-```diff 9:14
+```diff showNumbers subtitle="Before" 10[11:27],11[13:31]
 ```
 
-```diff 6
+```diff showNumbers subtitle="After" 6
 ```
 
 </Step>
 
-
 <Step>
 
-```diff 6
+```diff showNumbers subtitle="Before" 10[200]
 ```
 
-```diff 9[18:32],10:13
+```diff showNumbers subtitle="After" 10[10:27],11[12:29]
 ```
 
 </Step>
 
 </CodeSurferColumns>
 
-
 <Notes>
 
-- Avant: 
-- Test connait plus que ce dont il a besoin
-- Casse changement message validateur email
-- Casse ajout/rename clé report
+- Avant:
+- Dépendance implicite sur le validateur
+- Test casse pour détails non liés au test
+- Si po change message, test fail
 
 <br/>
 
-- Après:
-- Test seullement ce qui compte pour ce test
-- Peut évoluer autour, test continue passer
-- (Attention matcher permissif. Vérifie ce qui est spécifié présent, autorise tout le reste)
+- Apres:
+- Dépendance cassée
+- Détails peuvent changer mais tant que forme maintenue, test ok
+- Cassera pour bonne raisons Ex: validateur retourne objet
+- Aussi objectContaining, arrayContaing, ...
 
 </Notes>
 
@@ -3189,9 +3227,13 @@ test(`Merges all errors under "error" key`, () => {
 ****************************
 -->
 
-<EmojiSlide caption="Redundant coverage">
-🙈🙈
-</EmojiSlide>
+<Chapter emojis="🙈🙈" title="Redundant coverage" />
+
+<Notes>
+
+- Couverture de code redondante
+
+</Notes>
 
 ---
 
@@ -3210,10 +3252,13 @@ test("add() validation passed saves user to database", async () => {
 })
 ```
 
-```diff 3
+```diff 2:3
 ```
 
 ```diff 2:4
+```
+
+```diff 5
 ```
 
 ```js showNumbers
@@ -3262,16 +3307,19 @@ test("add() validation passed saves user to database", async () => {
 
 <Notes>
 
-- Checks valid user added to db
+- Checks user validé par fournisseur identité ajouté db
 
 <br/>
 
 - Dépend des règles validation identity
 - Probablement d'un lien db avec le ldap et l'ident
 - Breaks if identity changes
+- Test implicitement fonctionnement chaque collaborateur
 
 <br/>
 
+- Seule logique qui nous intéresse est celle à l'interieur repo
+- Débarasser du reste
 - Création frontiere/séparation interieur/exterieur (collabs)
 - Mock validator
 - Remove dependency on user
@@ -3282,6 +3330,12 @@ test("add() validation passed saves user to database", async () => {
 ---
 
 Enforce boundaries
+
+<Notes>
+
+- Limiter la surface de test
+
+</Notes>
 
 ---
 
@@ -3323,14 +3377,14 @@ test("add() validation passed saves user to database", async () => {
 ```diff 2,3,4
 ```
 
-```diff 
+```diff 3[200]
 ```
 
 </Step>
 
 <Step>
 
-```diff 
+```diff 3[200]
 ```
 
 ```diff 2,3,4
@@ -3340,7 +3394,7 @@ test("add() validation passed saves user to database", async () => {
 
 <Step>
 
-```diff 
+```diff 3[200]
 ```
 
 ```diff 6
@@ -3352,14 +3406,39 @@ test("add() validation passed saves user to database", async () => {
 
 <Notes>
 
-- Imposé limites
-- Clair que si bug c'est pas dans les collabs
-- Small debug area
-- Controle collabs, pas besoin trouver ldap invalide
+- Avant: 
+- Hérite règles validation Validateur identité
+- Seed db
+- Suspicious ldap
+
+<br/>
+
+- Après:
+- Imposé limites avec exterieur (Remplacé collaborateurs par mocks)
+- Donc limité debug area
+- Gagné en controle (when(validator)>true)
 - Plus compliqué à mairiser
 
 </Notes>
 
+---
+
+🏗 + 💯 + 👌 + 🤸‍ = ❤️
+
+<Notes>
+
+- Structure 🏗
+- Expressiveness 💯
+- Feedback 👌
+- Flexibility 🤸‍
+
+</Notes>
+
+---
+
+Questions 🤓
+
+---
 
 
 <!--

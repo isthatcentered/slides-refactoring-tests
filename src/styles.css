@@ -1,10 +1,14 @@
-/* purgecss start ignore */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-	font-family: 'Gothic A1', sans-serif !important;
+  font-family: "Gothic A1", sans-serif !important;
+  background: linear-gradient(45deg, #450069, #7a1bb1);
 }
-/* purgecss end ignore */
+
+#gatsby-focus-wrapper > div {
+  padding: .5rem;
+  box-sizing: border-box;
+	
+}

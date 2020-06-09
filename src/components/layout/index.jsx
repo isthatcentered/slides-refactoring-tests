@@ -2,7 +2,10 @@ import * as React from "react";
 import "../../styles.css";
 
 const Layout = ({ children }) => (
-  <div className="h-screen">{children}</div>
+  <div style={{ height: "100vh", padding: ".5rem" }}>
+    {children}
+  </div>
 );
 
 export default Layout;
+
