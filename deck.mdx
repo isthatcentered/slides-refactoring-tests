@@ -2861,6 +2861,24 @@ Tag objects
 
 ---
 
+<Section title="Flexibility" emoji="🤸" />
+
+<Notes>
+
+- On a tests facile à aborder
+- A comprendre
+- Avec des erreurs utiles
+
+
+- Dernière étape assurer flexibles
+- Test casse c'est pour bonne raison:
+- Quand comportement change
+- Pas quand refactor
+
+</Notes>
+
+---
+
 <!--
 ****************************
 ****************************
@@ -2929,15 +2947,15 @@ test(`Displays a loader on page refresh`, ( ) => {
 
 <Notes>
 
-- Checks page passe en mode loading quand fetch données
+- Vérifie page affiche loader quand click refresh
 
 
 - View, pourtant !test via ui
 - Chercher controller
 - Utilise connaissance fonctionnement pour tester
 - Casse si impl change
-- Ui peut fonctionner mm si test cassé  
-- Aka accessoirement Aucune valeur, not what we care about (aka showing a loader))
+- Mais peut être cassé alors que ui ok
+- Aka accessoirement Aucune valeur, loading true garantis pas laoder affiché
 
 
 - Désolidariser implémentation
@@ -3009,14 +3027,17 @@ test(`Displays a loader on page refresh`, ( ) => {
 
 - Avant: utilise connaissance implémentation pour tester
 - Donc si impl change, casse
-- Mais veut pas dire vue cassée
+- Mais garantis pas pass = vue ok
+- Ou que fail = vu ko
 
 <br/>
 
 - Après: Test via public api
 - Aka 0 connaissance fonctionnement interne 
 - Protégé refactor
-- Gagné en valeur au passage: Test casse seullemnt si cassé pour utilisateur 
+- ++ valeur: 
+- Test casse seullemnt si cassé pour utilisateur 
+- test cassé seullement si vue cassée
 
 </Notes>
 
@@ -3084,16 +3105,20 @@ test(`Lists all validation failures`, () => {
 
 <Notes>
 
-- Checks validateOrder liste toutes erreur validation
+- Checks validateOrder liste toutes erreur validation pour commande donnée
 
 
 - Veut vérifier toute clés en erreur + string erreur associée
 - Mais vérifie implicitement msg validation
 - Responsabilité autre test
 - Casse si autre partie spec change 
+- Comment meiux ? 
+
 
 - Débarasser dépendance msg erreur (grand thème séction)
 - Care about shape (string)
+
+
 - Utiliser matcher permissif 
 - Permet changer message erreur sans casser test
 - Tant que string, test passe
@@ -3172,10 +3197,9 @@ test(`Lists all validation failures`, () => {
 <br/>
 
 - Apres:
-- Dépendance cassée
-- Détails peuvent changer mais tant que forme maintenue, test ok
-- Cassera pour bonne raisons Ex: validateur retourne objet
-- Aussi objectContaining, arrayContaing, ...
+- Vérifie pas le détail (msg), simplement forme (string)
+- Cassera pour bonne raisons, tant que string, tout ok, si objet, pas ok
+- Aussi objectContaining, arrayContaing, toMatchObject, ...
 
 </Notes>
 
@@ -3217,7 +3241,7 @@ Only assert on what matters
 test("add() validation passed saves user to database", async () => {
   const db = await bootDb()
   const validator = new IdentityValidator()
-  const user = makeUser({ ldap: 1234 })
+  const user = makeUser({ ldap: 1928 })
   const repository = new UserRepository(db, validator)
 
   await repository.add(user)
@@ -3232,6 +3256,9 @@ test("add() validation passed saves user to database", async () => {
 ```diff 2:4
 ```
 
+```diff 
+```
+
 ```diff 5
 ```
 
@@ -3239,7 +3266,7 @@ test("add() validation passed saves user to database", async () => {
 test("add() validation passed saves user to database", async () => {
   const db = await bootDb()
   const validator = { allows: jest.fn() }
-  const user = makeUser({ ldap: 1234 })
+  const user = makeUser({ ldap: 1928 })
   const repository = new UserRepository(db, validator)
   when(validator.allows(user)).resolve(true)
   
@@ -3283,31 +3310,19 @@ test("add() validation passed saves user to database", async () => {
 
 - Checks user validé par fournisseur identité ajouté db
 
-<br/>
 
 - Dépend des règles validation identity
 - Probablement d'un lien db avec le ldap et l'ident
-- Breaks if identity changes
-- Test implicitement fonctionnement chaque collaborateur
+- Casse si règle validation user changent
+- Casse si bon liens ldap -> identité sont pas en db
+- Aka Casse si collab change
 
-<br/>
 
-- Seule logique qui nous intéresse est celle à l'interieur repo
-- Débarasser du reste
-- Création frontiere/séparation interieur/exterieur (collabs)
-- Mock validator
-- Remove dependency on user
-- Remove dependency on db
-
-</Notes>
-
----
-
-Enforce boundaries
-
-<Notes>
-
-- Limiter la surface de test
+- Seule logique quoi doit impacter test = repo
+- Supprimer toute logique autour
+- Mock collabs -> controle environnement
+- Débarasser chaque dépendance (validateur, user, db)
+- Controle env, tout peut changer autour sans impacter test
 
 </Notes>
 
@@ -3321,7 +3336,7 @@ Enforce boundaries
 test("add() validation passed saves user to database", async () => {
   const db = await bootDb()
   const validator = new IdentityValidator()
-  const user = makeUser({ ldap: 1234 })
+  const user = makeUser({ ldap: 1928 })
   const repository = new UserRepository(db, validator)
 
   await repository.add(user)
@@ -3388,7 +3403,8 @@ test("add() validation passed saves user to database", async () => {
 <br/>
 
 - Après:
-- Imposé limites avec exterieur (Remplacé collaborateurs par mocks)
+- Débarassé logique exterieure
+- Tout peut changer autour test continue passer
 - Donc limité debug area
 - Gagné en controle (when(validator)>true)
 - Plus compliqué à mairiser
@@ -3397,7 +3413,12 @@ test("add() validation passed saves user to database", async () => {
 
 ---
 
-🏗 + 💯 + 👌 + 🤸‍ = ❤️
+Control the environment
+
+---
+
+
+🏗 + 💯 + 👌 + 🤸‍ = 🤩
 
 <Notes>
 
@@ -3406,11 +3427,13 @@ test("add() validation passed saves user to database", async () => {
 - Feedback 👌
 - Flexibility 🤸‍
 
+- vie plus simple
+
 </Notes>
 
 ---
 
-Questions 🤓
+<Section title="Questions ?" emoji="🤓"/>
 
 ---
 
