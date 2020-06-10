@@ -2215,8 +2215,7 @@ test(`Returns first item in table`, async () => {
 <Notes>
 
 - Ever had that error
-- Not quite useful right 
-- True, but I still have no clue what the problem is
+- Vrai, mais aucun context/indice sur cause 
 
 </Notes>
 
@@ -2231,6 +2230,7 @@ test(`Returns first item in table`, async () => {
 - Vérifie char() retourne tableau contenant chaque char string
 - Pourtant message erreur parle de nombres 
 - C'est quoi 0, c'est quoi 5 ?
+- Aucun contexte pour comprendre signification valeurs
 
 </Notes>
 
@@ -2281,9 +2281,9 @@ test("chars() returns every char in string", () => {
 
 <Notes>
 
-- Clarifys 5 & 0 numbers are array length
+- Clarifies 5 & 0 numbers are array length
 - Event prints the array 
-
+- Donné contexte/signification aux chiffres
 
 </Notes>
 
@@ -2337,10 +2337,6 @@ test("Cannot re-submit form until post completion", () => {
 
 ---
 
-Choose the right matcher for your test // switch matchers
-
----
-
 <SplitBA
  left={
         <TestReport zoom={.7} name="chars() returns every char in string">
@@ -2364,8 +2360,17 @@ Choose the right matcher for your test // switch matchers
 
 - Après:
 - 0 et 5 = array length
-- diff entre failure correcte et bonne failure:  
-- Bonne failure donne contexte
+- Donne sens aux chiffres
+
+</Notes>
+
+---
+
+Provide context
+
+<Notes>
+
+- Bonne failure donne/sens contexte à valeurs reçues
 
 </Notes>
 
@@ -2422,11 +2427,9 @@ Memory dump
 
 <br/>
 
-- Memory dump = Dump complet deux tableaux
-- A nous comparer tableau attendu vs reçu
-- Noyé d'infos inutiles
-- Styles aident pas mais erreur bien affichée. Juste chiant à trouver
-- J'imagine pb ordering. Mais lequel... (mauvais sens ? pas ordonné ?)
+- Dump deux tableaux, à nous trouver diff
+- Memory dump = Noyés d'infos (inutiles)
+- J'imagine pb tri. Mais lequel... (mauvais sens ? pas ordonné ?)
 
 </Notes>
 
@@ -2467,17 +2470,11 @@ test(`Orders users by id descending`, () => {
 
 <Notes>
 
-- On prends tableau objet
-- Vérifie matche autre tableau objets
-- Donc dump
 - Comment mieux ?
-
-<br/>
-
-- Simplifier résultat
-- Choisit moyen plus simple pour identifier item et vérifier trie
-- Order by id donc id
-- Match contre tableau id dans ordre attendu
+- Actuellement, demande un diff entre deux objets complets
+- Noyés infos -> Simplifier résultat
+- Veut identifier si id dans bon ordre
+- Tableau user -> tbleau id
 
 </Notes>
 
@@ -2489,8 +2486,7 @@ test(`Orders users by id descending`, () => {
 
 <Notes>
 
-- Le côté tri apparait dans test
-- Failure montre pb tri
+- Failure montre pb tri: Tous items mais pas bon ordre
 - (note pour aider ids= 1,2,3 plutot que 12,14,18)
 
 </Notes>
@@ -2567,9 +2563,10 @@ test(`Gets user by id`, async () => {
 
 <Notes>
 
-- Cherche vérifier bon user récupéré
-- Comment distinguer deux users facilement -> firstname
+- compare deux objets pleins again
+- Veut vérifier bon user récupérer
 - Transfo résult
+- Sélect prop identifiant
 
 </Notes>
 
@@ -2584,8 +2581,8 @@ test(`Gets user by id`, async () => {
 
 <Notes>
 
-- Match test j'attendais user A, eu user B
-- Aurait pu utiliser id, mais moins clair: 1 vs 2
+- Résultat clair, "retourne pas bon user"
+- Aurait pu utiliser id, mais moins clair que mauvais user reçu
 
 </Notes>
 
@@ -2630,24 +2627,27 @@ test(`Gets user by id`, async () => {
 
 - Avant: 
 - A nous de faire le travail
-- Aucun indice sur le tri effectué (mauvais ordre ? pas de tri ? Quel item pose pb ?)
+- Aucun indice sur cause pb (mauvais ordre ? pas de tri ? Quel item pose pb ?)
 - Pourrait mm être un item manquant
 
-<br/>
 
 - Après:
+- Pas besoin chercher
 - Comparaison immédiate et claire entre reçu et attendu
-- Aucun effort à faire
 - Mm sans lire nom pb évident -> attendais 3,2,1 reçu 1,2,3
  
 </Notes>
 
 ---
 
+Simplify results
+
+---
+
 <!--
 ****************************
 ****************************
-** 👃 TRACE FAIL
+** 👃 TRACE FAIL 
 ****************************
 ****************************
 -->
@@ -2662,79 +2662,51 @@ test(`Gets user by id`, async () => {
 
 ---
 
-<TestReport name="Saves user to database">
-    <Matchers.ToHaveBeenCalledWith 
-        fnName="add()"
-        actual={null}
-        expected={{"address": {"city": "address.city", "street": "address.city"}, "birthdate": "birthdate", "firstname": "firstname", "lastname": "lastname"}}
-    />
-</TestReport>
- 
-<Notes>
-
-- You just want to test delegation
-- That something has been passed to something else
-- Ex composant appelé avec bonnes props
-- Cheks user ajouté db
-- Via mock aka db.add appelé avec user
-- Ici arg attendu pas clair (user)
-
-</Notes>
-
----
-
 <CodeSurfer>
 
-```js 2,6,8
-test(`Saves user in database c`, async () => {
-    const user = makeUser()
-    const db = { add: jest.fn() }
-    const repository = new UserRepository(db)
+```js showNumbers
+test(`Displays turn winner`, (  ) => {
+	const winner = makeWinner()
+    const looser = makeLooser()
+    const ui = { notifyWinner: jest.fn() }
+    const game = new Game(ui)
     
-    await repository.create(user)
-    
-    expect(db.add).toHaveBeenCalledWith(user)
+    game.turn(winner, looser)
+
+    expect(ui.notifyWinner).toHaveBeenCalledWith(winner)
 })
 ```
 
-```js
-test(`Saves user in database c`, async () => {
-    const user = "user"
-    const db = { add: jest.fn() }
-    const repository = new UserRepository(db)
-    
-    await repository.create(user)
-    
-    expect(db.add).toHaveBeenCalledWith(user)
-})
+```diff 9
 ```
+
 
 </CodeSurfer>
 
 <Notes>
 
-- Test utilise objet complet donc dump objet complet
-- Mieux ? 
-- Utilise pas user donc tank it
-- remplace par tracer object/tracker aka identifiant
+- test vérifie gagnant match affiché
+- Délègue à ui
+- Vérife appelé avec bon params
 
 </Notes>
 
 ---
 
-<TestReport name="Saves user to database">
+<TestReport name="Displays turn winner">
     <Matchers.ToHaveBeenCalledWith 
-        fnName="add()"
+        fnName="ui.notifyWinner()"
         actual={null}
-        expected="user"
+        expected={{"name": "player_name", "magic": 20, "strength":100, hp: 200 }}
     />
 </TestReport>
  
 <Notes>
 
-- Pas besoin lire objet pour comprendre attendu
-- Parle language test "user" vs dump json
-- Attendais add avec user  
+- Tace fail =
+- Délégation échouée, mais sais mm pas quoi tracké et quoi reçu
+- Sais attendu truc et reçu autre truc, besoin creuser pour comprendre pb 
+
 
 </Notes>
 
@@ -2742,133 +2714,148 @@ test(`Saves user in database c`, async () => {
 
 <CodeSurfer>
 
-```js showNumbers 2
-test(`Saves user in database c`, async () => {
-    const user = makeUser()
-    const db = { add: jest.fn() }
-    const repository = new UserRepository(db)
+```js showNumbers
+test(`Displays turn winner`, (  ) => {
+	const winner = makeWinner()
+    const looser = makeLooser()
+    const ui = { notifyWinner: jest.fn() }
+    const game = new Game(ui)
     
-    await repository.create(user)
-    
-    expect(db.add).toHaveBeenCalledWith(user)
-})
-```
+    game.turn(winner, looser)
 
-```js showNumbers 
-test(`Saves user in database c`, async () => {
-    const user = withDescription(makeUser(), "user")
-    const db = { add: jest.fn() }
-    const repository = new UserRepository(db)
-    
-    await repository.create(user)
-    
-    expect(db.add).toHaveBeenCalledWith(user)
+    expect(ui.notifyWinner).toHaveBeenCalledWith(winner)
 })
 ```
 
 ```js showNumbers
-const withDescription = (object, description) => {
-  const copyWithCustomDescription = {
+test(`Displays turn winner`, (  ) => {
+	const winner = "turn_winner"
+    const looser = makeLooser()
+    const ui = { notifyWinner: jest.fn() }
+    const game = new Game(ui)
+    
+    game.turn(winner, looser)
+
+    expect(ui.notifyWinner).toHaveBeenCalledWith(winner)
+})
+```
+
+```js showNumbers
+test(`Displays turn winner`, (  ) => {
+	const winner = traceable(makeWinner(), "turn_winner")
+    const looser = makeLooser()
+    const ui = { notifyWinner: jest.fn() }
+    const game = new Game(ui)
+    
+    game.turn(winner, looser)
+
+    expect(ui.notifyWinner).toHaveBeenCalledWith(winner)
+})
+```
+
+```js showNumbers
+const traceable = (object, identifier) => {
+  const traceableCopy = {
     ...object,
-    toJSON: () => description
-  } 
+    toJSON: () => identifier
+  }  
 }
 ```
 
-```js showNumbers 4
-const withDescription = (object, description) => {
-  const copyWithCustomDescription = {
-    ...object,
-    toJSON: () => description
-  } 
-}
+```diff 4
 ```
 
 </CodeSurfer>
 
 <Notes>
 
-- If object does matter
-- Framework uses toJSON to display object
-- Override it
+- Comment mieux ?
+- Veut pouvoir identifier facilement argument attendu pour comparer avec reçu
+- Nommer avec string
+- Délégation = orchestrateur = logique rare potentiellement signe fait trop
+
+- Peux pas -> traceable()
+- Permet utiliser props objet + identifier dans failure
 
 </Notes>
 
 ---
 
-<TestReport name="Saves user to database">
+<TestReport name="Displays turn winner">
     <Matchers.ToHaveBeenCalledWith 
-        fnName="add()"
+        fnName="ui.notifyWinner()"
         actual={null}
-        expected="user"
+        expected="turn_winner"
     />
 </TestReport>
- 
-<Notes>
-
-- Possible utiliser objet
-- Et profiter failure parlante
-
-</Notes>
-
----
-
-Use tracer objects
 
 <Notes>
 
-- Quand test délégation nommer objet attendu avec tracer
+- Identifie clairement attendu
+- Indice ou aller chercher: oublié passer résultat tour
 
 </Notes>
 
 ---
 
-<SplitBA
- left={
-<TestReport zoom={.7} name="Saves user to database">
-    <Matchers.ToHaveBeenCalledWith 
-        fnName="add()"
-        actual={null}
-        expected={{"address": {"city": "address.city", "street": "address.city"}, "birthdate": "birthdate", "firstname": "firstname", "lastname": "lastname"}}
-    />
-</TestReport>
- } 
- right={
-    <TestReport zoom={.7} name="Saves user to database">
+<SplitBA 
+    left={
+    <TestReport name="Displays turn winner">
         <Matchers.ToHaveBeenCalledWith 
-            fnName="add()"
+            fnName="ui.notifyWinner()"
             actual={null}
-            expected="user"
+            expected={{"name": "player_name", "magic": 20, "strength":100, hp: 200 }}
         />
     </TestReport>
- } 
+    } 
+    right={
+        <TestReport name="Displays turn winner">
+            <Matchers.ToHaveBeenCalledWith 
+                fnName="ui.notifyWinner()"
+                actual={null}
+                expected="turn_winner"
+            />
+        </TestReport>
+    } 
 />
 
 <Notes>
 
-- Avant: Devine user attendu avec combo add, db, props aident
-- Sur objet plus abstrait, difficile (expected {get, add,})
-- Après: Pas besoin deviner, sait quel objet attendu 
+- Avant:
+- besoin aller chercher pour comprendre
+- Attendais truc mais pas passé 
 
+
+- Après:
+- Oh, oublié passer resultat tour
 
 </Notes>
 
 ---
 
-<Section title="Flexibility" emoji="🤸" />
+<TestReport name="Displays turn winner">
+    <Matchers.ToHaveBeenCalledWith 
+        fnName="ui.notifyWinner()"
+        actual="turn_looser"
+        expected="turn_winner"
+    />
+</TestReport>
 
 <Notes>
 
-- On a tests facile à aborder
-- A comprendre
-- Avec des erreurs utiles
+- Bonus
+- Si plusieurs objets passés
+- Identifier passé mauvais/mauvaise position arguments, etc
 
-<br/>
+</Notes>
 
-- Dernière étape assurer flexibles
-- Test casse c'est pour bonne raison:
-- Quand comportement change
-- Pas quand refactor
+---
+
+Tag objects
+
+<Notes>
+
+- Faciliter identification objets
 
 </Notes>
 
@@ -2898,7 +2885,7 @@ Use tracer objects
 <CodeSurfer>
 
 ```js showNumbers
-test(`Switches to loading state on data fetch`, ( ) => {
+test(`Displays a loader on page refresh`, ( ) => {
   const page = createComponent(SomePageComponent)
   const instance = page.getComponentInstance()
     
@@ -2908,13 +2895,7 @@ test(`Switches to loading state on data fetch`, ( ) => {
 })
 ```
 
-```diff 3
-```
-
-```diff 5
-```
-
-```diff 7
+```diff 3,5,7
 ```
 
 ```diff 
@@ -2922,26 +2903,13 @@ test(`Switches to loading state on data fetch`, ( ) => {
 
 
 ```js showNumbers
-test(`Switches to loading state on data fetch`, ( ) => {
+test(`Displays a loader on page refresh`, ( ) => {
   const page = createComponent(SomePageComponent)
   
   page.click(/refresh/i)
 
   expect(instance.loading).toBe(true)
 })
-```
-
-```js showNumbers
-test(`Switches to loading state on data fetch`, ( ) => {
-  const page = createComponent(SomePageComponent)
-  
-  page.click(/refresh/i)
-
-  expect(page).toHaveText("Loading...")
-})
-```
-
-```diff 1
 ```
 
 ```js showNumbers
@@ -2954,32 +2922,33 @@ test(`Displays a loader on page refresh`, ( ) => {
 })
 ```
 
+```diff 1[7:39]
+```
+
 </CodeSurfer>
 
 <Notes>
 
 - Checks page passe en mode loading quand fetch données
 
-<br/>
 
-- View, mais test via détail implémentation vue (class sous jacente, methodes privées, fields)
-- Sait trop. Sait comment fonctionne vue 
-- Fragile, Will break on refactor of state/method
-- (accessoirement Aucune valeur, not what we care about (aka showing a loader))
+- View, pourtant !test via ui
+- Chercher controller
+- Utilise connaissance fonctionnement pour tester
+- Casse si impl change
+- Ui peut fonctionner mm si test cassé  
+- Aka accessoirement Aucune valeur, not what we care about (aka showing a loader))
 
 
-<br/>
-
+- Désolidariser implémentation
 - Test via public api, here, view
 - Aka manière composant va etre utilisé
 - Aucune connaissance logique sous jacente
-- rename test (probablement language spec)
+- Test casse seullement si vue casse
+
+- Note: déroullement test match nom test 
 
 </Notes>
-
----
-
-Test it the way you'll use it
 
 ---
 
@@ -2988,7 +2957,7 @@ Test it the way you'll use it
 <Step>
 
 ```js showNumbers
-test(`Switches to loading state on data fetch`, ( ) => {
+test(`Displays a loader on page refresh`, ( ) => {
   const page = createComponent(SomePageComponent)
   const instance = page.getComponentInstance()
     
@@ -3040,15 +3009,20 @@ test(`Displays a loader on page refresh`, ( ) => {
 
 - Avant: utilise connaissance implémentation pour tester
 - Donc si impl change, casse
+- Mais veut pas dire vue cassée
 
 <br/>
 
 - Après: Test via public api
 - Aka 0 connaissance fonctionnement interne 
 - Protégé refactor
-- Gagné en valeur au passage: Test peut pas passer si cassé pour utilisateur 
+- Gagné en valeur au passage: Test casse seullemnt si cassé pour utilisateur 
 
 </Notes>
+
+---
+
+Test via the public api
 
 ---
 
@@ -3112,29 +3086,17 @@ test(`Lists all validation failures`, () => {
 
 - Checks validateOrder liste toutes erreur validation
 
-<br/>
 
-- Veut vérifier toute clés en erreur présente
-- Que chaque clé à erreur
-- Implicitement on vérifie aussi l'erreur de validation (pas sa responsabilité)
-- Peut paraitre banal mais pas de raison que test casse pour correction faute orth/update message 
-
-<br/>
+- Veut vérifier toute clés en erreur + string erreur associée
+- Mais vérifie implicitement msg validation
+- Responsabilité autre test
+- Casse si autre partie spec change 
 
 - Débarasser dépendance msg erreur (grand thème séction)
 - Care about shape (string)
 - Utiliser matcher permissif 
-
-</Notes>
-
----
-
-Only assert on what matters
-
-<Notes>
-
-- Vérifier seulement ce qui compte
-// use loose matcher
+- Permet changer message erreur sans casser test
+- Tant que string, test passe
 
 </Notes>
 
@@ -3203,8 +3165,8 @@ test(`Lists all validation failures`, () => {
 <Notes>
 
 - Avant:
-- Dépendance implicite sur le validateur
-- Test casse pour détails non liés au test
+- Dépendance implicite sur msg erreur
+- Test casse si autre partie spec change
 - Si po change message, test fail
 
 <br/>
@@ -3214,6 +3176,18 @@ test(`Lists all validation failures`, () => {
 - Détails peuvent changer mais tant que forme maintenue, test ok
 - Cassera pour bonne raisons Ex: validateur retourne objet
 - Aussi objectContaining, arrayContaing, ...
+
+</Notes>
+
+---
+
+Only assert on what matters
+
+<Notes>
+
+- Vérifier seulement ce qui compte
+- parfois veut dire assertion plus souple 
+// use loose matcher
 
 </Notes>
 

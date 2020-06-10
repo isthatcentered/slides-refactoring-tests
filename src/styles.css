@@ -12,3 +12,14 @@ body {
   box-sizing: border-box;
 	
 }
+
+[class$="-Presenter"] ul {
+	margin: 0 0 16px;
+	padding: 16px 0 16px 1em;
+	border-bottom: 1px solid #ffffff30;
+}
+
+[class$="-Presenter"] li {
+	margin: 0 0 16px;
+	padding: 0;
+}
