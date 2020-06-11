@@ -5,7 +5,7 @@ export const Caption = ({ children, ...props }) => (
     {...props}
     style={{
       borderRadius: 5,
-      fontSize: 18,
+      fontSize: 50,
       fontStyle: "italic",
       textAlign: "center",
       maxWidth: "21em",
@@ -39,7 +39,7 @@ export const Figure = ({ children, caption, ...props }) => (
 
 export const EmojiSlide = ({ children, caption }) => (
   <Figure caption={caption}>
-    <div style={{ fontSize: 88 }}>{children}</div>
+    <div style={{ fontSize: 300 }}>{children}</div>
   </Figure>
 );
 
@@ -54,7 +54,7 @@ const Cell = ({ content, legend }) => (
       textAlign:"center"
     }}
   >
-    <div style={{ padding: 0, fontSize: 88 }}>
+    <div style={{ padding: 0, fontSize: 150 }}>
       {content}
     </div>
     {legend && (

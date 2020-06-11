@@ -39,14 +39,12 @@ export const splitCodeSampleProps = {themes: [vsDark , theme]}
 ---
 
 <EmojiSlide caption="Our code">  
-<ul>
-    <li>🤱</li>
+    <span>🤱</span>
     <Appear>
-        <li key="1">🤏</li>
-        <li key="2">👶</li>
-        <li key="3">🌹</li>
+        <span key="1">🤏</span>
+        <span key="2">👶</span>
+        <span key="3">🌹</span>
     </Appear>
-</ul>
 </EmojiSlide>
 
 
@@ -184,7 +182,7 @@ test("<Signup/>", async () => {
 
 - Problème arrive quand deadline
 - Par défaut Test = premier truc à sauter
-- Donc refactor bc Si dur à aborder, tchao direct
+- Donc si test hardcore, abandonné direct
 
 </Notes>
 
@@ -194,8 +192,8 @@ test("<Signup/>", async () => {
 
 <Notes>
 
-- test en moins = pièce en plus
-- cas erreur feature + cas erreur test supprimé
+- test en moins = pièce en plus 
+- (cas erreur feature + cas erreur tests supprimés)
 
 </Notes>
 
@@ -206,7 +204,7 @@ test("<Signup/>", async () => {
 
 <Notes>
 
-- Et à chaque test en moins doit garder + en + en mémoire 
+- Et donc - test = + en mémoire 
 - tendence inversée + en tête que ds tests
 - 2 pas arrières pour 1 en avant
 
@@ -240,7 +238,7 @@ test("<Signup/>", async () => {
 
 <Notes>
 
-- Can't keep all that in mind
+- Aka
 - So bugs
 - frutrated users
 - lost money
@@ -269,14 +267,14 @@ test("<Signup/>", async () => {
 
 ---
 
-// logo JS
+
+<img style={{maxWidth: 500}} src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/1200px-Unofficial_JavaScript_logo_2.svg.png"/> 
 
 <Notes>
 
-- Aptable à n'importe quel language
-- Probleme -> piste possible pour le résoudre
-- Donc important = principe
-- La façon dont fait et juste une piste possible
+- Examples en js mais adapateble à tout
+- Examples simple
+- important = principe idée derrière le refactor
 
 </Notes>
 
@@ -301,13 +299,9 @@ test("<Signup/>", async () => {
 
 - Impossible si chaque test réinvente la roue (naming, organisation, strategie)
 
-- Voyage héros (matrix, hp, roi lion, sda, ...)
+- Quelles conventions peut mettre pour que tous tests soient familiers
 
-- Dans categorie, objectif:
-
-- Tous tests similaires. Mm nommage, organisation, stratégie
-
-- Histoire change, mais mm structure 
+- Histoire/détail change mais structure reste mm
 
 </Notes>
 
@@ -456,7 +450,6 @@ test("<LoginPage/>", () => {
 
 - Vérifie redirigé vers page d'accueil quand on se log
 
-<br/>
 
 - Qu'est-ce qui fait test compliqué ?
 - Fouilli 
@@ -465,22 +458,12 @@ test("<LoginPage/>", () => {
 - Ici, sont cachées, Mélange: [setup][actions][vérification]
 - En gros, dur à suivre
 
-<br/>
 
 - Comment rendre plus clair ?
 - Grouper par type  
+- AAA
 - + add spaces
 - SIGNAL: 2 AAA
-
-</Notes>
-
----
-
-Arrange, Act, Assert 
-
-<Notes>
-
-- AAA
 
 </Notes>
 
@@ -524,14 +507,48 @@ test("<LoginPage/>", () => {
 
 </Step>
 
+<Step>
+
+```diff 
+```
+
+```diff 7
+```
+
+</Step>
+
+<Step>
+
+```diff 7[300]
+```
+
+```diff 
+```
+
+</Step>
+
+
 </CodeSurferColumns>
 
 <Notes>
 
-- Si failure
+- Avant: 
+- Si failure, falloir chercher pièces
+
+
+- Après
 - Peux localiser rapidement assertions et remonter
-- Pas besoin de chercher
 - Accessoirement, spaces = fais mois peur 
+
+</Notes>
+
+---
+
+Arrange, Act, Assert 
+
+<Notes>
+
+- AAA
 
 </Notes>
 
@@ -629,15 +646,15 @@ describe("<LoginPage/>", () => {
 - Juste 1 test ?
 - Suspect
 - Comment faire mieux ?
+
+
 - Scoper via convention nommage
-- nesting par condition
+- Condition = qu'est-ce qui rend ce test spécial
+- Comportement = résultat suite condition
+- nesting par condition (découverte captcha)
 
 </Notes>
 
-
----
-
-# Use naming to scope
 
 ---
 
@@ -663,7 +680,7 @@ test("<LoginPage/>", () => {
 }) 
 ```
 
-```js subtitle="After" 
+```js showNumbers subtitle="After" 
 describe("<LoginPage/>", () => {
   test("Invalid credentials displays server error", ()=> {})
   test("Pending submission displays loader", ()=> {})
@@ -673,12 +690,39 @@ describe("<LoginPage/>", () => {
 
 </Step> 
 
+<Step>
+
+```diff 
+```
+
+```diff 3[300]
+```
+
+</Step>
+
+<Step>
+
+```diff 7[300]
+```
+
+```diff 
+```
+
+</Step>
+
+
 </CodeSurferColumns>  
 
 <Notes>
 
-- Part d'un test dump
-- Set tests concentrés sur pb unique
+- Avant: 
+- Dump code, tous cas tests ensemble
+- Probablement pas pensé à tout 
+- Horreur à maintenir (interdépendances étapes)
+
+
+- Apres:
+- Set petits tests concentrés sur pb unique
 - We probably surfaced more edge cases
 
 </Notes> 
@@ -689,8 +733,11 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
-- Au delà difficulté à aborder test
-- Side effect = useless ci
+- Nommage souvent problème
+- Bcp teams voient pas intérrêt
+- Pkoi ?
+- Guess what the error is when you broke:
+- Validation ?
 
 </Notes>
 
@@ -702,8 +749,6 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
-- Guess what the error is when you broke:
-- Validation ?
 - Redirection ?
 - Error message ? 
 - Yup
@@ -718,7 +763,19 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
-- Can start investigating right away
+- Bon nom test = quel est pb
+- Lancer investigations
+- Réduire surface debug  
+
+</Notes>
+
+---
+
+Use naming to scope
+
+<Notes>
+
+- Utiliser le nommage pour scoper
 
 </Notes>
 
@@ -737,7 +794,7 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
-- Chaque test = licorne/réinvente la roue
+- Chaque test = licorne/réinvente la roue/strategie différente
 
 </Notes>
 
@@ -820,24 +877,16 @@ test("add() validation passed saves product to database", async () => {
 
 <Notes>
 
+- 2 tests services vérifient truc ajouté à bdd
+
+
 - 2 tests font exactement mm chose
 - Prend truc, ajout, verifie ajouté
-- Dur Contribuer
+- Donc mm chôse, implémentation complètement différente
 - Suite 10 tests chacun complètement différent
 - Comment faire mieux ?
 
 </Notes>   
-
----
-
-
-Stick to your guns
-
-<Notes>
-
-- Choisit stratégie et on s'y colle 
-
-</Notes>
 
 ---
 
@@ -880,6 +929,17 @@ test("add() validation passed saves product to database", async () => {
 <Notes>
 
 - Ici test services via mock 
+
+</Notes>
+
+---
+
+
+Stick to your guns
+
+<Notes>
+
+- Choisit stratégie et on s'y colle 
 
 </Notes>
 
@@ -954,13 +1014,7 @@ test("<LoginPage/>", async () => {
 ```diff 12:17 showNumbers
 ```
 
-```diff 12[5:20] showNumbers
-```
-
-```diff 13 showNumbers
-```
-
-```diff 7[29:52] showNumbers
+```diff 
 ```
 
 
@@ -1162,7 +1216,8 @@ const customRender = (component) => {
       fireEvent.submit(element)
     }
 
-    const waitForPendingPromisesToComplete = () => new Promise(resolve => process.nextTick(resolve))
+    const waitForPendingPromisesToComplete = () => 
+          new Promise(resolve => process.nextTick(resolve))
 
   
     return {...page, type, submit, waitForPendingPromisesToComplete}
@@ -1185,58 +1240,17 @@ test("<LoginPage/>", async () => {
 })
 ```
 
-```diff 30:33
-```
-
-```diff 28 
-```
-
-```diff 30:31 
-```
-
-```diff 32:33
+```diff 1:20
 ```
 
 ```js showNumbers 
-const customRender = (component) => {
-    const page = render(component)
-
-    const type = (target, value) => {
-      const input = page.getByLabelText(target)
-      fireEvent.change(input, {
-        target: { value },
-      })
-    }
-  
-    const submit = (target) => {
-      const element = page.getByRole("button", { name: /login/i } )
-      fireEvent.submit(element)
-    }
-
-    const waitForPendingPromisesToComplete = () => new Promise(resolve => process.nextTick(resolve))
-
-  
-    return {...page, type, submit, waitForPendingPromisesToComplete}
+// custom-render.js
+export const customRender = (component) => {
+    // ...
 }
+```
 
-const renderLoginPage = () => {
-  const page = customRender(<LoginPage />)
-  
-  const allowLoginFor = (credentials) => when(login(credentials)).mockResolvedValue(true)
-
-  const fillInLoginForm = (credentials) => {
-      page.type(/email/i, credentials.email )
-      page.type(/password/i, credentials.password )
-  }
-
-  const login = async () => {
-    page.submit(/login/i)
-    await page.waitForPendingPromisesToComplete()
-  }
-
-  return {...page, allowLoginFor, fillInLoginForm, login}
-}
-
+```js showNumbers 
 test("<LoginPage/>", async () => {
     const credentials = {
        email: "brucewayne@wayneenterprises.com",
@@ -1248,38 +1262,46 @@ test("<LoginPage/>", async () => {
     page.type(/email/i, credentials.email )
     page.type(/password/i, credentials.password )
     page.submit(/login/i)
-    page.waitForPendingPromisesToComplete()
+    await page.waitForPendingPromisesToComplete()
     
     expect(navigate).toHaveBeenCalledWith("/")
 })
 ```
 
+```diff 9:12
+```
+
+```diff 7 
+```
+
+```diff 9:10 
+```
+
+```diff 11:12
+```
+
 ```js showNumbers 
-const customRender = (component) => {
-    const page = render(component)
-
-    const type = (target, value) => {
-      const input = page.getByLabelText(target)
-      fireEvent.change(input, {
-        target: { value },
-      })
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
     }
-  
-    const submit = (target) => {
-      const element = page.getByRole("button", { name: /login/i } )
-      fireEvent.submit(element)
-    }
+    const page = customRender(<LoginPage />)
+    when(login(credentials)).mockResolvedValue(true)
+    
+    page.type(/email/i, credentials.email )
+    page.type(/password/i, credentials.password )
+    page.submit(/login/i)
+    await page.waitForPendingPromisesToComplete()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
 
-    const waitForPendingPromisesToComplete = () => new Promise(resolve => process.nextTick(resolve))
-
-  
-    return {...page, type, submit, waitForPendingPromisesToComplete}
-}
-
-const renderLoginPage = () => {
+function renderLoginPage() {
   const page = customRender(<LoginPage />)
   
-  const allowLoginFor = (credentials) => when(login(credentials)).mockResolvedValue(true)
+  const allowLoginFor = (credentials) => 
+      when(login(credentials)).mockResolvedValue(true)
 
   const fillInLoginForm = (credentials) => {
       page.type(/email/i, credentials.email )
@@ -1293,13 +1315,27 @@ const renderLoginPage = () => {
 
   return {...page, allowLoginFor, fillInLoginForm, login}
 }
+```
 
+```diff 20:21
+```
+
+```diff 23:26
+```
+
+```diff 28:31
+```
+
+```diff 15:34
+``` 
+
+```js showNumbers 
 test("<LoginPage/>", async () => {
     const credentials = {
        email: "brucewayne@wayneenterprises.com",
        password: "imbatman",
     }
-    const page = customRender(<LoginPage />)
+    const page = renderLoginPage()
     page.allowLoginFor(credentials)
     
     page.fillInLoginForm( credentials )
@@ -1307,38 +1343,51 @@ test("<LoginPage/>", async () => {
     
     expect(navigate).toHaveBeenCalledWith("/")
 })
-```
 
-```diff 46
-```
+function renderLoginPage() {
+  const page = customRender(<LoginPage />)
+  
+  const allowLoginFor = (credentials) => 
+      when(login(credentials)).mockResolvedValue(true)
 
-```diff 48
-```
-```diff 49
+  const fillInLoginForm = (credentials) => {
+      page.type(/email/i, credentials.email )
+      page.type(/password/i, credentials.password )
+  }
+
+  const login = async () => {
+    page.submit(/login/i)
+    await page.waitForPendingPromisesToComplete()
+  }
+
+  return {...page, allowLoginFor, fillInLoginForm, login}
+}
 ```
 
 </CodeSurfer>
 
 <Notes>
 
-- 5 sec to tell me what this is doing
+- Test loginpage vérifie redirigé vers page d'accueil quand login
+
+
+- 5 sec pour dire ce qui se passe
 - Compliqué alors que peu de lignes
-- How can we make that better ?
+- Comment mieux?
 
-<br/>
 
-- Framework gives low level pieces
-- needs to work for anybody, any use case
-- Pièces bas niveau cachent concept global
-- Compose low level pieces into helpers
+- Framework doit marcher pour tt monde -> utilitaires bas niveaux (utilisable pour tt usecase)
+- A nous combiner pièces en concept globaux
+
+
 - Create page/item specific helpers to match domain
+
+
+- Créé helpers pour concept page en général
 - (intercators) Global "page" helpers -> "LoginPage" helpers 
+- review conceptes groupables
 
 </Notes>
-
----
-
-What, not how
 
 ---
 
@@ -1346,7 +1395,7 @@ What, not how
 
 <Step>
 
-```js showNumbers 7:17 subtitle="Before" 
+```js showNumbers subtitle="Before" 
 test("<LoginPage/>", async () => {
     const credentials = {
        email: "brucewayne@wayneenterprises.com",
@@ -1369,13 +1418,13 @@ test("<LoginPage/>", async () => {
 })
 ```
 
-```js showNumbers 6:10 subtitle="After" 
+```js showNumbers subtitle="After" 
 test("<LoginPage/>", async () => {
     const credentials = {
        email: "brucewayne@wayneenterprises.com",
        password: "imbatman",
     }
-    const page = customRender(<LoginPage />)
+    const page = renderLoginPage()
     page.allowLoginFor(credentials)
     
     page.fillInLoginForm( credentials )
@@ -1387,19 +1436,50 @@ test("<LoginPage/>", async () => {
 
 </Step>
 
+<Step>
+
+```diff 12:17
+```
+
+```diff 8
+```
+
+</Step>
+
+<Step>
+
+```diff 11
+```
+
+```diff 6:10
+```
+
+</Step>
+
+
 </CodeSurferColumns>
 
 <Notes>
 
-- 10 -> 5 lignes
-- Parle termes domaine "LoginPage"
-- Se lit comme spec "remplis login form", "log toi" 
+
+- Avant
+- 5 lignes mais dur comprendre/prendre en main 
+- Implique savoir target.value etc
+
+
+- Après
+- Descriprion étapes comme pour guder personnes
+- Pas de détails implémentations
 - Compréhensible en 5s
 - Centralized knowledge (bonus)
 
 </Notes>
 
 --- 
+
+What, not how
+
+---
 
 <!--
 ****************************
@@ -1432,8 +1512,8 @@ const date = "20/03/2018"
 ```js showNumbers 3:4 
 test("<LoginPage/>", async () => {
     const credentials = {
-       email: "brucewayne@wayneenterprises.com",
-       password: "imbatman",
+       email: "john@imedia.com",
+       password: "57456",
     }
     const page = renderLoginPage()
     page.allowLoginFor(credentials)
@@ -1448,8 +1528,8 @@ test("<LoginPage/>", async () => {
 ```js showNumbers 
 test("<LoginPage/>", async () => {
     const credentials = {
-       email: "credentials.email",
-       password: "credentials.password",
+       email: "john@imedia.com",
+       password: "57456",
     }
     const page = renderLoginPage()
     page.allowLoginFor(credentials)
@@ -1484,14 +1564,13 @@ test("<LoginPage/>", async () => {
 - Why 2, why not 1
 - And why not 0
 - Whay "20/03/2018" why not 21st ?
-- Does it really have to be a valid email ?
-- Leads to programming par superstition
+- Qu'est-ce qui dans cet email fait que test passe ou echoue ?
+- Mène à programmation par superstition
+- Commen mieux ?
 
-<br/>
-  
-- If data shape doesn't matter, show it (credentials.email)
-- If value doesn't matter at all, show it (WHATEVER) 
-- Si test fail, clair pb ailleurs
+
+- Si compte pas, montre le
+- Rendre clair si test fail, pas besoin regarder là
 - Attention pas aller trop loin
 
 </Notes>
@@ -1507,10 +1586,6 @@ test("<LoginPage/>", async () => {
 <TestReport name="Some service test">
     <Matchers.ToHaveBeenCalledWith  actual="credentials.password" expected="credentials.email" fnName="login" />
 </TestReport>
-
----
-
-Make the unimportant obviously unimportant
 
 ---
 
@@ -1566,11 +1641,26 @@ test("<LoginPage/>", async () => {
 
 <Notes>
 
-- Avant: "dois passer email valide", "possiblement combo email/pwd"
+- Avant:
 - Programmation par superstition
-- After: Reduced debug area
-- Value shape doesn't matter for this test
-- Even failure tells you shape doens't matter
+- "Qu'est ce qui fait dans ce combo que test pass ou non"
+- (Temps perdu, en fait on s'en moque)
+- ++ surface debug
+
+
+- Après
+- Gain temps, pb ailleurs
+- Meilleur failure 
+
+</Notes>
+
+---
+
+Make the unimportant obviously unimportant
+
+<Notes>
+
+Montrer que ça ne compte pas
 
 </Notes>
 
@@ -1585,6 +1675,13 @@ test("<LoginPage/>", async () => {
 -->
 
 <Chapter emojis="🌏👨‍🦲" title="Everything bold" />
+
+<Notes>
+
+- Tout en gras
+- Dans texte 1 mot /2 en gras, plus rien ressort
+
+</Notes>
 
 ---
 
@@ -1613,6 +1710,10 @@ test("Valiation success adds user to repository", () => {
 
 ```diff 9
 ```
+
+```diff 2:9
+```
+
 
 ```diff
 ```
@@ -1713,18 +1814,20 @@ test("Valiation success adds user to repository", () => {
 
 - Test vérifie utilisateur bien ajouté à bdd
 
-<br/>
 
-- What in this user makes this test pass/fail
-- I see a validator, so there's probably something going on
-- I should be able to tell what
-- How can we make that more obvious
+- Long setup user
+- Validateur identité ? -> probablement un truc avec user
+- Incapable de dire quelle prop fait test pass/fail
+- Comment mieux ?
+
+
+- Créé un truc pour générer preset (factory)
+- Et permettre override props spécifiques
+
+
+- Possibilité presets pour nommer concept domaine/appli
 
 </Notes>
-
----
-
-Highlight what matters
 
 ---
 
@@ -1732,7 +1835,7 @@ Highlight what matters
 
 <Step>
 
-```js showNumbers 2:8
+```js showNumbers 
 test("Valiation success adds user to repository", () => {
     const user =  {
       firstname: "Bruce",
@@ -1750,7 +1853,7 @@ test("Valiation success adds user to repository", () => {
 })
 ```
 
-```js showNumbers 5[100]
+```js showNumbers 
 test("Valiation success adds user to repository", () => {
     const user =  makeUser({
       email: "brucewayne@wayneenterprises.com",
@@ -1763,6 +1866,17 @@ test("Valiation success adds user to repository", () => {
 
     expect(repository.all().first()).toMatchObject(user)
 })
+```
+
+</Step>
+
+
+<Step>
+
+```diff 2:8
+```
+
+```diff 5[100]
 ```
 
 </Step>
@@ -1783,8 +1897,23 @@ test("Valiation success adds user to repository", () => {
 
 <Notes>
 
-- Avant: Impossible savoir ce qui fait test pass/fail
-- Après: Only Combo email password matters
+- Avant:
+- Tout même niveau importance
+- Impossible savoir ce qui fait test pass/fail
+
+- Après:
+- Immédiatement clair Combo email password important
+- Si pb, probablement première piste
+
+</Notes>
+
+---
+
+Highlight what matters
+
+<Notes>
+
+- Mettre en valeur détails important
 
 </Notes>
 
@@ -1895,35 +2024,27 @@ test("Matching user in db returns match", async () => {
 
 - Duplicate comment = dis ce que tu vas faire et le fait. J'ai vu
 
-<br/>
 
-
+- user = makeUser Oui, je sais que user
+- Qu'est-ce qui le rend spécial ?
+- Nom var = opportunité dire plus
 - Terme domaine: identityApprovedUser
+- Nom variable pour donner plus d'indices, préciser concept
 
-<br/>
 
-- Test vérifie retourne utilisateur matche critères  
-- Que veut dire "ldap_user1" et "ldap_user_2"
+- Test vérifie get() vec critères retourne utilisateur matche critères  
+- Quelle idée derrière "ldap_1" et "ldap_2"
+- Mettre à jour concept
 
 </Notes>
 
 ---
 
-Put naming to work
-
-<Notes>
-
-- utiliser nommage pour mettre en valeur spécificités
-
-</Notes>
-
---- 
-
 <CodeSurferColumns {...splitCodeSampleProps}>
 
 <Step>
 
-```js showNumbers 2[11:16],5[11:16],16,14[40:57]
+```js showNumbers 
 test("Matching user in db returns match", async () => {
     const user1 =  makeUser({
       ldap: "user_1_ldap"
@@ -1943,7 +2064,7 @@ test("Matching user in db returns match", async () => {
 })
 ```
 
-```js showNumbers 2[200],5[200],16[200]
+```js showNumbers 
 test("Matching user in db returns match", async () => {
     const matchingUser =  makeUser({
       ldap: "user_1_ldap"
@@ -1965,6 +2086,17 @@ test("Matching user in db returns match", async () => {
 
 </Step>
 
+<Step>
+
+```diff 2[11:16],5[11:16],16,14[40:57]
+```
+
+```diff 2[200],5[200],16[200]
+```
+
+</Step>
+
+
 
 <Step>
 
@@ -1982,14 +2114,29 @@ test("Matching user in db returns match", async () => {
 
 <Notes>
 
-- Avant: Obligé lire test pour comprendre à quoi chaque user sert
+- Avant: 
+- A nous parcourir test pour comprendre différence user 1 et 2
 - Dois remonter ldap, comparer ldap,...
-- Après: Clair dès début, l'un mathc, pas l'autre. Pas besoin lire
+
+
+- Après: 
+- Pas besoin lire assignation variable
+- Un user match, pas l'autre
 - Proche spec
 
 </Notes>
 
 ---
+
+Put naming to work
+
+<Notes>
+
+- Utiliser les noms pour préciser les concepts
+
+</Notes>
+
+--- 
 
 <!--
 ****************************
@@ -2068,7 +2215,7 @@ test(`Returns first item in table`, async () => {
 ```diff 7:8
 ```
 
-```diff 11[10:21,28:41]
+```diff 2,3,11[10:21,28:41]
 ```
 
 </CodeSurfer>
@@ -2076,31 +2223,24 @@ test(`Returns first item in table`, async () => {
 
 <Notes>
 
-- Check récupère premier item dans table
+- Vérifie first() récupère premier item dans table
 
-<br/>
 
 - The fuck did john come from ?!
-- Si fail, dur de remonter jusqu'au pb
-- Potentiellement failure non liée au code: changement fixtures
-- Cas ou mutation fixtures dans appli legacy -> 3 jours debug
-
-<br/>
-
-- Assume DB starts empty + reset
-- On sait ou vient nom
-- controle donnée
-
-</Notes>
-
----
-
-Control your data
+- Aucune mention dans tout le setup
+- John vient fixture
+- Test dépend environnement (mais aucun controle dessus)
+- Test casse changement fixture/si environnement change
+- Mais veut pas dire fonction cassée
+- Fausses alertes
+- Comment mieux ?
 
 
-<Notes>
-
-- Controler données/environnement
+- Créer environnement voulu
+- Créé user et ajouter
+- (Assume DB starts empty + reset)
+- Capable faire lien nom -> donnée reçue
+- controle données
 
 </Notes>
 
@@ -2119,7 +2259,7 @@ test(`Returns first item in table`, async () => {
 })
 ```
 
-```js showNumbers 6
+```js showNumbers 
 test(`Returns first item in table`, async () => {
   const firstUser = makeUser({name: "first_user"})
   const secondUser = makeUser({name: "second_user"})
@@ -2138,10 +2278,21 @@ test(`Returns first item in table`, async () => {
 
 <Step>
 
+```diff 
+```
+
+```diff 6
+```
+
+</Step>
+
+
+<Step>
+
 ```diff 5
 ```
 
-```diff 
+```diff 6 
 ```
 
 </Step>
@@ -2152,7 +2303,7 @@ test(`Returns first item in table`, async () => {
 ```diff 4
 ```
 
-```diff 
+```diff
 ```
 
 </Step>
@@ -2167,20 +2318,46 @@ test(`Returns first item in table`, async () => {
 
 </Step>
 
+
 </CodeSurferColumns>
 
 <Notes>
 
-- Avant: plus court mais impossible de tracer failure
-- Après:- Plus long
-- Pas risque intervention divine
-- Controle mes données
+- Avant:
+- plus court
+- test cassé veut pas dire fonction cassée
+- Remonter jusqu'au fixtures pour trouver john
+
+
+- Après:
+- Plus long
+- Pas risque intervention divine, controle mes données
+- Test fail pour bonnes raisons 
+- test cassé = code cassé
 - Peut tracer d'ou vient valeur attendue
-- Si failure, liée au code
 
 </Notes>
 
 ---
+
+Control your data
+
+
+<Notes>
+
+- Controler données/environnement
+
+</Notes>
+
+---
+
+<!--
+*****************************************************************************
+*****************************************************************************
+** Feedback 👌 *********************************************************
+*****************************************************************************
+*****************************************************************************
+-->
 
 <Section title="Feedback" emoji="👌" />
 
