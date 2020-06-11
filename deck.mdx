@@ -2139,219 +2139,6 @@ Put naming to work
 --- 
 
 <!--
-****************************
-****************************
-** 👃 MYSTERY GUEST
-****************************
-****************************
--->
-
-<Chapter emojis="👻🎁" title="Mystery guest" />
-
-<Notes>
-
-- L'invité mystère
-
-</Notes>
-
----
-
-
-<CodeSurfer>
-
-```js showNumbers
-test(`Returns first item in table`, async () => {
-  const db = await bootDb()
-  const usersTable = Table.from(db.get("users"))
-
-  expect(usersTable.first().name).toBe("John")
-})
-```
-
-```diff 5
-```
-
-```diff 2:5
-```
-
-```js
-// fixtures/db/users.json
-[
-  {
-    name: "John"
-    // ...other props
-  },
-  // ...other users 
-]
-```
-
-```js showNumbers
-test(`Returns first item in table`, async () => {
-  const db = await bootDb()
-  const usersTable = Table.from(db.get("users"))
-
-  expect(usersTable.first().name).toBe("John")
-})
-```
-
-```js showNumbers
-test(`Returns first item in table`, async () => {
-  const firstUser = makeUser({name: "first_user"})
-  const secondUser = makeUser({name: "second_user"})
-  const usersDb = (await bootDb()).get("users")
-  const usersTable = Table.from(usersDb)
-
-  db.add(firstUser)
-  db.add(secondUser)
-  const result = usersTable.first()
-
-  expect(result.name).toBe(firstUser.name)
-})
-```
-
-```diff 2:3
-```
-
-```diff 7:8
-```
-
-```diff 2,3,11[10:21,28:41]
-```
-
-</CodeSurfer>
-
-
-<Notes>
-
-- Vérifie first() récupère premier item dans table
-
-
-- The fuck did john come from ?!
-- Aucune mention dans tout le setup
-- John vient fixture
-- Test dépend environnement (mais aucun controle dessus)
-- Test casse changement fixture/si environnement change
-- Mais veut pas dire fonction cassée
-- Fausses alertes
-- Comment mieux ?
-
-
-- Créer environnement voulu
-- Créé user et ajouter
-- (Assume DB starts empty + reset)
-- Capable faire lien nom -> donnée reçue
-- controle données
-
-</Notes>
-
----
-
-<CodeSurferColumns {...splitCodeSampleProps}>
-
-<Step>
-
-```js showNumbers
-test(`Returns first item in table`, async () => {
-  const db = await bootDb()
-  const usersTable = Table.from(db.get("users"))
-
-  expect(usersTable.first().name).toBe("John")
-})
-```
-
-```js showNumbers 
-test(`Returns first item in table`, async () => {
-  const firstUser = makeUser({name: "first_user"})
-  const secondUser = makeUser({name: "second_user"})
-  const usersDb = (await bootDb()).get("users")
-  const usersTable = Table.from(usersDb)
-
-  db.add(firstUser)
-  db.add(secondUser)
-  const result = usersTable.first()
-
-  expect(result.name).toBe(firstUser.name)
-})
-```
-
-</Step>
-
-<Step>
-
-```diff 
-```
-
-```diff 6
-```
-
-</Step>
-
-
-<Step>
-
-```diff 5
-```
-
-```diff 6 
-```
-
-</Step>
-
-
-<Step>
-
-```diff 4
-```
-
-```diff
-```
-
-</Step>
-
-<Step>
-
-```diff 4
-```
-
-```diff 2,11[28:42]
-```
-
-</Step>
-
-
-</CodeSurferColumns>
-
-<Notes>
-
-- Avant:
-- plus court
-- test cassé veut pas dire fonction cassée
-- Remonter jusqu'au fixtures pour trouver john
-
-
-- Après:
-- Plus long
-- Pas risque intervention divine, controle mes données
-- Test fail pour bonnes raisons 
-- test cassé = code cassé
-- Peut tracer d'ou vient valeur attendue
-
-</Notes>
-
----
-
-Control your data
-
-
-<Notes>
-
-- Controler données/environnement
-
-</Notes>
-
----
-
-<!--
 *****************************************************************************
 *****************************************************************************
 ** Feedback 👌 *********************************************************
@@ -3221,6 +3008,218 @@ test(`Displays a loader on page refresh`, ( ) => {
 ---
 
 Test via the public api
+
+---
+
+<!--
+****************************
+****************************
+** 👃 MYSTERY GUEST
+****************************
+****************************
+-->
+
+<Chapter emojis="👻🎁" title="Mystery guest" />
+
+<Notes>
+
+- L'invité mystère
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```js showNumbers
+test(`Returns first item in table`, async () => {
+  const db = await bootDb()
+  const usersTable = Table.from(db.get("users"))
+
+  expect(usersTable.first().name).toBe("John")
+})
+```
+
+```diff 5
+```
+
+```diff 2:5
+```
+
+```js
+// fixtures/db/users.json
+[
+  {
+    name: "John"
+    // ...other props
+  },
+  // ...other users 
+]
+```
+
+```js showNumbers
+test(`Returns first item in table`, async () => {
+  const db = await bootDb()
+  const usersTable = Table.from(db.get("users"))
+
+  expect(usersTable.first().name).toBe("John")
+})
+```
+
+```js showNumbers
+test(`Returns first item in table`, async () => {
+  const firstUser = makeUser({name: "first_user"})
+  const secondUser = makeUser({name: "second_user"})
+  const usersDb = (await bootDb()).get("users")
+  const usersTable = Table.from(usersDb)
+
+  db.add(firstUser)
+  db.add(secondUser)
+  const result = usersTable.first()
+
+  expect(result.name).toBe(firstUser.name)
+})
+```
+
+```diff 2:3
+```
+
+```diff 7:8
+```
+
+```diff 2,3,11[10:21,28:41]
+```
+
+</CodeSurfer>
+
+
+<Notes>
+
+- Vérifie first() récupère premier item dans table
+
+
+- The fuck did john come from ?!
+- Aucune mention dans tout le setup
+- John vient fixture
+- Test dépend environnement (mais aucun controle dessus)
+- Test casse changement fixture/si environnement change
+- Mais veut pas dire fonction cassée
+- Fausses alertes
+- Comment mieux ?
+
+
+- Créer environnement voulu
+- Créé user et ajouter
+- (Assume DB starts empty + reset)
+- Capable faire lien nom -> donnée reçue
+- controle données
+
+</Notes>
+
+---
+
+<CodeSurferColumns {...splitCodeSampleProps}>
+
+<Step>
+
+```js showNumbers
+test(`Returns first item in table`, async () => {
+  const db = await bootDb()
+  const usersTable = Table.from(db.get("users"))
+
+  expect(usersTable.first().name).toBe("John")
+})
+```
+
+```js showNumbers 
+test(`Returns first item in table`, async () => {
+  const firstUser = makeUser({name: "first_user"})
+  const secondUser = makeUser({name: "second_user"})
+  const usersDb = (await bootDb()).get("users")
+  const usersTable = Table.from(usersDb)
+
+  db.add(firstUser)
+  db.add(secondUser)
+  const result = usersTable.first()
+
+  expect(result.name).toBe(firstUser.name)
+})
+```
+
+</Step>
+
+<Step>
+
+```diff 
+```
+
+```diff 6
+```
+
+</Step>
+
+
+<Step>
+
+```diff 5
+```
+
+```diff 6 
+```
+
+</Step>
+
+
+<Step>
+
+```diff 4
+```
+
+```diff
+```
+
+</Step>
+
+<Step>
+
+```diff 4
+```
+
+```diff 2,11[28:42]
+```
+
+</Step>
+
+
+</CodeSurferColumns>
+
+<Notes>
+
+- Avant:
+- plus court
+- test cassé veut pas dire fonction cassée
+- Remonter jusqu'au fixtures pour trouver john
+
+
+- Après:
+- Plus long
+- Pas risque intervention divine, controle mes données
+- Test fail pour bonnes raisons 
+- test cassé = code cassé
+- Peut tracer d'ou vient valeur attendue
+
+</Notes>
+
+---
+
+Control your data
+
+
+<Notes>
+
+- Controler données/environnement
+
+</Notes>
 
 ---
 
