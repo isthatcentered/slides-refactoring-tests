@@ -8,18 +8,44 @@ body {
 }
 
 #gatsby-focus-wrapper > div {
-  padding: .5rem;
+  padding: 0.5rem;
   box-sizing: border-box;
-	
 }
 
 [class$="-Presenter"] ul {
-	margin: 0 0 16px;
-	padding: 16px 0 16px 1em;
-	border-bottom: 1px solid #ffffff30;
+  margin: 0 0 16px;
+  padding: 16px 0 16px 1em;
+  border-bottom: 1px solid #ffffff30;
 }
 
 [class$="-Presenter"] li {
-	margin: 0 0 16px;
-	padding: 0;
+  margin: 0 0 16px;
+  padding: 0;
 }
+
+.table-custom {
+  width: 100%;
+  border-spacing: 0;
+}
+
+.table-custom th,
+.table-custom td,
+.table-custom tr {
+}
+
+.table-custom th,
+.table-custom td {
+  padding: 1em;
+  border: none;
+  text-align: center;
+  font-weight: bold;
+}
+
+.fade-in {
+	animation: fadeIn ease 4s;
+}
+@keyframes fadeIn {
+	0% {opacity:0;}
+	100% {opacity:1;}
+}
+

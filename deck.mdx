@@ -9,7 +9,9 @@ import ciFailBadNamingSrc from "./static/test_with_bad_naming_run_fail.png"
 import image from "./src/components/image"
 import TestReport, { Matchers } from "./src/components/test-report"
 import Section  from "./src/components/section"
+import Sections  from "./src/components/sections"
 import Banner  from "./src/components/banner"
+import {StructureRefactors, ExpressivenessRefactors, FeedbackRefactors, FlexibilityRefactors}  from "./src/components/refactor-table"
 import Chapter  from "./src/components/chapter"
 import SplitBA  from "./src/components/split"
 import {Inline, Caption, Figure, EmojiSlide, TestsVsDevKnowledgeTable } from "./src/components"
@@ -20,6 +22,7 @@ import "typeface-gothic-a1"
 export const theme = SlidesTheme
 
 export const splitCodeSampleProps = {themes: [vsDark , theme]}
+
 
 
 # 👋🌏
@@ -182,7 +185,7 @@ test("<Signup/>", async () => {
 
 - Problème arrive quand deadline
 - Par défaut Test = premier truc à sauter
-- Donc si test hardcore, abandonné direct
+- Donc pkoi refactorer ? Parce que si test fait peur -> test saute
 
 </Notes>
 
@@ -206,6 +209,8 @@ test("<Signup/>", async () => {
 
 - Et donc - test = + en mémoire 
 - tendence inversée + en tête que ds tests
+- ++ checks manuels -- checks auto
+- Dur penser à tout donc
 - 2 pas arrières pour 1 en avant
 
 </Notes>
@@ -289,7 +294,7 @@ test("<Signup/>", async () => {
 
 ---
 
-<Section title="Structure" emoji="🏗" />
+<Sections active={0}/>
 
 <Notes>
 
@@ -544,7 +549,8 @@ test("<LoginPage/>", () => {
 
 ---
 
-Arrange, Act, Assert 
+<StructureRefactors active={0} />
+
 
 <Notes>
 
@@ -723,7 +729,9 @@ describe("<LoginPage/>", () => {
 
 - Apres:
 - Set petits tests concentrés sur pb unique
-- We probably surfaced more edge cases
+- Charge mentale réduite
+- Onboarding + rapide -> Moins à connaitre quand arrive sur test
+- Aidé à mettre à jour cas spéciaux
 
 </Notes> 
 
@@ -771,7 +779,7 @@ describe("<LoginPage/>", () => {
 
 ---
 
-Use naming to scope
+<StructureRefactors active={1} />
 
 <Notes>
 
@@ -935,7 +943,7 @@ test("add() validation passed saves product to database", async () => {
 ---
 
 
-Stick to your guns
+<StructureRefactors active={2} />
 
 <Notes>
 
@@ -953,7 +961,7 @@ Stick to your guns
 *****************************************************************************
 -->
 
-<Section title="Expressiveness" emoji="💯" />
+<Sections active={1}/>
 
 
 <Notes>
@@ -1477,7 +1485,14 @@ test("<LoginPage/>", async () => {
 
 --- 
 
+<ExpressivenessRefactors active={0}  />
+
+
+<Notes>
+
 What, not how
+
+</Notes>
 
 ---
 
@@ -2146,7 +2161,7 @@ Put naming to work
 *****************************************************************************
 -->
 
-<Section title="Feedback" emoji="👌" />
+<Sections active={2}/>
 
 <Notes>
 
@@ -2825,7 +2840,7 @@ Tag objects
 
 ---
 
-<Section title="Flexibility" emoji="🤸" />
+<Sections active={3}/>
 
 <Notes>
 
@@ -3593,17 +3608,34 @@ Control the environment
 
 ---
 
+<div style={{fontSize: 150}}>
+    <Appear>
+        <span>🏗 +</span>
+        <span>💯 +</span>
+        <span>👌 +</span>
+        <span>🤸</span>
+    </Appear>
+    <span>{" "}= 🤩</span>
+</div>
 
-🏗 + 💯 + 👌 + 🤸‍ = 🤩
 
 <Notes>
 
-- Structure 🏗
-- Expressiveness 💯
-- Feedback 👌
-- Flexibility 🤸‍
+- Vu: 
+- Faciliter prise en main ( Structure 🏗)
+- Faciliter compréhension (Expressiveness 💯)
+- Faciliter debugging (Feedback 👌)
+- Réduire maintenace nécéssaire (Flexibility 🤸‍)
+
 
 - vie plus simple
+
+
+- Pas oblige tout appliqué
+- Chaque refactor apporte bout mm bénéfices:
+- Surface débug réduite
+- Meilleur compréhension pb
+- Rapprochement spec (language)
 
 </Notes>
 
