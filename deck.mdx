@@ -11,7 +11,7 @@ import TestReport, { Matchers } from "./src/components/test-report"
 import Section  from "./src/components/section"
 import Sections  from "./src/components/sections"
 import Banner  from "./src/components/banner"
-import {StructureRefactors, ExpressivenessRefactors, FeedbackRefactors, FlexibilityRefactors}  from "./src/components/refactor-table"
+import {HardToNavigateRefactors, UnclearRefactors, UselessFailureRefactors, BrokenButWorkingRefactors}  from "./src/components/refactor-table"
 import Chapter  from "./src/components/chapter"
 import SplitBA  from "./src/components/split"
 import {Inline, Caption, Figure, EmojiSlide, TestsVsDevKnowledgeTable } from "./src/components"
@@ -23,7 +23,8 @@ export const theme = SlidesTheme
 
 export const splitCodeSampleProps = {themes: [vsDark , theme]}
 
-
+export const FunFact = () => <div>Also</div>
+  
 
 # 👋🌏
 
@@ -294,19 +295,35 @@ test("<Signup/>", async () => {
 
 ---
 
+<!--
+*****************************************************************************
+*****************************************************************************
+** Hard to navigate *********************************************************
+*****************************************************************************
+*****************************************************************************
+-->
+
 <Sections active={0}/>
 
 <Notes>
 
-- Structure
+- Difficile à naviguer
+
+
 
 - Veut contribution facile sous pression
 
 - Impossible si chaque test réinvente la roue (naming, organisation, strategie)
 
-- Quelles conventions peut mettre pour que tous tests soient familiers
 
-- Histoire/détail change mais structure reste mm
+
+- Objectifs:
+
+- Réduire friction
+
+- Trouver moyen tests ressemblent
+
+- Histoire/détail change mais principes restent mm
 
 </Notes>
 
@@ -315,20 +332,260 @@ test("<Signup/>", async () => {
 <!--
 ****************************
 ****************************
-** 👃 UFOCUSED TESTS
+** 👃 All in one
 ****************************
 ****************************
 -->
 
-<Chapter emojis="🕺✅" title="Unfocused tests" />
+<Chapter emojis="🗑🗄" title="All in one" />
 
 <Notes>
 
-- Test qui part dans tous les sens
+- Tout en un
 
 </Notes>
 
 ---
+
+<!-- 👉 REFACTOR START 👈 -->
+ 
+<CodeSurfer>
+
+```js showNumbers
+test("<LoginPage/>", () => {
+  // ...
+}) 
+```
+
+```js showNumbers
+test("<LoginPage/>", () => {
+  // verify can't submit if empty form
+
+  // verify email validation
+  
+  // Verify password validation
+    
+  // verify loading state
+    
+  // verify login fail displays error
+    
+  // verify login fail redirect error
+
+  // more stuff
+}) 
+```
+
+```js 1[6:39]
+test("method -> condition -> behavior", ()=>{})
+```
+
+```js 1[6:18]
+test("<LoginPage/> -> condition -> behavior", ()=>{})
+```
+
+```js 1[23:35]
+test("<LoginPage/> -> failed login -> behavior", ()=>{})
+```
+
+```js 1[39:60]
+test("<LoginPage/> -> failed login -> displays server error", ()=>{})
+```
+
+```js 1[7:54]
+test("<LoginPage/> failed login displays server error", ()=>{})
+```
+
+
+```js 2:6
+describe("<LoginPage/>", () => {
+  describe("Failed login", () => {
+    test("Displays server error", ()=>{})
+    test("Requires captcha on subsequent attempts", ()=>{})
+    //...
+  }) 
+  describe("Invalid form", () => {})
+  describe("Successful login", () => {})
+}) 
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- Juste 1 test ?
+
+
+- Mise en danger autres test
+- ++ y a code à un endroit, ++ danger casser en changeant qqc (ici, désactiver)
+- Surface à apprendre très large, doit comprendre tt test pour cibler ce qui m'intéresse 
+
+
+- Scoper via convention nommage
+- Condition = qu'est-ce qui rend ce test spécial
+- Comportement = résultat suite condition
+- plusieurs cas possibles par condition (might be another condition)
+- nesting par condition (découverte captcha)
+
+</Notes>
+
+<!-- 👉 REFACTOR END 👈 -->
+
+---
+
+<!-- 👉 FUNFACT START 👈 -->
+
+<FunFact/>
+
+<Notes>
+
+- Avant renommage si fail pb validation:
+
+</Notes>
+
+---
+
+<TestReport name="<LoginPage/>" >
+    <span style={{color:"lightgray"}}>// Some random error</span>
+</TestReport>
+
+<Notes>
+
+- Redirection ?
+- Error message ? 
+- Yup
+- Pendant refactor, perte flow
+
+</Notes>
+
+---
+
+<TestReport name="<LoginPage/> Successful login redirects to dashboard" >
+    <span style={{color:"lightgray"}}>// Some error that makes more sense now</span>
+</TestReport>
+
+<Notes>
+
+- Bon nom test = quel est pb
+- Lancer investigations
+- Réduire surface debug  
+
+</Notes>
+
+<!-- 👉 FUNFACT END 👈 -->
+
+---
+
+<!-- 👉 BA START 👈 -->
+
+<CodeSurferColumns  {...splitCodeSampleProps}>
+
+<Step>
+
+```js showNumbers subtitle="before"
+test("<LoginPage/>", () => {
+    // verify can't submit if empty form
+    
+    // verify email validation
+    
+    // Verify password validation
+    
+    // verify loading state
+    
+    // verify login fail displays error
+    
+    // verify login fail redirect error
+    
+    // more stuff
+}) 
+```
+
+```js showNumbers subtitle="After" 
+describe("<LoginPage/>", () => {
+  test("Invalid credentials displays server error", ()=> {})
+  test("Pending submission displays loader", ()=> {})
+  test("Successful login redirects to dashboard", ()=> {})
+}) 
+```
+
+</Step> 
+
+<Step>
+
+```diff 
+```
+
+```diff 3[300]
+```
+
+</Step>
+
+<Step>
+
+```diff 7[300]
+```
+
+```diff 
+```
+
+</Step>
+
+
+</CodeSurferColumns>  
+
+<Notes>
+
+- Avant: 
+- Test vas couter cher en maintenance et énergie
+- Dump code, tous cas tests ensemble
+- Grandes chances finir avec bouts désactivés
+- Pour modifier, doit connaitre tout test et tout code
+
+
+- Apres:
+- Set petits tests concentrés sur pb unique
+- Peu de code à gérer
+- Meilleur infos failure
+
+</Notes> 
+
+<!-- 👉 BA END 👈 -->
+
+---
+
+<HardToNavigateRefactors active={0} />
+
+<Notes>
+
+- Utiliser le nommage pour scoper
+
+</Notes>
+
+---
+
+<!--
+****************************
+****************************
+** 👃 Mixed steps
+****************************
+****************************
+-->
+
+<Chapter emojis="🕺✅" title="Mixed steps" />
+
+<Notes>
+
+
+- Réduit surface test
+- Next, pouvoir trouver marques
+
+
+- Etapes mélangées
+
+</Notes>
+
+---
+
+<!-- 👉 REFACTOR START 👈 -->
 
 <CodeSurfer>
 
@@ -404,22 +661,13 @@ test("<LoginPage/>", () => {
 })
 ```
 
-```diff showNumbers 2:6 subtitle="Arrange"
+```diff showNumbers 2:6 
 ```
 
-```diff showNumbers 7:9 subtitle="Act"
+```diff showNumbers 7:9 
 ```
 
-```diff showNumbers 10:11 subtitle="Assert"
-```
-
-```diff showNumbers 2:6 subtitle="Given"
-```
-
-```diff showNumbers 7:9 subtitle="When"
-```
-
-```diff showNumbers 10:11 subtitle="Then"
+```diff showNumbers 10:11 
 ```
 
 ```js showNumbers 1:14
@@ -439,8 +687,51 @@ test("<LoginPage/>", () => {
 })
 ```
 
+</CodeSurfer>
 
-```diff 12  
+<Notes>
+
+- Vérifie redirigé vers page d'accueil quand on se log
+
+
+- Veut comprendre failure via chaine assertions -> actions -> setup
+- Ici mélangées
+
+
+- Grouper par type
+- Ajouter espaces  
+- AAA
+- + add spaces
+
+</Notes>
+
+<!-- 👉 REFACTOR END 👈 -->
+
+---
+
+<!-- 👉 FUNFACT START 👈 -->
+
+<FunFact/>
+
+---
+
+<CodeSurfer>
+
+```js showNumbers 12
+test("<LoginPage/>", () => {
+  const navigateSpy = spyOn(navigate)
+  const page = render(<LoginPage/>)
+  const email = page.getByLabel(/email/i)
+  const password = page.getByLabel(/password/i)
+  const submitButton = page.getByLabel(/submit/i)
+
+  type(email, "credentials.email")
+  type(password, "credentials.password")
+  click(submitButton)
+
+  expect(page.getByLabel(/submit/i)).not.ToBeInDom()
+  expect(navigateSpy).toHaveBeenCalledWith("/")
+})
 ```
 
 ```diff showNumbers 2:6,8:10,13  
@@ -453,26 +744,17 @@ test("<LoginPage/>", () => {
 
 <Notes>
 
-- Vérifie redirigé vers page d'accueil quand on se log
+- Assertion cassée après groupement étapes: Avez découvert second test
 
-
-- Qu'est-ce qui fait test compliqué ?
-- Fouilli 
-- Quand test fail, et besoin + infos
-- check assertions -> actions -> arrange
-- Ici, sont cachées, Mélange: [setup][actions][vérification]
-- En gros, dur à suivre
-
-
-- Comment rendre plus clair ?
-- Grouper par type  
-- AAA
-- + add spaces
-- SIGNAL: 2 AAA
+- 2 run AAA
 
 </Notes>
 
+<!-- 👉 FUNCFACT END 👈 -->
+
 ---
+
+<!-- 👉 BA START 👈 -->
 
 <CodeSurferColumns {...splitCodeSampleProps}>
 
@@ -547,243 +829,16 @@ test("<LoginPage/>", () => {
 
 </Notes>
 
+<!-- 👉 BA END 👈 -->
+
 ---
 
-<StructureRefactors active={0} />
+<HardToNavigateRefactors active={1} />
 
 
 <Notes>
 
 - AAA
-
-</Notes>
-
----
-
-<!--
-****************************
-****************************
-** 👃 JUNK DRAWER
-****************************
-****************************
--->
-
-<Chapter emojis="🗑🗄" title="Junk Drawer" />
-
-<Notes>
-
-- Fourre tout
-
-</Notes>
-
----
-
-<CodeSurfer>
-
-```js showNumbers
-test("<LoginPage/>", () => {
-  // ...
-}) 
-```
-
-```js showNumbers
-test("<LoginPage/>", () => {
-  // verify can't submit if empty form
-
-  // verify email validation
-  
-  // Verify password validation
-    
-  // verify loading state
-    
-  // verify login fail displays error
-    
-  // verify login fail redirect error
-
-  // more stuff
-}) 
-```
-
-```js 1[6:39]
-test("method -> condition -> behavior", ()=>{})
-```
-
-```js 1[6:18]
-test("<LoginPage/> -> condition -> behavior", ()=>{})
-```
-
-```js 1[23:35]
-test("<LoginPage/> -> failed login -> behavior", ()=>{})
-```
-
-```js 1[39:60]
-test("<LoginPage/> -> failed login -> displays server error", ()=>{})
-```
-
-```js 1[7:54]
-test("<LoginPage/> failed login displays server error", ()=>{})
-```
-
-
-```js 
-describe("<LoginPage/>", () => {
-  describe("Failed login", () => {}) 
-  describe("Invalid form", () => {})
-  describe("Successful login", () => {})
-}) 
-```
-
-```js 
-describe("<LoginPage/>", () => {
-  describe("Failed login", () => {
-    test("Displays server error", ()=>{})
-    test("Requires captcha on subsequent attempts", ()=>{})
-    //...
-  }) 
-  describe("Invalid form", () => {})
-  describe("Successful login", () => {})
-}) 
-```
-
-</CodeSurfer>
-
-<Notes>
-
-- Juste 1 test ?
-- Suspect
-- Comment faire mieux ?
-
-
-- Scoper via convention nommage
-- Condition = qu'est-ce qui rend ce test spécial
-- Comportement = résultat suite condition
-- nesting par condition (découverte captcha)
-
-</Notes>
-
-
----
-
-<CodeSurferColumns  {...splitCodeSampleProps}>
-
-<Step>
-
-```js showNumbers subtitle="before"
-test("<LoginPage/>", () => {
-    // verify can't submit if empty form
-    
-    // verify email validation
-    
-    // Verify password validation
-    
-    // verify loading state
-    
-    // verify login fail displays error
-    
-    // verify login fail redirect error
-    
-    // more stuff
-}) 
-```
-
-```js showNumbers subtitle="After" 
-describe("<LoginPage/>", () => {
-  test("Invalid credentials displays server error", ()=> {})
-  test("Pending submission displays loader", ()=> {})
-  test("Successful login redirects to dashboard", ()=> {})
-}) 
-```
-
-</Step> 
-
-<Step>
-
-```diff 
-```
-
-```diff 3[300]
-```
-
-</Step>
-
-<Step>
-
-```diff 7[300]
-```
-
-```diff 
-```
-
-</Step>
-
-
-</CodeSurferColumns>  
-
-<Notes>
-
-- Avant: 
-- Dump code, tous cas tests ensemble
-- Probablement pas pensé à tout 
-- Horreur à maintenir (interdépendances étapes)
-
-
-- Apres:
-- Set petits tests concentrés sur pb unique
-- Charge mentale réduite
-- Onboarding + rapide -> Moins à connaitre quand arrive sur test
-- Aidé à mettre à jour cas spéciaux
-
-</Notes> 
-
----
-
-"I don't care"
-
-<Notes>
-
-- Nommage souvent problème
-- Bcp teams voient pas intérrêt
-- Pkoi ?
-- Guess what the error is when you broke:
-- Validation ?
-
-</Notes>
-
----
-
-<TestReport name="<LoginPage/>" >
-    <span style={{color:"lightgray"}}>// Some random error</span>
-</TestReport>
-
-<Notes>
-
-- Redirection ?
-- Error message ? 
-- Yup
-
-</Notes>
-
----
-
-<TestReport name="<LoginPage/> Successful login redirects to dashboard" >
-    <span style={{color:"lightgray"}}>// Some error that makes more sense now</span>
-</TestReport>
-
-<Notes>
-
-- Bon nom test = quel est pb
-- Lancer investigations
-- Réduire surface debug  
-
-</Notes>
-
----
-
-<StructureRefactors active={1} />
-
-<Notes>
-
-- Utiliser le nommage pour scoper
 
 </Notes>
 
@@ -802,11 +857,17 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
-- Chaque test = licorne/réinvente la roue/strategie différente
+- Bien pouvoir retrouver rapidement étapes test
+- Mais manière tester change à chaque fois, pas suffisant
+
+
+- Licorne = test pas comme les autres (sans bonnes raison)
 
 </Notes>
 
 ---
+
+<!-- 👉 REFACTOR START 👈 -->
 
 <CodeSurferColumns>
 
@@ -896,7 +957,11 @@ test("add() validation passed saves product to database", async () => {
 
 </Notes>   
 
+<!-- 👉 REFACTOR END 👈 -->
+
 ---
+
+<!-- 👉 BA START 👈 -->
 
 <CodeSurferColumns>
 
@@ -940,16 +1005,21 @@ test("add() validation passed saves product to database", async () => {
 
 </Notes>
 
+<!-- 👉 BA END 👈 -->
+
 ---
 
+<!-- 👉 OUTLINE START 👈 -->
 
-<StructureRefactors active={2} />
+<HardToNavigateRefactors active={2} />
 
 <Notes>
 
 - Choisit stratégie et on s'y colle 
 
 </Notes>
+
+<!-- 👉 OUTLINE END 👈 -->
 
 ---
 
@@ -966,13 +1036,10 @@ test("add() validation passed saves product to database", async () => {
 
 <Notes>
 
-- Manque expressivité 
-
-<br/>
-
-- Veut test maintenable
 - Travaillé structure -> capable trouver marque rapidement/nouveau test
 - Next: arriver à comprendre ce qui se passe
+
+
 - Aka
 - Mettre en valeur ce qui importance dans test
 - Cacher le reste
@@ -985,14 +1052,16 @@ test("add() validation passed saves product to database", async () => {
 <!--
 ****************************
 ****************************
-** 👃 LOST IN DETAILS
+** 👃 IMPERATIVERECIPE
 ****************************
 ****************************
 -->
 
-<Chapter emojis="📚🤔" title="Lost in details" />
+<Chapter emojis="📚🤔" title="Imperative recipe" />
 
 ---
+
+<!-- 👉 REFACTOR START 👈 -->
 
 <CodeSurfer>
 
@@ -1379,13 +1448,11 @@ function renderLoginPage() {
 - Test loginpage vérifie redirigé vers page d'accueil quand login
 
 
-- 5 sec pour dire ce qui se passe
-- Compliqué alors que peu de lignes
-- Comment mieux?
+- Juste 5 lignes
+- Impossible comprendre ce qui se passe 
 
 
-- Framework doit marcher pour tt monde -> utilitaires bas niveaux (utilisable pour tt usecase)
-- A nous combiner pièces en concept globaux
+- A nous donner sens
 
 
 - Create page/item specific helpers to match domain
@@ -1397,7 +1464,11 @@ function renderLoginPage() {
 
 </Notes>
 
+<!-- 👉 REFACTOR END 👈 -->
+
 ---
+
+<!-- 👉 BA START 👈 -->
 
 <CodeSurferColumns {...splitCodeSampleProps}>
 
@@ -1472,20 +1543,22 @@ test("<LoginPage/>", async () => {
 
 - Avant
 - 5 lignes mais dur comprendre/prendre en main 
-- Implique savoir target.value etc
+- Demande connaissance du framework (target.value)
 
 
 - Après
+- Simple
+- Se lit comme un guide/spec
 - Descriprion étapes comme pour guder personnes
-- Pas de détails implémentations
-- Compréhensible en 5s
 - Centralized knowledge (bonus)
 
 </Notes>
 
+<!-- 👉 BA END 👈 -->
+
 --- 
 
-<ExpressivenessRefactors active={0}  />
+<UnclearRefactors active={0}  />
 
 
 <Notes>
@@ -1499,206 +1572,25 @@ What, not how
 <!--
 ****************************
 ****************************
-** 👃 SUSPICIOUS VALUES
+** 👃 LOST IN DETAILS
 ****************************
 ****************************
 -->
 
-<Chapter emojis="👮‍♂️📦" title="Suspicious values" />
+<Chapter emojis="🌏👨‍🦲" title="Lost in details" />
 
 <Notes>
 
-- Valeurs suspectes
+
+- Clarifié/Donné sens à recette/étapes test
+- Next: Mettre en valeur détails importants
+- Aka fait test fail/pass
 
 </Notes>
 
 ---
 
-<CodeSurfer>
-
-```js showNumbers
-const count = 2
-```
-
-```js showNumbers
-const date = "20/03/2018"
-```
-
-```js showNumbers 3:4 
-test("<LoginPage/>", async () => {
-    const credentials = {
-       email: "john@imedia.com",
-       password: "57456",
-    }
-    const page = renderLoginPage()
-    page.allowLoginFor(credentials)
-    
-    page.fillInLoginForm(credentials)
-    await page.login()
-    
-    expect(navigate).toHaveBeenCalledWith("/")
-})
-```
-
-```js showNumbers 
-test("<LoginPage/>", async () => {
-    const credentials = {
-       email: "john@imedia.com",
-       password: "57456",
-    }
-    const page = renderLoginPage()
-    page.allowLoginFor(credentials)
-    
-    page.fillInLoginForm(credentials)
-    await page.login()
-    
-    expect(navigate).toHaveBeenCalledWith("/")
-})
-```
-
-```js showNumbers 
-test("<LoginPage/>", async () => {
-    const credentials = {
-       email: "🕺",
-       password: "🙈",
-    }
-    const page = renderLoginPage()
-    page.allowLoginFor(credentials)
-    
-    page.fillInLoginForm(credentials)
-    await page.login()
-    
-    expect(navigate).toHaveBeenCalledWith("/")
-})
-```
-</CodeSurfer>
-
-
-<Notes>
-
-- Why 2, why not 1
-- And why not 0
-- Whay "20/03/2018" why not 21st ?
-- Qu'est-ce qui dans cet email fait que test passe ou echoue ?
-- Mène à programmation par superstition
-- Commen mieux ?
-
-
-- Si compte pas, montre le
-- Rendre clair si test fail, pas besoin regarder là
-- Attention pas aller trop loin
-
-</Notes>
-
----
-
-<TestReport name="Some service test">
-    <Matchers.ToHaveBeenCalledWith  actual="🕺" expected="🙈" fnName="login" />
-</TestReport>
-
----
-
-<TestReport name="Some service test">
-    <Matchers.ToHaveBeenCalledWith  actual="credentials.password" expected="credentials.email" fnName="login" />
-</TestReport>
-
----
-
-<CodeSurferColumns {...splitCodeSampleProps}>
-
-<Step>
-
-```js showNumbers 2:5
-test("<LoginPage/>", async () => {
-    const credentials = {
-       email: "brucewayne@wayneenterprises.com",
-       password: "imbatman",
-    }
-    const page = renderLoginPage()
-    page.allowLoginFor(credentials)
-    
-    page.fillInLoginForm(credentials)
-    await page.login()
-    
-    expect(navigate).toHaveBeenCalledWith("/")
-})
-```
-
-```js showNumbers 2[100]
-test("<LoginPage/>", async () => {
-    const credentials = {
-       email: "credentials.email",
-       password: "credentials.password",
-    }
-    const page = renderLoginPage()
-    page.allowLoginFor(credentials)
-    
-    page.fillInLoginForm(credentials)
-    await page.login()
-    
-    expect(navigate).toHaveBeenCalledWith("/")
-})
-```
-
-</Step>
-
-<Step>
-
-```diff 2[100]
-```
-
-```diff 2:5
-```
-
-</Step>
-
-</CodeSurferColumns>
-
-<Notes>
-
-- Avant:
-- Programmation par superstition
-- "Qu'est ce qui fait dans ce combo que test pass ou non"
-- (Temps perdu, en fait on s'en moque)
-- ++ surface debug
-
-
-- Après
-- Gain temps, pb ailleurs
-- Meilleur failure 
-
-</Notes>
-
----
-
-Make the unimportant obviously unimportant
-
-<Notes>
-
-Montrer que ça ne compte pas
-
-</Notes>
-
----
-
-<!--
-****************************
-****************************
-** 👃 EVERYTHING BOLD
-****************************
-****************************
--->
-
-<Chapter emojis="🌏👨‍🦲" title="Everything bold" />
-
-<Notes>
-
-- Tout en gras
-- Dans texte 1 mot /2 en gras, plus rien ressort
-
-</Notes>
-
----
+<!-- 👉 REFACTOR START 👈 -->
 
 <CodeSurfer>
 
@@ -1844,7 +1736,11 @@ test("Valiation success adds user to repository", () => {
 
 </Notes>
 
+<!-- 👉 REFACTOR START 👈 -->
+
 ---
+
+<!-- 👉 BA START 👈 -->
 
 <CodeSurferColumns {...splitCodeSampleProps}>
 
@@ -1918,7 +1814,7 @@ test("Valiation success adds user to repository", () => {
 
 - Après:
 - Immédiatement clair Combo email password important
-- Si pb, probablement première piste
+- Sait que reste user pas important si debug
 
 </Notes>
 
@@ -1931,6 +1827,249 @@ Highlight what matters
 - Mettre en valeur détails important
 
 </Notes>
+
+<!-- 👉 BA END 👈 -->
+
+---
+
+<UnclearRefactors active={1}/>
+
+
+---
+
+<!--
+****************************
+****************************
+** 👃 SUSPICIOUS VALUES
+****************************
+****************************
+-->
+
+<Chapter emojis="👮‍♂️📦" title="Suspicious values" />
+
+<Notes>
+ 
+- Mis en valeur pièce comptent
+- Dans test parfois valeurs doivent être spécifiques, souvent on s'en moque 
+- Dur savoir quand
+ 
+ 
+- Valeurs suspectes = montrer si valeur sans importance
+
+</Notes>
+
+---
+
+<!-- 👉 REFACTOR START 👈 -->
+
+<CodeSurfer>
+
+```js showNumbers
+const count = 2
+```
+
+```js showNumbers
+const date = "20/03/2018"
+```
+
+```js showNumbers 3:4 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "john@imedia.com",
+       password: "57456",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "john@imedia.com",
+       password: "57456",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "credentials.email",
+       password: "credentials.password",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+</CodeSurfer>
+
+
+<Notes>
+
+- Why 2, why not 1
+- And why not 0
+- Whay "20/03/2018" why not 21st ?
+- Qu'est-ce qui dans cet email fait que test passe ou echoue ?
+- Mène à programmation par superstition
+- Commen mieux ?
+
+
+- Si compte pas, montre le
+- Rendre clair si test fail, pas besoin regarder là
+- Attention pas aller trop loin
+
+</Notes>
+
+---
+
+<TestReport name="Some service test">
+    <Matchers.ToHaveBeenCalledWith  actual="credentials.password" expected="credentials.email" fnName="login" />
+</TestReport>
+
+<!-- 👉 REFACTOR END 👈 -->
+
+---
+
+<!-- 👉 FUNFACT START 👈 -->
+
+<FunFact/>
+
+<Notes>
+
+- Attention à pas aller trop loin
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```js showNumbers 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "🕺",
+       password: "🙈",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+</CodeSurfer>
+
+---
+
+<TestReport name="Some service test">
+    <Matchers.ToHaveBeenCalledWith  actual="🕺" expected="🙈" fnName="login" />
+</TestReport>
+
+<Notes>
+
+- Ici message erreur test est complètement abstrait 
+
+</Notes>
+
+<!-- 👉 FUNFACT END 👈 -->
+
+---
+
+<!-- 👉 BA START 👈 -->
+
+<CodeSurferColumns {...splitCodeSampleProps}>
+
+<Step>
+
+```js showNumbers 2:5
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 2[100]
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "credentials.email",
+       password: "credentials.password",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+</Step>
+
+<Step>
+
+```diff 2[100]
+```
+
+```diff 2:5
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+<Notes>
+
+- Avant:
+- Inverse précédent, mise en valeur détail sans importance
+- ++ surface debug
+
+
+- Après
+- Gain temps, pb ailleurs
+- Meilleur failure 
+
+</Notes>
+
+<!-- 👉 BA END 👈 -->
+
+---
+
+<!-- 👉 OUTLINE START 👈 -->
+
+<UnclearRefactors active={2}/>
+
+<!-- 👉 OUTLINE END 👈 -->
 
 ---
 
@@ -1946,11 +2085,18 @@ Highlight what matters
 
 <Notes>
 
-From duplicate comment
+- Clarifié détails important
+- Rendu éviden ce qui fait test pass/fail dans valeurs/objets
+- Opportunité ++ précision dans nommage objets  
+
+
+- From duplicate comment
 
 </Notes>
 
 ---
+
+<!-- 👉 REFACTOR START 👈 -->
 
 <CodeSurfer>
 
@@ -2053,7 +2199,11 @@ test("Matching user in db returns match", async () => {
 
 </Notes>
 
+<!-- 👉 REFACTOR END 👈 -->
+
 ---
+
+<!-- 👉 BA START 👈 -->
 
 <CodeSurferColumns {...splitCodeSampleProps}>
 
@@ -2130,26 +2280,34 @@ test("Matching user in db returns match", async () => {
 <Notes>
 
 - Avant: 
+- Décris objet
 - A nous parcourir test pour comprendre différence user 1 et 2
-- Dois remonter ldap, comparer ldap,...
+- Place de chacune dans test
 
 
 - Après: 
 - Pas besoin lire assignation variable
 - Un user match, pas l'autre
-- Proche spec
+- Si on décrivait fonctionnement à qqun, c'est probablement comme ça qu'on dirais
 
 </Notes>
+
+<!-- 👉 BA END 👈 -->
 
 ---
 
-Put naming to work
+<!-- 👉 OUTLINE START 👈 -->
+
+<UnclearRefactors active={3} />
 
 <Notes>
 
-- Utiliser les noms pour préciser les concepts
+- Renommer objet en fonction role dans test
+- Pas son type (user)
 
 </Notes>
+
+<!-- 👉 OUTLINE END 👈 -->
 
 --- 
 

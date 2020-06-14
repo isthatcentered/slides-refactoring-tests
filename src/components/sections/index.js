@@ -1,6 +1,7 @@
 import * as React from "react";
 import makeStyleComponent from "../../make-style-component";
 import theme from "../../theme";
+import { sections } from "../knowledge";
 
 const Wrapper = makeStyleComponent({
   display: "flex",
@@ -47,25 +48,6 @@ const Title = makeStyleComponent({
   fontSize: 60,
   color: theme.colors.primaryDark,
 });
-
-const sections = [
-  {
-    emoji: "🗺😤",
-    title: "Hard to navigate"//"Structure", // hard to navigate
-  },
-  {
-    emoji: "🧐🤯",
-    title: "Unclear", // too much details ?"Expressiveness", // cryptic recipe, unclear, drowning in details, info dump
-  },
-  {
-    emoji: "📝🤷‍♂️",
-    title: "Useless failure", // "Feedback", // useless failures
-  },
-  {
-    emoji: "😵🤠",
-    title: "Broken but working" // "Flexibility", // broks for the wrong reasons
-  },
-];
 
 const Sections = ({ active }) => (
   <Wrapper>
