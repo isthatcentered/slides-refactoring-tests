@@ -1023,6 +1023,24 @@ test("add() validation passed saves product to database", async () => {
 
 ---
 
+<!-- 👉 SECTION RECAP 👈 -->
+
+<HardToNavigateRefactors />
+
+<Notes>
+
+- Travaillé 
+- Nommage
+- structure
+- Conventions
+- Capables retrouver marques ds test rapidement
+
+</Notes>
+
+<!-- 👉 SECTION RECAP 👈 -->
+
+---
+
 <!--
 *****************************************************************************
 *****************************************************************************
@@ -1036,7 +1054,6 @@ test("add() validation passed saves product to database", async () => {
 
 <Notes>
 
-- Travaillé structure -> capable trouver marque rapidement/nouveau test
 - Next: arriver à comprendre ce qui se passe
 
 
@@ -2311,6 +2328,23 @@ test("Matching user in db returns match", async () => {
 
 --- 
 
+<!-- 👉 SECTION RECAP 👈 -->
+
+<UnclearRefactors />
+
+<Notes>
+
+- ?Capables retrouver marques rapidement  
+- Comprendre 
+- Comment fonctionnement/etapes
+- Cibler rapidement détails font test pass/fail rapidement
+
+</Notes>
+
+<!-- 👉 SECTION RECAP 👈 -->
+
+---
+
 <!--
 *****************************************************************************
 *****************************************************************************
@@ -2322,11 +2356,6 @@ test("Matching user in db returns match", async () => {
 <Sections active={2}/>
 
 <Notes>
-
-- Capables retrouver marques rapidement  
-- Comprendre étapes et détails font test pass/fail rapidement
-
-<br/>
 
 - Next: feedback  
 - When fail, in ci/during refactor (rester en flow)
@@ -2342,21 +2371,22 @@ test("Matching user in db returns match", async () => {
 <!--
 ****************************
 ****************************
-** 👃 Undefined is not a function
+** 👃 MEANINGLESS VALUES
 ****************************
 ****************************
 -->
 
-<Chapter emojis="🎰🤡" title="Undefined is not a function" />
+<Chapter emojis="🎰🤡" title="Meaningless values" />
 
 <Notes>
 
-- Ever had that error
-- Vrai, mais aucun context/indice sur cause 
+- Valeurs qui ne veulent rien dire 
 
 </Notes>
 
 ---
+
+<!-- 👉 REFACTOR START 👈 -->
 
 <TestReport name="chars() returns every char in string">
     <Matchers.ToBe actual={5} expected={0} />
@@ -2365,7 +2395,6 @@ test("Matching user in db returns match", async () => {
 <Notes>
 
 - Vérifie char() retourne tableau contenant chaque char string
-- Pourtant message erreur parle de nombres 
 - C'est quoi 0, c'est quoi 5 ?
 - Aucun contexte pour comprendre signification valeurs
 
@@ -2472,7 +2501,11 @@ test("Cannot re-submit form until post completion", () => {
     <Matchers.ToBeDisabled />
 </TestReport>
 
+<!-- 👉 REFACTOR END 👈 -->
+
 ---
+
+<!-- 👉 BA START 👈 -->
 
 <SplitBA
  left={
@@ -2501,15 +2534,21 @@ test("Cannot re-submit form until post completion", () => {
 
 </Notes>
 
+<!-- 👉 BA END 👈 -->
+
 ---
 
-Provide context
+<!-- 👉 OUTLINE START 👈 -->
+
+<UselessFailureRefactors active={0} />
 
 <Notes>
 
 - Bonne failure donne/sens contexte à valeurs reçues
 
 </Notes>
+
+<!-- 👉 OUTLINE END 👈 -->
 
 ---
 
@@ -2521,15 +2560,21 @@ Provide context
 ****************************
 -->
 
-<Chapter emojis="🧠🗑" title="Memory dump" />
+<Chapter emojis="🧠🗑" title="Giant diff" />
 
 <Notes>
 
-Memory dump 
+- parfois manque d'infos
+- parfois juste trop 
+
+
+- Giant diff
 
 </Notes>
 
 ---
+
+<!-- 👉 REFACTOR START 👈 -->
 
 <TestReport name="Orders users by id descending">
     <Matchers.ToEqual 
@@ -2723,7 +2768,11 @@ test(`Gets user by id`, async () => {
 
 </Notes>
 
+<!-- 👉 REFACTOR END 👈 -->
+
 ---
+
+<!-- 👉 BA START 👈 -->
 
 <SplitBA 
     left={
@@ -2775,9 +2824,21 @@ test(`Gets user by id`, async () => {
  
 </Notes>
 
+<!-- 👉 BA END 👈 -->
+
 ---
 
-Simplify results
+<!-- 👉 OUTLINE START 👈 -->
+
+<UselessFailureRefactors active={1} /> 
+
+<Notes>
+
+- Sélectionner valeur permet identifier pb
+
+</Notes>
+
+<!-- 👉 OUTLINE END 👈 -->
 
 ---
 
@@ -2793,11 +2854,16 @@ Simplify results
 
 <Notes>
 
+- Vu besoin identifier rapidement valeurs et pb
+- ++ quand juste vérifier passage objet
+
 - Echec localisation 
 
 </Notes>
 
 ---
+
+<!-- 👉 REFACTOR START 👈 -->
 
 <CodeSurfer>
 
@@ -2933,7 +2999,11 @@ const traceable = (object, identifier) => {
 
 </Notes>
 
+<!-- 👉 REFACTOR END 👈 -->
+
 ---
+
+<!-- 👉 BA START 👈 -->
 
 <SplitBA 
     left={
@@ -2986,26 +3056,49 @@ const traceable = (object, identifier) => {
 
 </Notes>
 
+<!-- 👉 BA END 👈 -->
+
 ---
 
-Tag objects
+
+<!-- 👉 OUTLINE START 👈 -->
+
+<UselessFailurRefactors active={2}/>
 
 <Notes>
 
-- Faciliter identification objets
+- Tagger objets pour identification rapide
 
 </Notes>
 
+<!-- 👉 OUTLINE END 👈 -->
+
 ---
 
-<Sections active={3}/>
+<!-- 👉 SECTION RECAP 👈 -->
+
+<UselessFailurRefactors />
 
 <Notes>
 
 - On a tests facile à aborder
 - A comprendre
 - Avec des erreurs utiles
+- Vu comment 
+- donner context à valeurs
+- Faciliter identification pb
+- Faciliter debugging delegation
 
+
+</Notes>
+
+<!-- 👉 SECTION RECAP 👈 -->
+
+---
+
+<Sections active={3}/>
+
+<Notes>
 
 - Dernière étape assurer flexibles
 - Test casse c'est pour bonne raison:
@@ -3019,23 +3112,22 @@ Tag objects
 <!--
 ****************************
 ****************************
-** 👃 THE CREEP
+** 👃 IMPLEMENTATION AWARE
 ****************************
 ****************************
 -->
 
-<Chapter emojis="🔎😏" title="The creep" />
+<Chapter emojis="🔎😏" title="Implementation aware" />
 
 <Notes>
 
-- Le "creep"
-- Le pervers
-- Celui qui sait des chôses qui ne le regardent pas
+- Se sert de l'api privée/etat interne pour tester
 
 </Notes>
 
 ---
 
+<!-- 👉 REFACTOR START 👈 -->
 
 <CodeSurfer>
 
@@ -3105,7 +3197,11 @@ test(`Displays a loader on page refresh`, ( ) => {
 
 </Notes>
 
+<!-- 👉 REFACTOR END 👈 -->
+
 ---
+
+<!-- 👉 BA START 👈 -->
 
 <CodeSurferColumns {...splitCodeSampleProps}>
 
@@ -3178,29 +3274,47 @@ test(`Displays a loader on page refresh`, ( ) => {
 
 </Notes>
 
+<!-- 👉 BA END 👈 -->
+
 ---
 
-Test via the public api
+<!-- 👉 OUTLINE START 👈 -->
+
+<BrokenButWorkingRefactors  active={0} />
+
+<Notes>
+
+- Tester via api publique
+
+</Notes>
+
+<!-- 👉 OUTLINE END 👈 -->
 
 ---
 
 <!--
 ****************************
 ****************************
-** 👃 MYSTERY GUEST
+** 👃 ENVIRONMENT DEPENDANT
 ****************************
 ****************************
 -->
 
-<Chapter emojis="👻🎁" title="Mystery guest" />
+<Chapter emojis="👻🎁" title="Environment dependant" />
 
 <Notes>
 
-- L'invité mystère
+- Protégé refactors
+- Mais pas seule chose externe qui peut casser test
+
+
+- Dépend environnement
 
 </Notes>
 
 ---
+
+<!-- 👉 REFACTOR START 👈 -->
 
 <CodeSurfer>
 
@@ -3289,7 +3403,11 @@ test(`Returns first item in table`, async () => {
 
 </Notes>
 
+<!-- 👉 REFACTOR END 👈 -->
+
 ---
+
+<!-- 👉 BA START 👈 -->
 
 <CodeSurferColumns {...splitCodeSampleProps}>
 
@@ -3383,9 +3501,13 @@ test(`Returns first item in table`, async () => {
 
 </Notes>
 
+<!-- 👉 BA END 👈 -->
+
 ---
 
-Control your data
+<!-- 👉 OUTLINE START 👈 -->
+
+<BorkenButWorkingRefactors active={0} />
 
 
 <Notes>
@@ -3394,13 +3516,18 @@ Control your data
 
 </Notes>
 
+<!-- 👉 OUTLINE END 👈 -->
+
 ---
 
-<Chapter emojis="📚😓" title="Overspecified" />
+<Chapter emojis="📚😓" title="Interlinked" />
 
 <Notes>
 
-- Trop spécifié
+- Autre exemple + incidieux
+- Dépendance interne (test cass autre partie spec change)
+
+- Interconnecté
 
 </Notes>
 
@@ -3456,7 +3583,7 @@ test(`Lists all validation failures`, () => {
 
 - Checks validateOrder liste toutes erreur validation pour commande donnée
 
-
+- // test rsponsabilité ui & "record?"
 - Veut vérifier toute clés en erreur + string erreur associée
 - Mais vérifie implicitement msg validation
 - Responsabilité autre test
@@ -3474,7 +3601,11 @@ test(`Lists all validation failures`, () => {
 
 </Notes>
 
+<!-- 👉 REFACTOR END 👈 -->
+
 --- 
+
+<!-- 👉 BA START 👈 -->
 
 <CodeSurferColumns {...splitCodeSampleProps}>
 
@@ -3552,15 +3683,17 @@ test(`Lists all validation failures`, () => {
 
 </Notes>
 
+<!-- 👉 BA END 👈 -->
+
 ---
 
-Only assert on what matters
+<!-- 👉 OUTLINE START 👈 -->
+
+<BrokenButWorkingRefactors active={1} />
 
 <Notes>
 
-- Vérifier seulement ce qui compte
-- parfois veut dire assertion plus souple 
-// use loose matcher
+- relâcher/généraliser assertion
 
 </Notes>
 
@@ -3578,11 +3711,14 @@ Only assert on what matters
 
 <Notes>
 
+- celui voit plus
 - Couverture de code redondante
 
 </Notes>
 
 ---
+
+<!-- 👉 REFACTOR START 👈 -->
 
 <CodeSurfer>
 
@@ -3675,7 +3811,11 @@ test("add() validation passed saves user to database", async () => {
 
 </Notes>
 
+<!-- 👉 REFACTOR END 👈 -->
+
 ---
+
+<!-- 👉 BA START 👈 -->
 
 <CodeSurferColumns {...splitCodeSampleProps}>
 
@@ -3760,42 +3900,69 @@ test("add() validation passed saves user to database", async () => {
 
 </Notes>
 
----
-
-Control the environment
+<!-- 👉 BA END 👈 -->
 
 ---
 
-<div style={{fontSize: 150}}>
-    <Appear>
-        <span>🏗 +</span>
-        <span>💯 +</span>
-        <span>👌 +</span>
-        <span>🤸</span>
-    </Appear>
-    <span>{" "}= 🤩</span>
-</div>
+<BrokenButWorkingRefactors active={2} />
 
+---
+
+<HardToNavigateRefactors/>
 
 <Notes>
 
-- Vu: 
-- Faciliter prise en main ( Structure 🏗)
-- Faciliter compréhension (Expressiveness 💯)
-- Faciliter debugging (Feedback 👌)
-- Réduire maintenace nécéssaire (Flexibility 🤸‍)
+- Faciliter prise en main via structure en conventions communes
 
+</Notes>
 
-- vie plus simple
+---
 
+<UnclearRefactors/>
 
-- Pas oblige tout appliqué
+<Notes>
+
+- Faciliter compréhension via simplification language et mise en valeur détails importants
+
+</Notes>
+
+---
+
+<UselessFailureRefactors/>
+
+<Notes>
+
+- Accélérer le debugging clarifiant msg erreur
+
+</Notes>
+
+---
+
+<BrokenButWorkingRefactors/>
+
+<Notes>
+
+- Avoir test cassent pour bonne raison en supprimant dépendance implicites
+
+</Notes>
+
+---
+
+<FunFact />
+
+<Notes>
+
+- Pas oblige tout appliquer
 - Chaque refactor apporte bout mm bénéfices:
 - Surface débug réduite
 - Meilleur compréhension pb
 - Rapprochement spec (language)
 
 </Notes>
+
+---
+
+<Section title="Merci" emoji="🖖"/>
 
 ---
 

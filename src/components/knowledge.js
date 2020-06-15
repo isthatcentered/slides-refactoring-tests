@@ -65,7 +65,7 @@ export const uselessFailureRefactors = [
   {
     smell: "Giant diff", // Manual diff, giant diff
     consequence: "Up to you to find what the  problem is and what it means",
-    refactor: "Simplify results", // pluck identifier
+    refactor: "Pluck indentifier value", // pluck identifier
   },
   {
     smell: "Trace fail", // No id, random dump, can't id owner, no owner id, missing id

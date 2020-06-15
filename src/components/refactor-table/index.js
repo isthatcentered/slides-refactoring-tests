@@ -1,7 +1,12 @@
 import * as React from "react";
 import theme from "../../theme";
 import makeStyleComponent from "../../make-style-component";
-import { brokenButWorkingRefactors, hardToNavigateRefactors, unclearRefactors, uselessFailureRefactors } from "../knowledge";
+import {
+  brokenButWorkingRefactors,
+  hardToNavigateRefactors,
+  unclearRefactors,
+  uselessFailureRefactors,
+} from "../knowledge";
 
 const Emoji = makeStyleComponent(
   { fontSize: 72, display: "block", marginRight: ".25em" },
@@ -34,7 +39,7 @@ const Body = makeStyleComponent({
 });
 
 const BodyCell = makeStyleComponent({
-  padding: 32,
+  padding: "32px 48px",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -43,6 +48,7 @@ const BodyCell = makeStyleComponent({
   fontSize: 65,
   width: "50%",
   position: "relative",
+  textAlign: "center",
 });
 const Row = makeStyleComponent({
   display: "flex",
