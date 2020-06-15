@@ -14,7 +14,7 @@ export const hardToNavigateRefactors = [
     // unfocused
     smell: "Mixed steps",
     consequence: "Hard to navigate",
-    refactor: "Arrange,Act, assert",
+    refactor: "Arrange, Act,  assert",
     funfact: "if applying structure breaks some assertions, you have discovered another AAA structure",
   },
   {
@@ -33,7 +33,7 @@ export const hardToNavigateRefactors = [
 export const unclearRefactors = [
   {
     // smell: "Lost in details", // meaningless recipe . Miromanagement -> drill sergeatn -> detail oriented -> imperative recipe
-    smell: "Imperative recipe",
+    smell: "Meaningless recipe",
     consequence: "Can't understand what happens",
     refactor: "Extract domain helpers", // no clue what you're trying to do
   },

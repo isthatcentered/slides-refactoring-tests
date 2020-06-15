@@ -36,7 +36,9 @@ export const FunFact = () => <div>Also</div>
 
 <Notes>
 
-- Tous les jours importance clean code
+- Dur passer jour sans entendre parler clean code
+- Article, livre, collegue, video, ... 
+- Tous jours pappel importance
 
 </Notes>
 
@@ -56,7 +58,7 @@ export const FunFact = () => <div>Also</div>
 
 - Prendre soin code
 - Méthodes courtes
-- Renommer encore methodes, class, variable 
+- Renommer methodes, class, variable 
 - Jusqu''à ce que ça se lise comme poésie
 - Et puis pourtants fichiers test:
 
@@ -182,11 +184,40 @@ test("<Signup/>", async () => {
 - = + features
 - = - bugs
 
-<br/>
+</Notes>
 
-- Problème arrive quand deadline
-- Par défaut Test = premier truc à sauter
-- Donc pkoi refactorer ? Parce que si test fait peur -> test saute
+---
+
+<EmojiSlide caption="The always lurking deadline" >⏰☠️</EmojiSlide>
+
+<Notes>
+
+- Problème arrive quand deadline fait sentir
+- Par défaut Test = premier truc à sauter qd pression
+- Donc pkoi refactorer/prendre soin test/dépenser temps à rendre plus compréhensibles ?
+
+</Notes>
+
+---
+
+<EmojiSlide caption="Complicated tests end up abandoned" >😱🙅‍♂️</EmojiSlide>
+
+<Notes>
+
+- Parce que si test fait peur -> test saute
+- ou "commenté pour le reactiver plus tard"
+
+</Notes>
+
+---
+
+<TestsVsDevKnowledgeTable dev="🧩" tests="📚" result="😀" />
+
+<Notes>
+
+- Donc pb avec test en moins
+- Vite fait mal tourner
+- Test en moins = pièce en plus en tête
 
 </Notes>
 
@@ -196,8 +227,10 @@ test("<Signup/>", async () => {
 
 <Notes>
 
-- test en moins = pièce en plus 
-- (cas erreur feature + cas erreur tests supprimés)
+- Si supprime test
+- Doit gérer feature + effet de bord code non testé
+- MANUELLEMNT
+- Doit penser à tous cas tests 
 
 </Notes>
 
@@ -208,11 +241,10 @@ test("<Signup/>", async () => {
 
 <Notes>
 
-- Et donc - test = + en mémoire 
-- tendence inversée + en tête que ds tests
-- ++ checks manuels -- checks auto
-- Dur penser à tout donc
+- ++ tests commentés -> ++ cas tests à garder en tête
+- Effets de bords à anticiper
 - 2 pas arrières pour 1 en avant
+- modifie truc -> créé bugs 
 
 </Notes>
 
@@ -248,6 +280,7 @@ test("<Signup/>", async () => {
 - So bugs
 - frutrated users
 - lost money
+- but aujourd'hui: 
 
 </Notes>
 
@@ -264,7 +297,6 @@ test("<Signup/>", async () => {
   
 <Notes>
 
-- but aujourd'hui: 
 - Identifier smells qui font test difficile maintenir
 - Voir pistes pour faire mieux
 - combo smell -> refactor
@@ -413,18 +445,23 @@ describe("<LoginPage/>", () => {
 <Notes>
 
 - Juste 1 test ?
+- Dump ensemble cas tests pensé sur moment
 
 
-- Mise en danger autres test
-- ++ y a code à un endroit, ++ danger casser en changeant qqc (ici, désactiver)
-- Surface à apprendre très large, doit comprendre tt test pour cibler ce qui m'intéresse 
+- Fait peur
+- Dur à prendre en main (Surface à apprendre très large)
+- Fixer failure met danger autres cas test
+- Tous désactivé un truc pour check et oublié réactiver
 
 
 - Scoper via convention nommage
+- Aide découvrir cas spéciaux feature/penser à tout
+
+
 - Condition = qu'est-ce qui rend ce test spécial
 - Comportement = résultat suite condition
 - plusieurs cas possibles par condition (might be another condition)
-- nesting par condition (découverte captcha)
+- (nesting test peut simplifier la vie là dessus)
 
 </Notes>
 
@@ -450,6 +487,7 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
+- "login page cassée"
 - Redirection ?
 - Error message ? 
 - Yup
@@ -536,9 +574,7 @@ describe("<LoginPage/>", () => {
 
 - Avant: 
 - Test vas couter cher en maintenance et énergie
-- Dump code, tous cas tests ensemble
-- Grandes chances finir avec bouts désactivés
-- Pour modifier, doit connaitre tout test et tout code
+- 300 lignes à gérer sans faire d'erreur quelque soit pb
 
 
 - Apres:
@@ -556,7 +592,8 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
-- Utiliser le nommage pour scoper
+- Quand test qui fait tout
+- Rescoper via convention nommage
 
 </Notes>
 
@@ -574,8 +611,7 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
-
-- Réduit surface test
+- On a rescopé tests
 - Next, pouvoir trouver marques
 
 
@@ -694,9 +730,10 @@ test("<LoginPage/>", () => {
 - Vérifie redirigé vers page d'accueil quand on se log
 
 
-- Veut comprendre failure via chaine assertions -> actions -> setup
+- Quand test fail veut cibler rapidement pb
+- Localiser assertion puis remonter
 - Ici mélangées
-
+- Dur trouver rapidement info
 
 - Grouper par type
 - Ajouter espaces  
@@ -744,8 +781,14 @@ test("<LoginPage/>", () => {
 
 <Notes>
 
-- Assertion cassée après groupement étapes: Avez découvert second test
+- Suite réarrangement, cassé assertion
 
+
+- Dit bouton submit désactivé quand formulaire pas remplis
+- Faux puisque formulaire remplis dans etape act
+
+
+- Assertion cassée après groupement étapes: Avez découvert second test
 - 2 run AAA
 
 </Notes>
@@ -847,21 +890,22 @@ test("<LoginPage/>", () => {
 <!--
 ****************************
 ****************************
-** 👃 Unicorns everywhere
+** 👃 THE UNICORN
 ****************************
 ****************************
 -->
 
-<Chapter emojis="🦄🗺" title="Unicorns everywhere" />
+<Chapter emojis="🦄🗺" title="Unicorn" />
 
 
 <Notes>
 
-- Bien pouvoir retrouver rapidement étapes test
-- Mais manière tester change à chaque fois, pas suffisant
+- Peut retrouver rapidement étapes test
+- Mais si implémentation test complètement différente de tout vu ailleurs ds appli
+- Vas pas suffir
 
 
-- Licorne = test pas comme les autres (sans bonnes raison)
+- Licorne = quand test fait choses différement rest appli (sans bonnes raisons)
 
 </Notes>
 
@@ -904,20 +948,20 @@ test("add() validation passed saves product to database", async () => {
 
 <Step>
 
-```diff 2:4,9 subtitle="Real collaborators"
+```diff 2:4,9 
 ```
 
-```diff
+```diff 6[300]
 ```
 
 </Step>
 
 <Step>
 
-```diff 
+```diff 6[300]
 ```
 
-```diff 2:4,6,10 subtitle="Mocks only"
+```diff 2:4,6,10 
 ```
 
 </Step>
@@ -932,27 +976,20 @@ test("add() validation passed saves product to database", async () => {
 
 </Step>
 
-<Step>
-
-```diff 
-```
-
-```diff 
-```
-
-</Step>
-
 </CodeSurferColumns>
 
 <Notes>
 
-- 2 tests services vérifient truc ajouté à bdd
+- 2 tests (service A et B) vérifient services ajoute truc à bdd
 
 
-- 2 tests font exactement mm chose
-- Prend truc, ajout, verifie ajouté
+- Premier via vrai collabs
+- Second via mocks
+
+
+- Pourtant font exactement mm chose
+- "Prend truc, ajout, verifie ajouté"
 - Donc mm chôse, implémentation complètement différente
-- Suite 10 tests chacun complètement différent
 - Comment faire mieux ?
 
 </Notes>   
@@ -1001,7 +1038,10 @@ test("add() validation passed saves product to database", async () => {
 
 <Notes>
 
-- Ici test services via mock 
+- Choisit strategie
+- On s'y colle
+- Si décide tests services via mock
+- Fait touts tests service via mock 
 
 </Notes>
 
@@ -1015,7 +1055,9 @@ test("add() validation passed saves product to database", async () => {
 
 <Notes>
 
-- Choisit stratégie et on s'y colle 
+- Face Licorne
+- Standardize
+- Regarde comment fait ailleurs, et fait pareil
 
 </Notes>
 
@@ -1033,7 +1075,7 @@ test("add() validation passed saves product to database", async () => {
 - Nommage
 - structure
 - Conventions
-- Capables retrouver marques ds test rapidement
+- Facilité prise en main test
 
 </Notes>
 
@@ -1044,7 +1086,7 @@ test("add() validation passed saves product to database", async () => {
 <!--
 *****************************************************************************
 *****************************************************************************
-** Expressiveness 💯 *********************************************************
+** Unclear 💯 *********************************************************
 *****************************************************************************
 *****************************************************************************
 -->
@@ -1069,12 +1111,18 @@ test("add() validation passed saves product to database", async () => {
 <!--
 ****************************
 ****************************
-** 👃 IMPERATIVERECIPE
+** 👃 Meaningless recipe
 ****************************
 ****************************
 -->
 
-<Chapter emojis="📚🤔" title="Imperative recipe" />
+<Chapter emojis="📚🤔" title="Meaningless recipe" />
+
+<Notes>
+
+- Recette qui n'a pas de sens
+
+</Notes>
 
 ---
 
@@ -1129,14 +1177,11 @@ test("<LoginPage/>", async () => {
        password: "imbatman",
     }
     const page = render(<LoginPage />)
-    const emailInput = page.getByLabelText(/email/i)
     const passwordInput = page.getByLabelText(/password/i)
     const submitButton = page.getByRole("button", { name: /login/i })
     when(login(credentials)).mockResolvedValue(true)
     
-    fireEvent.change(emailInput, {
-        target: { value: credentials.email },
-    })
+    type(/email/i, credentials.email, page )
     fireEvent.change(passwordInput, { target: { value: credentials.password } })
     fireEvent.submit(submitButton)
     await new Promise(resolve => process.nextTick(resolve))
@@ -1145,18 +1190,15 @@ test("<LoginPage/>", async () => {
 })
 ```
 
-```js showNumbers 
-const customRender = (component) => {
-    const page = render(component)
+```diff 14,19
+```
 
-    const type = (target, value) => {
-      const input = page.getByLabelText(target)
-      fireEvent.change(input, {
-        target: { value },
-      })
-    }
-  
-    return {...page, type}
+```js showNumbers 
+const type = (target, value, page) => {
+  const input = page.getByLabelText(target)
+  fireEvent.change(input, {
+      target: { value },
+  })
 }
 
 test("<LoginPage/>", async () => {
@@ -1165,15 +1207,11 @@ test("<LoginPage/>", async () => {
        password: "imbatman",
     }
     const page = render(<LoginPage />)
-    const emailInput = page.getByLabelText(/email/i)
-    const passwordInput = page.getByLabelText(/password/i)
     const submitButton = page.getByRole("button", { name: /login/i })
     when(login(credentials)).mockResolvedValue(true)
     
-    fireEvent.change(emailInput, {
-        target: { value: credentials.email },
-    })
-    fireEvent.change(passwordInput, { target: { value: credentials.password } })
+    type(/email/i, credentials.email, page )
+    type(/password/i, credentials.password, page )
     fireEvent.submit(submitButton)
     await new Promise(resolve => process.nextTick(resolve))
     
@@ -1181,18 +1219,20 @@ test("<LoginPage/>", async () => {
 })
 ```
 
-```js showNumbers 
-const customRender = (component) => {
-    const page = render(component)
+```diff 19,14
+```
 
-    const type = (target, value) => {
-      const input = page.getByLabelText(target)
-      fireEvent.change(input, {
-        target: { value },
-      })
-    }
-  
-    return {...page, type}
+```js showNumbers 
+const type = (target, value, page) => {
+  const input = page.getByLabelText(target)
+  fireEvent.change(input, {
+      target: { value },
+  })
+}
+
+const submit = (target, page) => {
+  const element = page.getByRole("button", { name: /login/i } )
+  fireEvent.submit(element)
 }
 
 test("<LoginPage/>", async () => {
@@ -1200,119 +1240,66 @@ test("<LoginPage/>", async () => {
        email: "brucewayne@wayneenterprises.com",
        password: "imbatman",
     }
-    const page = customRender(<LoginPage />)
-    const submitButton = page.getByRole("button", { name: /login/i })
+    const page = render(<LoginPage />)
     when(login(credentials)).mockResolvedValue(true)
     
-    page.type(/email/i, credentials.email )
-    page.type(/password/i, credentials.password )
-    fireEvent.submit(submitButton)
+    type(/email/i, credentials.email, page )
+    type(/password/i, credentials.password, page )
+    submit(/login/i, page)
     await new Promise(resolve => process.nextTick(resolve))
     
     expect(navigate).toHaveBeenCalledWith("/")
 })
 ```
 
-```diff 25
+```diff 24
 ```
 
 ```js showNumbers 
-const customRender = (component) => {
-    const page = render(component)
-
-    const type = (target, value) => {
-      const input = page.getByLabelText(target)
-      fireEvent.change(input, {
-        target: { value },
-      })
-    }
-  
-    const submit = (target) => {
-      const element = page.getByRole("button", { name: /login/i } )
-      fireEvent.submit(element)
-    }
-
-  
-    return {...page, type, submit}
+const type = (target, value, page) => {
+  const input = page.getByLabelText(target)
+  fireEvent.change(input, {
+      target: { value },
+  })
 }
+
+const submit = (target, page) => {
+  const element = page.getByRole("button", { name: /login/i } )
+  fireEvent.submit(element)
+}
+ 
+const waitForPendingPromisesToComplete = () => 
+  new Promise(resolve => process.nextTick(resolve))
 
 test("<LoginPage/>", async () => {
     const credentials = {
        email: "brucewayne@wayneenterprises.com",
        password: "imbatman",
     }
-    const page = customRender(<LoginPage />)
-    const submitButton = page.getByRole("button", { name: /login/i })
+    const page = render(<LoginPage />)
     when(login(credentials)).mockResolvedValue(true)
     
-    page.type(/email/i, credentials.email )
-    page.type(/password/i, credentials.password )
-    fireEvent.submit(submitButton)
-    await new Promise(resolve => process.nextTick(resolve))
+    type(/email/i, credentials.email, page )
+    type(/password/i, credentials.password, page )
+    submit(/login/i, page)
+    await waitForPendingPromisesToComplete()
     
     expect(navigate).toHaveBeenCalledWith("/")
 })
+```
+
+```diff 1:14
 ```
 
 ```js showNumbers 
 const customRender = (component) => {
     const page = render(component)
 
-    const type = (target, value) => {
-      const input = page.getByLabelText(target)
-      fireEvent.change(input, {
-        target: { value },
-      })
-    }
+    const type = (target, value) => { /* code */ }
   
-    const submit = (target) => {
-      const element = page.getByRole("button", { name: /login/i } )
-      fireEvent.submit(element)
-    }
+    const submit = (target) => { /* code */ }
 
-  
-    return {...page, type, submit}
-}
-
-test("<LoginPage/>", async () => {
-    const credentials = {
-       email: "brucewayne@wayneenterprises.com",
-       password: "imbatman",
-    }
-    const page = customRender(<LoginPage />)
-    when(login(credentials)).mockResolvedValue(true)
-    
-    page.type(/email/i, credentials.email )
-    page.type(/password/i, credentials.password )
-    page.submit(/login/i)
-    await new Promise(resolve => process.nextTick(resolve))
-    
-    expect(navigate).toHaveBeenCalledWith("/")
-})
-```
-
-```diff 31
-```
-
-```js showNumbers 
-const customRender = (component) => {
-    const page = render(component)
-
-    const type = (target, value) => {
-      const input = page.getByLabelText(target)
-      fireEvent.change(input, {
-        target: { value },
-      })
-    }
-  
-    const submit = (target) => {
-      const element = page.getByRole("button", { name: /login/i } )
-      fireEvent.submit(element)
-    }
-
-    const waitForPendingPromisesToComplete = () => 
-          new Promise(resolve => process.nextTick(resolve))
-
+    const waitForPendingPromisesToComplete = () => { /* code */ }
   
     return {...page, type, submit, waitForPendingPromisesToComplete}
 }
@@ -1322,19 +1309,16 @@ test("<LoginPage/>", async () => {
        email: "brucewayne@wayneenterprises.com",
        password: "imbatman",
     }
-    const page = customRender(<LoginPage />)
+    const page = render(<LoginPage />)
     when(login(credentials)).mockResolvedValue(true)
     
-    page.type(/email/i, credentials.email )
-    page.type(/password/i, credentials.password )
-    page.submit(/login/i)
-    await page.waitForPendingPromisesToComplete()
+    type(/email/i, credentials.email, page )
+    type(/password/i, credentials.password, page )
+    submit(/login/i, page)
+    await waitForPendingPromisesToComplete()
     
     expect(navigate).toHaveBeenCalledWith("/")
 })
-```
-
-```diff 1:20
 ```
 
 ```js showNumbers 
@@ -1344,6 +1328,24 @@ export const customRender = (component) => {
 }
 ```
 
+```js showNumbers 6 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = customRender(<LoginPage />)
+    when(login(credentials)).mockResolvedValue(true)
+    
+    type(/email/i, credentials.email, page )
+    type(/password/i, credentials.password, page )
+    submit(/login/i, page)
+    await waitForPendingPromisesToComplete()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
 ```js showNumbers 
 test("<LoginPage/>", async () => {
     const credentials = {
@@ -1362,25 +1364,13 @@ test("<LoginPage/>", async () => {
 })
 ```
 
-```diff 9:12
-```
-
-```diff 7 
-```
-
-```diff 9:10 
-```
-
-```diff 11:12
-```
-
 ```js showNumbers 
 test("<LoginPage/>", async () => {
     const credentials = {
        email: "brucewayne@wayneenterprises.com",
        password: "imbatman",
     }
-    const page = customRender(<LoginPage />)
+    const page = renderLoginPage()
     when(login(credentials)).mockResolvedValue(true)
     
     page.type(/email/i, credentials.email )
@@ -1394,34 +1384,12 @@ test("<LoginPage/>", async () => {
 function renderLoginPage() {
   const page = customRender(<LoginPage />)
   
-  const allowLoginFor = (credentials) => 
-      when(login(credentials)).mockResolvedValue(true)
-
-  const fillInLoginForm = (credentials) => {
-      page.type(/email/i, credentials.email )
-      page.type(/password/i, credentials.password )
-  }
-
-  const login = async () => {
-    page.submit(/login/i)
-    await page.waitForPendingPromisesToComplete()
-  }
-
-  return {...page, allowLoginFor, fillInLoginForm, login}
+  return {...page} 
 }
 ```
 
-```diff 20:21
+```diff 7 
 ```
-
-```diff 23:26
-```
-
-```diff 28:31
-```
-
-```diff 15:34
-``` 
 
 ```js showNumbers 
 test("<LoginPage/>", async () => {
@@ -1432,7 +1400,71 @@ test("<LoginPage/>", async () => {
     const page = renderLoginPage()
     page.allowLoginFor(credentials)
     
-    page.fillInLoginForm( credentials )
+    page.type(/email/i, credentials.email )
+    page.type(/password/i, credentials.password )
+    page.submit(/login/i)
+    await page.waitForPendingPromisesToComplete()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+
+function renderLoginPage() {
+  const page = customRender(<LoginPage />)
+  
+  const allowLoginFor = (credentials) => 
+        when(login(credentials)).mockResolvedValue(true)
+ 
+  return {...page, allowLoginFor}
+}
+```
+
+```diff 9:10 
+```
+
+```js showNumbers 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    page.submit(/login/i)
+    await page.waitForPendingPromisesToComplete()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+
+function renderLoginPage() {
+  const page = customRender(<LoginPage />)
+  
+  const allowLoginFor = (credentials) => 
+        when(login(credentials)).mockResolvedValue(true)
+
+  const fillInLoginForm = (credentials) => {
+      page.type(/email/i, credentials.email )
+      page.type(/password/i, credentials.password )
+  }
+
+  return {...page, allowLoginFor, fillInLoginForm}
+}
+```
+
+```diff 10:11
+```
+
+```js showNumbers 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
     await page.login()
     
     expect(navigate).toHaveBeenCalledWith("/")
@@ -1442,13 +1474,13 @@ function renderLoginPage() {
   const page = customRender(<LoginPage />)
   
   const allowLoginFor = (credentials) => 
-      when(login(credentials)).mockResolvedValue(true)
+        when(login(credentials)).mockResolvedValue(true)
 
   const fillInLoginForm = (credentials) => {
       page.type(/email/i, credentials.email )
       page.type(/password/i, credentials.password )
   }
-
+  
   const login = async () => {
     page.submit(/login/i)
     await page.waitForPendingPromisesToComplete()
@@ -1458,20 +1490,27 @@ function renderLoginPage() {
 }
 ```
 
+```diff 6:10
+```
+
+```diff 15:34
+```
+
 </CodeSurfer>
 
 <Notes>
 
-- Test loginpage vérifie redirigé vers page d'accueil quand login
+- Test vérifie redirigé vers page d'accueil quand login
 
 
-- Juste 5 lignes
+- Conctre sur actions
+- Que 5 lignes
 - Impossible comprendre ce qui se passe 
+- Suite instructions ultra détaillée, à nous donner sens
+- Cmment mieux ?
 
 
-- A nous donner sens
-
-
+- Objectif: Trouver concepts sous jacent et officialiser
 - Create page/item specific helpers to match domain
 
 
