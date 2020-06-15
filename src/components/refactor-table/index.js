@@ -35,7 +35,7 @@ const HeadCell = makeStyleComponent({
 });
 
 const Body = makeStyleComponent({
-  background: "rgba(106, 36, 147, .05)",
+  background: theme.colors.primary100,
 });
 
 const BodyCell = makeStyleComponent({
@@ -69,7 +69,12 @@ const RefactorArrow = makeStyleComponent(
   },
   "span"
 );
-
+const TableName = makeStyleComponent({
+  fontStyle: "italic",
+  paddingTop: 32,
+  textAlign: "center",
+  color :theme.colors.primaryDark
+})
 const RefactorTableRow = ({
   smell,
   refactor,
@@ -88,7 +93,7 @@ const RefactorTableRow = ({
   </Row>
 );
 
-const RefactorTable = ({ children, ...props }) => (
+const RefactorTable = ({ children, name, ...props }) => (
   <div
     {...props}
     style={{
@@ -110,11 +115,14 @@ const RefactorTable = ({ children, ...props }) => (
       </Head>
       <Body>{children}</Body>
     </FakeTable>
+    <TableName>{name}</TableName>
   </div>
 );
 
-const makeRefactorsTable = (refactors) => ({ active }) => (
-  <RefactorTable>
+const makeRefactorsTable = (refactors, tableName) => ({
+  active,
+}) => (
+  <RefactorTable name={tableName}>
     {refactors.map((props, index) => (
       <RefactorTableRow
         {...props}
@@ -126,17 +134,21 @@ const makeRefactorsTable = (refactors) => ({ active }) => (
 );
 
 export const HardToNavigateRefactors = makeRefactorsTable(
-  hardToNavigateRefactors
+  hardToNavigateRefactors,
+  "Hard to navigate"
 );
 
 export const UnclearRefactors = makeRefactorsTable(
-  unclearRefactors
+  unclearRefactors,
+  "Unclear"
 );
 
 export const UselessFailureRefactors = makeRefactorsTable(
-  uselessFailureRefactors
+  uselessFailureRefactors,
+  "Useless failure"
 );
 
 export const BrokenButWorkingRefactors = makeRefactorsTable(
-  brokenButWorkingRefactors
+  brokenButWorkingRefactors,
+  "Broken but working"
 );

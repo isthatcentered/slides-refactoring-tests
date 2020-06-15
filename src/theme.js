@@ -2,8 +2,9 @@ const theme = {
   colors: {
     background: "#f8f6f9",
     text: "rgb(57, 58, 52)",
-    primary: "#c3299a", //rgb(0, 164, 219) // #7605e8
-    primaryDark: "#6b2494",
+    primary: "#b21835", //rgb(0, 164, 219) // #7605e8
+    primaryDark: "#b21835",
+    primary100: "#fdebee78"
   },
   styles: {
     CodeSurfer: {

@@ -65,10 +65,10 @@ export const uselessFailureRefactors = [
   {
     smell: "Giant diff", // Manual diff, giant diff
     consequence: "Up to you to find what the  problem is and what it means",
-    refactor: "Pluck indentifier value", // pluck identifier
+    refactor: "Pick indentifier value", // pluck identifier
   },
   {
-    smell: "Trace fail", // No id, random dump, can't id owner, no owner id, missing id
+    smell: "John Doe", // No id, random dump, can't id owner, no owner id, missing id
     consequence: "Can't tell why it's wrong, don't know what i was expecting, then can't tell why what i received is wrong",
     refactor: "Tag objects",
   },
@@ -87,7 +87,7 @@ export const brokenButWorkingRefactors = [
     // mystery guest
     smell: "Environment dependant", // random  failures, can't trace failure, environment dependant/aware
     consequence: "Breaks on unrelated untreacable changes",
-    refactor: "Control your data",
+    refactor: "Create custom environment",
   },
   {
     // Overspecified

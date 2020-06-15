@@ -1784,11 +1784,16 @@ test("Valiation success adds user to repository", () => {
 - Comment mieux ?
 
 
-- Créé un truc pour générer preset (factory)
-- Et permettre override props spécifiques
+- Générer automatiquement toutes props qui comptent pas
+- Spécifier seulement importantes 
+- Vois seullement props importantant
 
 
-- Possibilité presets pour nommer concept domaine/appli
+- factory
+
+
+- email + password = découverte concept
+- Partager avec reste appli via factory preset
 
 </Notes>
 
@@ -1874,22 +1879,23 @@ test("Valiation success adds user to repository", () => {
 
 </Notes>
 
----
-
-Highlight what matters
-
-<Notes>
-
-- Mettre en valeur détails important
-
-</Notes>
-
 <!-- 👉 BA END 👈 -->
 
 ---
 
-<UnclearRefactors active={1}/>
+<!-- 👉 OUTLINE START 👈 -->
 
+<UnclearRefactors active={1} />
+
+<!-- 👉 OUTLINE END 👈 -->
+
+<Notes>
+
+- Quand trop détails
+- Met valeur ce qui compte
+- (poi = point of interest)
+
+</Notes>
 
 ---
 
@@ -1904,13 +1910,17 @@ Highlight what matters
 <Chapter emojis="👮‍♂️📦" title="Suspicious values" />
 
 <Notes>
- 
-- Mis en valeur pièce comptent
-- Dans test parfois valeurs doivent être spécifiques, souvent on s'en moque 
-- Dur savoir quand
- 
- 
-- Valeurs suspectes = montrer si valeur sans importance
+
+- Mis en valeur pièce comptent dans test
+
+
+- Parfois ces pièces doivent avoir valeur spéciique pour test fonctionne 
+- (validation -> email doit être email valide)
+- Parfois on s'en moque 
+- (aucune validation email, peut passer string) 
+
+
+- Valeurs suspectes = valeurs qui paraissent importantes, mais en fait non
 
 </Notes>
 
@@ -1988,9 +1998,10 @@ test("<LoginPage/>", async () => {
 - Commen mieux ?
 
 
-- Si compte pas, montre le
 - Rendre clair si test fail, pas besoin regarder là
-- Attention pas aller trop loin
+- Dé-spécifier valeurs
+- Utiliser placeholder
+- Nommer objet auquel appartiennent
 
 </Notes>
 
@@ -1999,6 +2010,13 @@ test("<LoginPage/>", async () => {
 <TestReport name="Some service test">
     <Matchers.ToHaveBeenCalledWith  actual="credentials.password" expected="credentials.email" fnName="login" />
 </TestReport>
+
+
+<Notes>
+
+- Vas aider en cas failure
+
+</Notes>
 
 <!-- 👉 REFACTOR END 👈 -->
 
@@ -2021,6 +2039,22 @@ test("<LoginPage/>", async () => {
 ```js showNumbers 
 test("<LoginPage/>", async () => {
     const credentials = {
+       email: "waffles",
+       password: "pancakes",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+```
+
+```js showNumbers 
+test("<LoginPage/>", async () => {
+    const credentials = {
        email: "🕺",
        password: "🙈",
     }
@@ -2036,6 +2070,14 @@ test("<LoginPage/>", async () => {
 
 </CodeSurfer>
 
+<Notes>
+
+- A un moment utilisais waffles/batman/...
+- D'autres utilisent emojis
+- Marrant jusqu'au moment ou failure
+
+</Notes>
+
 ---
 
 <TestReport name="Some service test">
@@ -2044,7 +2086,7 @@ test("<LoginPage/>", async () => {
 
 <Notes>
 
-- Ici message erreur test est complètement abstrait 
+- Moment ou on réévalue serieusement choix vie
 
 </Notes>
 
@@ -2108,7 +2150,7 @@ test("<LoginPage/>", async () => {
 
 - Avant:
 - Inverse précédent, mise en valeur détail sans importance
-- ++ surface debug
+- Donc, confusion
 
 
 - Après
@@ -2124,6 +2166,12 @@ test("<LoginPage/>", async () => {
 <!-- 👉 OUTLINE START 👈 -->
 
 <UnclearRefactors active={2}/>
+
+<Notes>
+
+- Valuer supspecte -> Remplacer par placehoder
+
+</Notes>
 
 <!-- 👉 OUTLINE END 👈 -->
 
@@ -2141,9 +2189,8 @@ test("<LoginPage/>", async () => {
 
 <Notes>
 
-- Clarifié détails important
-- Rendu éviden ce qui fait test pass/fail dans valeurs/objets
-- Opportunité ++ précision dans nommage objets  
+- Clarifié quelles props objets font test pass/fail
+- Raté opportunité avec nommage objets  
 
 
 - From duplicate comment
@@ -2239,17 +2286,21 @@ test("Matching user in db returns match", async () => {
 
 <Notes>
 
-- Duplicate comment = dis ce que tu vas faire et le fait. J'ai vu
+- Duplicate comment = quand code dis ce qu'il vas faire et le fait. J'ai vu
 
 
-- user = makeUser Oui, je sais que user
-- Qu'est-ce qui le rend spécial ?
-- Nom var = opportunité dire plus
-- Terme domaine: identityApprovedUser
-- Nom variable pour donner plus d'indices, préciser concept
+- variable user avec resultat makeUser.
+- Vrai, mais j'ai vu que c'etait user
+- Comme montrer du doigt un chaise et dire chaise. Vrai mais pas très pertinent
+- Comment mieux ?
 
 
-- Test vérifie get() vec critères retourne utilisateur matche critères  
+- Plutot que dire ce que c'est, pourrais dire ce qui le rend spécial dans test
+- Concept chaché = identityApprovedUser
+- Nom var = opportunité dire plus, préciser concept, donner + indices
+
+
+- Test vérifie get() repo avec critères retourne utilisateur matche critères  
 - Quelle idée derrière "ldap_1" et "ldap_2"
 - Mettre à jour concept
 
@@ -2337,14 +2388,14 @@ test("Matching user in db returns match", async () => {
 
 - Avant: 
 - Décris objet
-- A nous parcourir test pour comprendre différence user 1 et 2
-- Place de chacune dans test
+- A nous parcourir test et trouver concept chache derrière valeur ldpap
 
 
 - Après: 
 - Pas besoin lire assignation variable
 - Un user match, pas l'autre
 - Si on décrivait fonctionnement à qqun, c'est probablement comme ça qu'on dirais
+- "get retourne premier utilisateur qui match"
 
 </Notes>
 
@@ -2358,8 +2409,8 @@ test("Matching user in db returns match", async () => {
 
 <Notes>
 
-- Renommer objet en fonction role dans test
-- Pas son type (user)
+- Quand nom var décrit juste objet contenu (user)
+- Renommer objet en fonction role dans test (matching user)
 
 </Notes>
 
@@ -2373,10 +2424,9 @@ test("Matching user in db returns match", async () => {
 
 <Notes>
 
-- ?Capables retrouver marques rapidement  
-- Comprendre 
-- Comment fonctionnement/etapes
-- Cibler rapidement détails font test pass/fail rapidement
+- Vu comment clarifier déroulement test
+- Mettre en valeur détail important
+- Donner du sens aux différents éléments/objets qui composent test  
 
 </Notes>
 
@@ -2397,11 +2447,10 @@ test("Matching user in db returns match", async () => {
 <Notes>
 
 - Next: feedback  
-- When fail, in ci/during refactor (rester en flow)
+- When fail, in ci/during refactor
 - Erreur doit être suffisante pour lancer investigations/comprendre cause pb
 - On a tests lisibles 
 - Encore mieux si pas besoin ouvrir test
-
 
 </Notes>
 
@@ -2462,7 +2511,11 @@ test("chars() returns every char in string", () => {
 
 <Notes>
 
-- Pb vient assertion
+- 0 et 5 = longueur du tableau retourné
+- Comment donner sens à valeurs ?
+
+
+- Pb vient matcher
 - Générique toBe
 - Matcher générique = message générique
 - Framework fourni pleins matchers dédiés à pbs spécifiques
@@ -2563,13 +2616,13 @@ test("Cannot re-submit form until post completion", () => {
 
 - Avant: Erreur cryptique
 - Que signigient 0 & 5 ?
-- Confusionnant -> peut me faire aller chercher pb au mauais endroit
+- Vas falloir aller chercher dans test pour comprendre
 
-<br/>
 
 - Après:
 - 0 et 5 = array length
 - Donne sens aux chiffres
+- Bonne failure donne/sens contexte à valeurs reçues
 
 </Notes>
 
@@ -2583,7 +2636,9 @@ test("Cannot re-submit form until post completion", () => {
 
 <Notes>
 
-- Bonne failure donne/sens contexte à valeurs reçues
+- Valeurs qui n'ont aucun sens
+- Donner contexte
+- (fait via matcher mais pourrait juste etre message erreur custom)
 
 </Notes>
 
@@ -2649,7 +2704,7 @@ test("Cannot re-submit form until post completion", () => {
 <br/>
 
 - Dump deux tableaux, à nous trouver diff
-- Memory dump = Noyés d'infos (inutiles)
+- Noyés d'infos (inutiles)
 - J'imagine pb tri. Mais lequel... (mauvais sens ? pas ordonné ?)
 
 </Notes>
@@ -2693,9 +2748,15 @@ test(`Orders users by id descending`, () => {
 
 - Comment mieux ?
 - Actuellement, demande un diff entre deux objets complets
-- Noyés infos -> Simplifier résultat
-- Veut identifier si id dans bon ordre
-- Tableau user -> tbleau id
+- Donc Noyés infos 
+
+
+- Objectif: 
+- Identifier si items dans bon ordre
+- Tri via id
+- Plutot faire un diff entre 2 tableaux users -> diff deux tableaux id 
+- Sélection prop id 
+- Match contre tableau id attendu
 
 </Notes>
 
@@ -2786,8 +2847,9 @@ test(`Gets user by id`, async () => {
 
 - compare deux objets pleins again
 - Veut vérifier bon user récupérer
-- Transfo résult
+- Donc veut moyen identifier/différentier users rapidement
 - Sélect prop identifiant
+- Transfo résult
 
 </Notes>
 
@@ -2873,6 +2935,7 @@ test(`Gets user by id`, async () => {
 
 <Notes>
 
+- Quand diff géant
 - Sélectionner valeur permet identifier pb
 
 </Notes>
@@ -2884,56 +2947,24 @@ test(`Gets user by id`, async () => {
 <!--
 ****************************
 ****************************
-** 👃 TRACE FAIL 
+** 👃 NO ID 
 ****************************
 ****************************
 -->
 
-<Chapter emojis="🗺😢" title="Trace fail" />
+<Chapter emojis="🗺😢" title="John doe" />
 
 <Notes>
 
-- Vu besoin identifier rapidement valeurs et pb
-- ++ quand juste vérifier passage objet
-
-- Echec localisation 
+- Vu donner sens valeurs affichées dans erreur
+- Parfois valeur compte pas, veut juste identifier l'objet reçu/affiché  
+- John doe = y arrive pas
 
 </Notes>
 
 ---
 
 <!-- 👉 REFACTOR START 👈 -->
-
-<CodeSurfer>
-
-```js showNumbers
-test(`Displays turn winner`, (  ) => {
-	const winner = makeWinner()
-    const looser = makeLooser()
-    const ui = { notifyWinner: jest.fn() }
-    const game = new Game(ui)
-    
-    game.turn(winner, looser)
-
-    expect(ui.notifyWinner).toHaveBeenCalledWith(winner)
-})
-```
-
-```diff 9
-```
-
-
-</CodeSurfer>
-
-<Notes>
-
-- test vérifie gagnant match affiché
-- Délègue à ui
-- Vérife appelé avec bon params
-
-</Notes>
-
----
 
 <TestReport name="Displays turn winner">
     <Matchers.ToHaveBeenCalledWith 
@@ -2945,10 +2976,15 @@ test(`Displays turn winner`, (  ) => {
  
 <Notes>
 
-- Tace fail =
-- Délégation échouée, mais sais mm pas quoi tracké et quoi reçu
-- Sais attendu truc et reçu autre truc, besoin creuser pour comprendre pb 
+- test vérifie gagnant match affiché écran
 
+
+- Pour vérifier ca: check ui.notifyWinner appelé avec bon paramètres
+- Aka test délégation: méthode appelé avec bon params
+- Vois attendais trucs et rien reçu
+- Mais difficile identifier attendu
+- Ici on devine que player, probablement le gagnant
+- Mais mieux si explicite
 
 </Notes>
 
@@ -2969,10 +3005,19 @@ test(`Displays turn winner`, (  ) => {
 })
 ```
 
+```diff 2:3
+```
+
+```diff 7
+```
+
+```diff 9
+```
+
 ```js showNumbers
 test(`Displays turn winner`, (  ) => {
 	const winner = "turn_winner"
-    const looser = makeLooser()
+    const looser = "turn_looser"
     const ui = { notifyWinner: jest.fn() }
     const game = new Game(ui)
     
@@ -2983,9 +3028,11 @@ test(`Displays turn winner`, (  ) => {
 ```
 
 ```js showNumbers
+import traceable from "jest-traceable"
+
 test(`Displays turn winner`, (  ) => {
 	const winner = traceable(makeWinner(), "turn_winner")
-    const looser = makeLooser()
+    const looser = traceable(makeLooser(), "turn_looser")
     const ui = { notifyWinner: jest.fn() }
     const game = new Game(ui)
     
@@ -2993,31 +3040,24 @@ test(`Displays turn winner`, (  ) => {
 
     expect(ui.notifyWinner).toHaveBeenCalledWith(winner)
 })
-```
-
-```js showNumbers
-const traceable = (object, identifier) => {
-  const traceableCopy = {
-    ...object,
-    toJSON: () => identifier
-  }  
-}
-```
-
-```diff 4
 ```
 
 </CodeSurfer>
 
 <Notes>
 
-- Comment mieux ?
-- Veut pouvoir identifier facilement argument attendu pour comparer avec reçu
-- Nommer avec string
-- Délégation = orchestrateur = logique rare potentiellement signe fait trop
+- Créé joueurs
+- Lance tour
+- Vérifie ui appelé avec gagnant
+- Pb, calledWith dump just objet reçu 
+- Prends params attendu, params reçu et fait diff
+- Mais peut pas transformer résultat, c'est dans code
+- Comment faciliter identifiaction param attendu
 
-- Peux pas -> traceable()
-- Permet utiliser props objet + identifier dans failure
+
+- Props objet pas utilisées -> remplacer par string
+- Ici, besoin objet donc tag via function
+
 
 </Notes>
 
@@ -3033,47 +3073,24 @@ const traceable = (object, identifier) => {
 
 <Notes>
 
-- Identifie clairement attendu
-- Indice ou aller chercher: oublié passer résultat tour
+- Sais immédiatement pb et fix: Passer gagnant
 
 </Notes>
 
-<!-- 👉 REFACTOR END 👈 -->
-
 ---
 
-<!-- 👉 BA START 👈 -->
-
-<SplitBA 
-    left={
-    <TestReport name="Displays turn winner">
-        <Matchers.ToHaveBeenCalledWith 
-            fnName="ui.notifyWinner()"
-            actual={null}
-            expected={{"name": "player_name", "magic": 20, "strength":100, hp: 200 }}
-        />
-    </TestReport>
-    } 
-    right={
-        <TestReport name="Displays turn winner">
-            <Matchers.ToHaveBeenCalledWith 
-                fnName="ui.notifyWinner()"
-                actual={null}
-                expected="turn_winner"
-            />
-        </TestReport>
-    } 
-/>
+<TestReport name="Displays turn winner">
+    <Matchers.ToHaveBeenCalledWith 
+        fnName="ui.notifyWinner()"
+        expected={{"name": "player_name_1", "magic": 20, "strength":100, hp: 200 }}
+        actual={{"name": "player_name_2", "magic": 10, "strength":20, hp: 100 }}
+    />
+</TestReport>
 
 <Notes>
 
-- Avant:
-- besoin aller chercher pour comprendre
-- Attendais truc mais pas passé 
-
-
-- Après:
-- Oh, oublié passer resultat tour
+- Si retourne mauvais joueur,
+- passe de ça
 
 </Notes>
 
@@ -3089,9 +3106,76 @@ const traceable = (object, identifier) => {
 
 <Notes>
 
-- Bonus
-- Si plusieurs objets passés
-- Identifier passé mauvais/mauvaise position arguments, etc
+- à ça
+
+</Notes>
+
+---
+
+<FunFact/>
+
+---
+
+<CodeSurfer>
+
+```js showNumbers
+const traceable = (object, identifier) => {
+  return Object.assign( object, { 
+    toJSON: () => identifier 
+  })
+}
+```
+
+```diff 3
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- Traceable fait rien spé
+- Jest utilise toJSON pour afficher objet
+- On l'override juste
+
+</Notes>
+
+<!-- 👉 REFACTOR END 👈 -->
+
+---
+
+<!-- 👉 BA START 👈 -->
+
+<SplitBA 
+    left={
+    <TestReport name="Displays turn winner" zoom={.7}>
+        <Matchers.ToHaveBeenCalledWith 
+            fnName="ui.notifyWinner()"
+            actual={null}
+            expected={{"name": "player_name", "magic": 20, "strength":100, hp: 200 }}
+        />
+    </TestReport>
+    } 
+    right={
+        <TestReport name="Displays turn winner" zoom={.7}>
+            <Matchers.ToHaveBeenCalledWith 
+                fnName="ui.notifyWinner()"
+                actual={null}
+                expected="turn_winner"
+            />
+        </TestReport>
+    } 
+/>
+
+<Notes>
+
+- Avant:
+- A nous faire travail
+- Attendais truc mais pas passé 
+
+
+- Après:
+- Me dit pb: Objet pas passé
+- et solution: Passe moi le gagnant
 
 </Notes>
 
@@ -3099,10 +3183,9 @@ const traceable = (object, identifier) => {
 
 ---
 
-
 <!-- 👉 OUTLINE START 👈 -->
 
-<UselessFailurRefactors active={2}/>
+<UselessFailureRefactors active={2}/>
 
 <Notes>
 
@@ -3116,18 +3199,15 @@ const traceable = (object, identifier) => {
 
 <!-- 👉 SECTION RECAP 👈 -->
 
-<UselessFailurRefactors />
+<UselessFailureRefactors />
 
 <Notes>
 
-- On a tests facile à aborder
-- A comprendre
-- Avec des erreurs utiles
 - Vu comment 
-- donner context à valeurs
+- donner context à erreurs
 - Faciliter identification pb
-- Faciliter debugging delegation
-
+- Tagger objets pour faciliter debug
+- Si test fail, capable comprendre pkoi rapidement
 
 </Notes>
 
@@ -3139,10 +3219,9 @@ const traceable = (object, identifier) => {
 
 <Notes>
 
-- Dernière étape assurer flexibles
-- Test casse c'est pour bonne raison:
+- Dernière étape assurer si Test casse c'est pour bonne raison:
 - Quand comportement change
-- Pas quand refactor
+- Pas quand implémentation ou autre partie de l'app à changé
 
 </Notes>
 
@@ -3160,7 +3239,7 @@ const traceable = (object, identifier) => {
 
 <Notes>
 
-- Se sert de l'api privée/etat interne pour tester
+- Se sert de connaissance fonctionnement interne pour tester
 
 </Notes>
 
@@ -3175,7 +3254,7 @@ test(`Displays a loader on page refresh`, ( ) => {
   const page = createComponent(SomePageComponent)
   const instance = page.getComponentInstance()
     
-  instance._getData()
+  instance.getData()
 
   expect(instance.loading).toBe(true)
 })
@@ -3208,9 +3287,6 @@ test(`Displays a loader on page refresh`, ( ) => {
 })
 ```
 
-```diff 1[7:39]
-```
-
 </CodeSurfer>
 
 <Notes>
@@ -3221,18 +3297,17 @@ test(`Displays a loader on page refresh`, ( ) => {
 - View, pourtant !test via ui
 - Chercher controller
 - Utilise connaissance fonctionnement pour tester
-- Casse si impl change
-- Mais peut être cassé alors que ui ok
-- Aka accessoirement Aucune valeur, loading true garantis pas laoder affiché
+- Plutot declancher refresh via event page -> vérifie call getData() set loading true
+- Si refactor et getData plus chargé assigner loading=true -> test casse
+- Aka test peut être cassé, mais ui ok
+- Inversement, test peut passer mais ui cassée (loading true garantis pas laoder affiché)
 
 
 - Désolidariser implémentation
-- Test via public api, here, view
+- Test via public api, here, view 
 - Aka manière composant va etre utilisé
 - Aucune connaissance logique sous jacente
 - Test casse seullement si vue casse
-
-- Note: déroullement test match nom test 
 
 </Notes>
 
@@ -3251,7 +3326,7 @@ test(`Displays a loader on page refresh`, ( ) => {
   const page = createComponent(SomePageComponent)
   const instance = page.getComponentInstance()
     
-  instance._getData()
+  instance.getData()
 
   expect(instance.loading).toBe(true)
 })
@@ -3323,6 +3398,7 @@ test(`Displays a loader on page refresh`, ( ) => {
 
 <Notes>
 
+- Quand test sait trop
 - Tester via api publique
 
 </Notes>
@@ -3345,9 +3421,8 @@ test(`Displays a loader on page refresh`, ( ) => {
 
 - Protégé refactors
 - Mais pas seule chose externe qui peut casser test
-
-
-- Dépend environnement
+- Autre smell: 
+- Test qui dépend environnement
 
 </Notes>
 
@@ -3546,11 +3621,13 @@ test(`Returns first item in table`, async () => {
 
 <!-- 👉 OUTLINE START 👈 -->
 
-<BorkenButWorkingRefactors active={0} />
+<BrokenButWorkingRefactors active={1} />
 
 
 <Notes>
 
+- Quand test dépend environnement
+- Créé propre environnement
 - Controler données/environnement
 
 </Notes>
@@ -3563,10 +3640,9 @@ test(`Returns first item in table`, async () => {
 
 <Notes>
 
-- Autre exemple + incidieux
-- Dépendance interne (test cass autre partie spec change)
-
+- Autre exemple test casse pour raisons non liées
 - Interconnecté
+- test casse autre partie feature change
 
 </Notes>
 
@@ -3622,12 +3698,11 @@ test(`Lists all validation failures`, () => {
 
 - Checks validateOrder liste toutes erreur validation pour commande donnée
 
-- // test rsponsabilité ui & "record?"
-- Veut vérifier toute clés en erreur + string erreur associée
-- Mais vérifie implicitement msg validation
+
+- Objectif test: vérifier pour chaque clé en erreur -> string associée
+- Mais comme spécifié msg erreur -> Test aussi msg validation
 - Responsabilité autre test
 - Casse si autre partie spec change 
-- Comment meiux ? 
 
 
 - Débarasser dépendance msg erreur (grand thème séction)
@@ -3637,6 +3712,7 @@ test(`Lists all validation failures`, () => {
 - Utiliser matcher permissif 
 - Permet changer message erreur sans casser test
 - Tant que string, test passe
+- Protégé changements spec
 
 </Notes>
 
@@ -3710,12 +3786,13 @@ test(`Lists all validation failures`, () => {
 
 - Avant:
 - Dépendance implicite sur msg erreur
-- Test casse si autre partie spec change
+- Si spec msg validation change -> test casse
 - Si po change message, test fail
 
 <br/>
 
 - Apres:
+- assertion plus souple
 - Vérifie pas le détail (msg), simplement forme (string)
 - Cassera pour bonne raisons, tant que string, tout ok, si objet, pas ok
 - Aussi objectContaining, arrayContaing, toMatchObject, ...
@@ -3728,10 +3805,11 @@ test(`Lists all validation failures`, () => {
 
 <!-- 👉 OUTLINE START 👈 -->
 
-<BrokenButWorkingRefactors active={1} />
+<BrokenButWorkingRefactors active={2} />
 
 <Notes>
 
+- Quand test lié autres parties spec
 - relâcher/généraliser assertion
 
 </Notes>
@@ -3750,7 +3828,7 @@ test(`Lists all validation failures`, () => {
 
 <Notes>
 
-- celui voit plus
+- Celui qu'on voit plus
 - Couverture de code redondante
 
 </Notes>
@@ -3774,10 +3852,10 @@ test("add() validation passed saves user to database", async () => {
 })
 ```
 
-```diff 2:3
+```diff 3
 ```
 
-```diff 2:4
+```diff 3:4
 ```
 
 ```diff 
@@ -3798,6 +3876,9 @@ test("add() validation passed saves user to database", async () => {
 
   expect(await db.get("users").first()).toMatchObject(user)
 })
+```
+
+```diff 6
 ```
 
 ```js showNumbers
@@ -3835,18 +3916,19 @@ test("add() validation passed saves user to database", async () => {
 - Checks user validé par fournisseur identité ajouté db
 
 
-- Dépend des règles validation identity
-- Probablement d'un lien db avec le ldap et l'ident
-- Casse si règle validation user changent
-- Casse si bon liens ldap -> identité sont pas en db
-- Aka Casse si collab change
+- Vrais collabs -> validateur ident
+- Imagine ldap spécifique nécéssaire pour passer validation
+- Casse si règle validation changent
+- Si ldap plus valide
+- Aka Casse si règles collab changent
 
 
 - Seule logique quoi doit impacter test = repo
-- Supprimer toute logique autour
-- Mock collabs -> controle environnement
+- logique collabs nous embête -> remplacer par faux
+- Au passage gain controle: Pour test besoin validateur accepte user 
+- Maintenant nous qui décidons
 - Débarasser chaque dépendance (validateur, user, db)
-- Controle env, tout peut changer autour sans impacter test
+- Controle collab, tout peut changer autour, seul logique qui peut impacter test est dans le repo
 
 </Notes>
 
@@ -3924,17 +4006,16 @@ test("add() validation passed saves user to database", async () => {
 <Notes>
 
 - Avant: 
-- Hérite règles validation Validateur identité
-- Seed db
-- Suspicious ldap
+- Hérite règles collaborateur
+- Si changent, test casse
 
 <br/>
 
 - Après:
-- Débarassé logique exterieure
-- Tout peut changer autour test continue passer
-- Donc limité debug area
+- Controle collaborateurs
+- Tout peut changer dans collab réel test continue passer
 - Gagné en controle (when(validator)>true)
+- Donc limité debug area
 - Plus compliqué à mairiser
 
 </Notes>
@@ -3943,44 +4024,25 @@ test("add() validation passed saves user to database", async () => {
 
 ---
 
-<BrokenButWorkingRefactors active={2} />
+<BrokenButWorkingRefactors active={3} />
+
+<Notes>
+
+- Quand test dépend règles collabs
+- Utilise faux collabs
+
+</Notes>
 
 ---
 
-<HardToNavigateRefactors/>
+
+<Sections />
 
 <Notes>
 
 - Faciliter prise en main via structure en conventions communes
-
-</Notes>
-
----
-
-<UnclearRefactors/>
-
-<Notes>
-
 - Faciliter compréhension via simplification language et mise en valeur détails importants
-
-</Notes>
-
----
-
-<UselessFailureRefactors/>
-
-<Notes>
-
 - Accélérer le debugging clarifiant msg erreur
-
-</Notes>
-
----
-
-<BrokenButWorkingRefactors/>
-
-<Notes>
-
 - Avoir test cassent pour bonne raison en supprimant dépendance implicites
 
 </Notes>
