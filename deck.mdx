@@ -1496,9 +1496,6 @@ function renderLoginPage() {
 ```diff 6:10
 ```
 
-```diff 15:34
-```
-
 </CodeSurfer>
 
 <Notes>
@@ -1654,7 +1651,7 @@ test("<LoginPage/>", async () => {
 - Après
 - Recette simple pour recréer etat testé
 - Se lit comme un guide utilisateur/spec
-- (bonus) Centralized knowledge grace helpers 
+- (bonus) Centralized logique tests. Si évolution, 1 seul endroit à changer 
 
 </Notes>
 
@@ -1668,6 +1665,7 @@ test("<LoginPage/>", async () => {
 <Notes>
 
 - Quand suite instruction qui veulent rien dire
+- Extraire utilitaire pour 
 - Décrit le quoi (type), pas le comment (firevent type change avec value "blah")
 
 </Notes>
@@ -2085,7 +2083,7 @@ test("<LoginPage/>", async () => {
 
 <CodeSurfer>
 
-```js showNumbers 
+```js showNumbers 3,4
 test("<LoginPage/>", async () => {
     const credentials = {
        email: "waffles",
@@ -2124,8 +2122,17 @@ test("<LoginPage/>", async () => {
 - A un moment utilisais waffles/batman/...
 - D'autres utilisent emojis
 - Marrant jusqu'au moment ou failure
+- Donne respectivement
 
 </Notes>
+
+---
+
+
+<TestReport name="Some service test">
+    <Matchers.ToHaveBeenCalledWith  actual="pancakes" expected="waffles" fnName="login" />
+</TestReport>
+
 
 ---
 
@@ -3272,6 +3279,7 @@ const traceable = (object, identifier) => {
 - Dernière étape assurer si Test casse c'est pour bonne raison:
 - Quand comportement change
 - Pas quand implémentation ou autre partie de l'app à changé
+- Broken but working = test cassé alors que objet testé ok
 
 </Notes>
 
@@ -3968,7 +3976,7 @@ test("add() validation passed saves user to database", async () => {
 - Imagine ldap spécifique nécéssaire pour passer validation
 - Casse si règle validation changent
 - Si ldap plus valide
-- Aka Casse si règles collab changent
+- Donc test vérifie implicitement fonctionnement validateur ident
 
 
 - Seule logique quoi doit impacter test = repo
@@ -4054,15 +4062,15 @@ test("add() validation passed saves user to database", async () => {
 <Notes>
 
 - Avant: 
-- Hérite règles collaborateur
+- Re-teste implicitement bon fonctionnement validateur/collaborateurs
 - Si changent, test casse
 
 <br/>
 
 - Après:
 - Controle collaborateurs
-- Tout peut changer dans collab réel test continue passer
-- Gagné en controle (when(validator)>true)
+- Règle validation utilisateur peuvent changer test continuera passer
+- Gagné en controle (when(validator)>true) -> plus besoin avoir en tête règles validateur ident
 - Donc limité debug area
 - Plus compliqué à mairiser
 
@@ -4129,8 +4137,9 @@ test("add() validation passed saves user to database", async () => {
 <Notes>
 
 - Pas oblige tout appliquer
+- Si test à 1/2 smell mais tout à fait ok, pas forcément nécéssaire
 - Si test épais  > diagnostiquer smell principal -> appliquer refactor
-- En général, tous aident:
+- Chaque refactor apporte mm bénéfices:
 - Mieux communiquer déroulement
 - Réduire surface débug
 
