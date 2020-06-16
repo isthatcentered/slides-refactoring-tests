@@ -143,9 +143,31 @@ test("<Signup/>", async () => {
 
 # Refactoring tests
 
-<Appear>
-    <p>But why though ?</p>
-</Appear>  
+---
+
+## <b style={{color: theme.colors.primaryDark}}>Edouard Penin</b>
+<div style={{"display":"flex","justifyContent":"center","alignItems":"center","marginTop":"-40px","color":"#888888",}}>
+    <img style={{"width":"60px","marginRight":".25em"}} alt="" src="https://upload.wikimedia.org/wikipedia/fr/thumb/c/c8/Twitter_Bird.svg/1200px-Twitter_Bird.svg.png"/>
+    @isthatcentered
+</div> 
+
+<Notes>
+
+- Edouard Penin
+- Consultant zenika nantes
+- (heureux nouvel arrivant depuis mars)
+- Si mon twitter devait dire ce que je fait de ma vie
+- Typescript, frontend, testing, et musique 
+- (je sais pas quelle conclusion en tirer)
+
+</Notes>
+
+---
+
+<EmojiSlide caption="Refactoring tests ?">
+🧐
+</EmojiSlide>  
+
 
 <Notes>
 
@@ -1292,7 +1314,8 @@ test("<LoginPage/>", async () => {
 ```
 
 ```js showNumbers 
-const customRender = (component) => {
+// custom-render.js
+export const customRender = (component) => {
     const page = render(component)
 
     const type = (target, value) => { /* code */ }
@@ -1303,29 +1326,9 @@ const customRender = (component) => {
   
     return {...page, type, submit, waitForPendingPromisesToComplete}
 }
-
-test("<LoginPage/>", async () => {
-    const credentials = {
-       email: "brucewayne@wayneenterprises.com",
-       password: "imbatman",
-    }
-    const page = render(<LoginPage />)
-    when(login(credentials)).mockResolvedValue(true)
-    
-    type(/email/i, credentials.email, page )
-    type(/password/i, credentials.password, page )
-    submit(/login/i, page)
-    await waitForPendingPromisesToComplete()
-    
-    expect(navigate).toHaveBeenCalledWith("/")
-})
 ```
 
-```js showNumbers 
-// custom-render.js
-export const customRender = (component) => {
-    // ...
-}
+```diff 3,11
 ```
 
 ```js showNumbers 6 
@@ -1503,24 +1506,70 @@ function renderLoginPage() {
 - Test vérifie redirigé vers page d'accueil quand login
 
 
-- Conctre sur actions
-- Que 5 lignes
-- Impossible comprendre ce qui se passe 
-- Suite instructions ultra détaillée, à nous donner sens
-- Cmment mieux ?
+- Actions: 5 lignes mais Impossible comprendre 
+- Suite micro instructions, à nous donner sens
 
 
-- Objectif: Trouver concepts sous jacent et officialiser
-- Create page/item specific helpers to match domain
+- Objectif: Trouver concepts/idées cachées sous instructions et faire apparaitre
+- Quel concept derrière X ? Y -> cacher détail, faire apparaitre concept (extraire utilitaire et appliquer)
+- Comme helpers utiles partout -> ajouter à framework (prend render, rééxporte avec helpers)
 
 
-- Créé helpers pour concept page en général
-- (intercators) Global "page" helpers -> "LoginPage" helpers 
-- review conceptes groupables
+- Créé helpers pour concept page en général -> helper <LoginPage/> 
+- (intercators/page object: objet/ensemble méthodes dédiés tests page/objet)
+- renderLoginPage
+- Fini avec suite instruction type guide utilisateur
 
 </Notes>
 
 <!-- 👉 REFACTOR END 👈 -->
+
+---
+
+<FunFact />
+
+---
+
+<CodeSurfer>
+
+```js showNumbers 
+test("<LoginPage/>", async () => {
+    const credentials = {
+       email: "brucewayne@wayneenterprises.com",
+       password: "imbatman",
+    }
+    const page = renderLoginPage()
+    page.allowLoginFor(credentials)
+    
+    page.fillInLoginForm(credentials)
+    await page.login()
+    
+    expect(navigate).toHaveBeenCalledWith("/")
+})
+
+function renderLoginPage() {
+  const page = customRender(<LoginPage />)
+  
+  // ...stuff
+
+  return {...page, allowLoginFor, fillInLoginForm, login}
+}
+```
+
+```diff 15:32
+```
+
+</CodeSurfer>
+
+
+<Notes>
+
+- Mis utilitaires en dessous
+- Parce que c'est un détail
+- Quand ouvre fichier test, veut voir test
+- Si besoin creuser, alors irais voir helpers
+
+</Notes>
 
 ---
 
@@ -1598,15 +1647,14 @@ test("<LoginPage/>", async () => {
 
 
 - Avant
-- 5 lignes mais dur comprendre/prendre en main 
+- Suite instructions sans aucun sens 
 - Demande connaissance du framework (target.value)
 
 
 - Après
-- Simple
-- Se lit comme un guide/spec
-- Descriprion étapes comme pour guder personnes
-- Centralized knowledge (bonus)
+- Recette simple pour recréer etat testé
+- Se lit comme un guide utilisateur/spec
+- (bonus) Centralized knowledge grace helpers 
 
 </Notes>
 
@@ -1619,7 +1667,8 @@ test("<LoginPage/>", async () => {
 
 <Notes>
 
-What, not how
+- Quand suite instruction qui veulent rien dire
+- Décrit le quoi (type), pas le comment (firevent type change avec value "blah")
 
 </Notes>
 
@@ -2982,7 +3031,7 @@ test(`Gets user by id`, async () => {
 - Pour vérifier ca: check ui.notifyWinner appelé avec bon paramètres
 - Aka test délégation: méthode appelé avec bon params
 - Vois attendais trucs et rien reçu
-- Mais difficile identifier attendu
+- A moi comprendre quoi correspond objet attendu
 - Ici on devine que player, probablement le gagnant
 - Mais mieux si explicite
 
@@ -3073,7 +3122,8 @@ test(`Displays turn winner`, (  ) => {
 
 <Notes>
 
-- Sais immédiatement pb et fix: Passer gagnant
+- Sais immédiatement pb: Objet non reçu
+- Et fix: Passer gagnant
 
 </Notes>
 
@@ -3170,7 +3220,7 @@ const traceable = (object, identifier) => {
 
 - Avant:
 - A nous faire travail
-- Attendais truc mais pas passé 
+- A nous deviner à quoi correspond objet 
 
 
 - Après:
@@ -3239,7 +3289,7 @@ const traceable = (object, identifier) => {
 
 <Notes>
 
-- Se sert de connaissance fonctionnement interne pour tester
+- Utilise connaissance implémention interne pour tester
 
 </Notes>
 
@@ -3296,17 +3346,17 @@ test(`Displays a loader on page refresh`, ( ) => {
 
 - View, pourtant !test via ui
 - Chercher controller
-- Utilise connaissance fonctionnement pour tester
-- Plutot declancher refresh via event page -> vérifie call getData() set loading true
+- Sait sous capeau getData() appelé quand click refresh
+- Loader affiché si loading = true
+- Donc call getData() et vérifie -> loading mis à true
 - Si refactor et getData plus chargé assigner loading=true -> test casse
 - Aka test peut être cassé, mais ui ok
 - Inversement, test peut passer mais ui cassée (loading true garantis pas laoder affiché)
 
 
-- Désolidariser implémentation
+- Désolidariser implémentation interne
 - Test via public api, here, view 
-- Aka manière composant va etre utilisé
-- Aucune connaissance logique sous jacente
+- Declancher refresh via event page et vérifier loader affiché
 - Test casse seullement si vue casse
 
 </Notes>
@@ -3372,19 +3422,17 @@ test(`Displays a loader on page refresh`, ( ) => {
 
 <Notes>
 
-- Avant: utilise connaissance implémentation pour tester
-- Donc si impl change, casse
-- Mais garantis pas pass = vue ok
-- Ou que fail = vu ko
+- Avant:
+- Aucune garantie:
+- Test peut être cassé et ui ok
+- Ui peut être cassée et test ok
 
-<br/>
 
-- Après: Test via public api
-- Aka 0 connaissance fonctionnement interne 
+- Après: 
+- Test via public api
 - Protégé refactor
 - ++ valeur: 
 - Test casse seullemnt si cassé pour utilisateur 
-- test cassé seullement si vue cassée
 
 </Notes>
 
@@ -3469,8 +3517,8 @@ test(`Returns first item in table`, async () => {
 
 ```js showNumbers
 test(`Returns first item in table`, async () => {
-  const firstUser = makeUser({name: "first_user"})
-  const secondUser = makeUser({name: "second_user"})
+  const firstUser = makeUser({name: "john"})
+  const secondUser = makeUser({name: "bob"})
   const usersDb = (await bootDb()).get("users")
   const usersTable = Table.from(usersDb)
 
@@ -3478,7 +3526,7 @@ test(`Returns first item in table`, async () => {
   db.add(secondUser)
   const result = usersTable.first()
 
-  expect(result.name).toBe(firstUser.name)
+  expect(result.name).toBe("john")
 })
 ```
 
@@ -3488,7 +3536,7 @@ test(`Returns first item in table`, async () => {
 ```diff 7:8
 ```
 
-```diff 2,3,11[10:21,28:41]
+```diff 2[30:43],11[28:33]
 ```
 
 </CodeSurfer>
@@ -3503,7 +3551,7 @@ test(`Returns first item in table`, async () => {
 - Aucune mention dans tout le setup
 - John vient fixture
 - Test dépend environnement (mais aucun controle dessus)
-- Test casse changement fixture/si environnement change
+- Si changement fixture/si environnement change -> test casse
 - Mais veut pas dire fonction cassée
 - Fausses alertes
 - Comment mieux ?
@@ -3538,8 +3586,8 @@ test(`Returns first item in table`, async () => {
 
 ```js showNumbers 
 test(`Returns first item in table`, async () => {
-  const firstUser = makeUser({name: "first_user"})
-  const secondUser = makeUser({name: "second_user"})
+  const firstUser = makeUser({name: "john"})
+  const secondUser = makeUser({name: "bob"})
   const usersDb = (await bootDb()).get("users")
   const usersTable = Table.from(usersDb)
 
@@ -3547,7 +3595,7 @@ test(`Returns first item in table`, async () => {
   db.add(secondUser)
   const result = usersTable.first()
 
-  expect(result.name).toBe(firstUser.name)
+  expect(result.name).toBe("john")
 })
 ```
 
@@ -3590,7 +3638,7 @@ test(`Returns first item in table`, async () => {
 ```diff 4
 ```
 
-```diff 2,11[28:42]
+```diff 2[30:43],11[28:33]
 ```
 
 </Step>
@@ -3603,7 +3651,10 @@ test(`Returns first item in table`, async () => {
 - Avant:
 - plus court
 - test cassé veut pas dire fonction cassée
-- Remonter jusqu'au fixtures pour trouver john
+- Impossibe tracer ou john
+- Enorme surface debug: 
+- trouver setup fixtures, chercher fixutres users, vérifier bien ajoutées à db, ...
+- (et modifier fixtures pour refaire passer test = casser autres tests)  
 
 
 - Après:
@@ -3669,7 +3720,7 @@ test(`Lists all validation failures`, () => {
 ```diff 9:12
 ```
 
-```diff 10[11:27],11[13:31]
+```diff 3,4,10[11:27],11[13:31]
 ```
 
 
@@ -3699,20 +3750,18 @@ test(`Lists all validation failures`, () => {
 - Checks validateOrder liste toutes erreur validation pour commande donnée
 
 
-- Objectif test: vérifier pour chaque clé en erreur -> string associée
-- Mais comme spécifié msg erreur -> Test aussi msg validation
-- Responsabilité autre test
-- Casse si autre partie spec change 
+- Objectif test: vérifier pour chaque clé en erreur (price) -> msg validation associé (price required)
+- Ici: implicitement spécifie message retourné pour prop manquante ("blah is required")
+- Mais but pas vérifier msg affiché, juste message retourné
+- Msg validation à afficher quand prop manquante = autre partie spec donc autre test
+- Donc test devrait pas casser si spec msg validation change ("price cannot be empty")
 
 
-- Débarasser dépendance msg erreur (grand thème séction)
-- Care about shape (string)
-
-
-- Utiliser matcher permissif 
-- Permet changer message erreur sans casser test
+- Débarasser dépendance msg erreur
+- Veut forme (string) pas détail "blah is required"
+- Donc utiliser matcher permet vérifier forme
+- Message validation peut changer sans casser test
 - Tant que string, test passe
-- Protégé changements spec
 
 </Notes>
 
@@ -3762,7 +3811,7 @@ test(`Lists all validation failures`, () => {
 
 <Step>
 
-```diff showNumbers subtitle="Before" 10[11:27],11[13:31]
+```diff showNumbers subtitle="Before"  3,4,10[11:27],11[13:31]
 ```
 
 ```diff showNumbers subtitle="After" 6
@@ -3785,16 +3834,15 @@ test(`Lists all validation failures`, () => {
 <Notes>
 
 - Avant:
-- Dépendance implicite sur msg erreur
-- Si spec msg validation change -> test casse
-- Si po change message, test fail
+- Dépendance implicite sur msg erreur/autre partie spec
+- Si PO décide changer message validation, test casse 
+- (absurde, pourquoi doit fixer un test qui vérfie autre chose quand update mesg validation)
 
-<br/>
 
 - Apres:
 - assertion plus souple
 - Vérifie pas le détail (msg), simplement forme (string)
-- Cassera pour bonne raisons, tant que string, tout ok, si objet, pas ok
+- Spec autour peut changer, test cassera pas
 - Aussi objectContaining, arrayContaing, toMatchObject, ...
 
 </Notes>
@@ -4035,15 +4083,42 @@ test("add() validation passed saves user to database", async () => {
 
 ---
 
-
-<Sections />
+<Sections active={0}/>
 
 <Notes>
 
-- Faciliter prise en main via structure en conventions communes
-- Faciliter compréhension via simplification language et mise en valeur détails importants
-- Accélérer le debugging clarifiant msg erreur
-- Avoir test cassent pour bonne raison en supprimant dépendance implicites
+- Rendu onboarding sur test plus rapide
+
+</Notes>
+
+---
+
+<Sections active={1}/>
+
+<Notes>
+
+- Amélioré expressivité tests
+
+</Notes>
+
+---
+
+<Sections active={2}/>
+
+<Notes>
+
+- Transformé msgs erreur pour qu'ils contiennent max indices possibles sur cause failure
+
+</Notes>
+
+---
+
+<Sections active={3}/>
+
+<Notes>
+
+- Supprimé dépendances tests.
+- Plus de faux signals, mtn tests cassent quand code cassé
 
 </Notes>
 
@@ -4054,10 +4129,10 @@ test("add() validation passed saves user to database", async () => {
 <Notes>
 
 - Pas oblige tout appliquer
-- Chaque refactor apporte bout mm bénéfices:
-- Surface débug réduite
-- Meilleur compréhension pb
-- Rapprochement spec (language)
+- Si test épais  > diagnostiquer smell principal -> appliquer refactor
+- En général, tous aident:
+- Mieux communiquer déroulement
+- Réduire surface débug
 
 </Notes>
 
