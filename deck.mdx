@@ -3013,8 +3013,9 @@ test(`Gets user by id`, async () => {
 <Notes>
 
 - Vu donner sens valeurs affichées dans erreur
-- Parfois valeur compte pas, veut juste identifier l'objet reçu/affiché  
-- John doe = y arrive pas
+- Parfois valeur compte pas
+- Veut juste vérifier passé bon objet/appelé méthode avec bons params  
+- John doe = arrive pas à identifier objets passés
 
 </Notes>
 
@@ -3025,7 +3026,7 @@ test(`Gets user by id`, async () => {
 <TestReport name="Displays turn winner">
     <Matchers.ToHaveBeenCalledWith 
         fnName="ui.notifyWinner()"
-        actual={null}
+        actual={{"name": "player_name_2", "magic": 10, "strength":20, hp: 100 }}
         expected={{"name": "player_name", "magic": 20, "strength":100, hp: 200 }}
     />
 </TestReport>
@@ -3036,11 +3037,9 @@ test(`Gets user by id`, async () => {
 
 
 - Pour vérifier ca: check ui.notifyWinner appelé avec bon paramètres
-- Aka test délégation: méthode appelé avec bon params
-- Vois attendais trucs et rien reçu
-- A moi comprendre quoi correspond objet attendu
-- Ici on devine que player, probablement le gagnant
-- Mais mieux si explicite
+- Aka test délégation: méthode appelé avec bon params = working
+- Ici, pb claire, pas reçu ce que j'attendais
+- Mais pas clair: quoi reçu à la place? quoi'attendais?
 
 </Notes>
 
@@ -3062,9 +3061,6 @@ test(`Displays turn winner`, (  ) => {
 ```
 
 ```diff 2:3
-```
-
-```diff 7
 ```
 
 ```diff 9
@@ -3102,18 +3098,18 @@ test(`Displays turn winner`, (  ) => {
 
 <Notes>
 
+- Comment traduit niveau test ? 
 - Créé joueurs
-- Lance tour
-- Vérifie ui appelé avec gagnant
-- Pb, calledWith dump just objet reçu 
-- Prends params attendu, params reçu et fait diff
-- Mais peut pas transformer résultat, c'est dans code
-- Comment faciliter identifiaction param attendu
+- Vérifie notifyWinner appelé avec gagnant
+- Encore une fois utilise user complet, donc dump user complet dans failure test
+- Mais ici pas retour, rien à transformer. Peux pas modifier résultats comme avant 
+- Objectif: pouvoir identifier rapidement reçu et attendu
+- Comment ?
 
 
-- Props objet pas utilisées -> remplacer par string
-- Ici, besoin objet donc tag via function
-
+- Tagger objets
+- Si valeurs pas utilisées, juste remplacer par string
+- Ici besoin, donc via fonction
 
 </Notes>
 
@@ -3122,48 +3118,15 @@ test(`Displays turn winner`, (  ) => {
 <TestReport name="Displays turn winner">
     <Matchers.ToHaveBeenCalledWith 
         fnName="ui.notifyWinner()"
-        actual={null}
+        actual={"turn_looser"}
         expected="turn_winner"
     />
 </TestReport>
 
 <Notes>
 
-- Sais immédiatement pb: Objet non reçu
+- Sais immédiatement pb: mauvais objet reçu
 - Et fix: Passer gagnant
-
-</Notes>
-
----
-
-<TestReport name="Displays turn winner">
-    <Matchers.ToHaveBeenCalledWith 
-        fnName="ui.notifyWinner()"
-        expected={{"name": "player_name_1", "magic": 20, "strength":100, hp: 200 }}
-        actual={{"name": "player_name_2", "magic": 10, "strength":20, hp: 100 }}
-    />
-</TestReport>
-
-<Notes>
-
-- Si retourne mauvais joueur,
-- passe de ça
-
-</Notes>
-
----
-
-<TestReport name="Displays turn winner">
-    <Matchers.ToHaveBeenCalledWith 
-        fnName="ui.notifyWinner()"
-        actual="turn_looser"
-        expected="turn_winner"
-    />
-</TestReport>
-
-<Notes>
-
-- à ça
 
 </Notes>
 
@@ -3207,8 +3170,8 @@ const traceable = (object, identifier) => {
     <TestReport name="Displays turn winner" zoom={.7}>
         <Matchers.ToHaveBeenCalledWith 
             fnName="ui.notifyWinner()"
-            actual={null}
-            expected={{"name": "player_name", "magic": 20, "strength":100, hp: 200 }}
+            actual={{"name": "player_name_2", "magic": 10, "strength":20, hp: 100 }}
+                    expected={{"name": "player_name", "magic": 20, "strength":100, hp: 200 }}
         />
     </TestReport>
     } 
@@ -3216,7 +3179,7 @@ const traceable = (object, identifier) => {
         <TestReport name="Displays turn winner" zoom={.7}>
             <Matchers.ToHaveBeenCalledWith 
                 fnName="ui.notifyWinner()"
-                actual={null}
+                actual={"turn_looser"}
                 expected="turn_winner"
             />
         </TestReport>
@@ -3231,8 +3194,8 @@ const traceable = (object, identifier) => {
 
 
 - Après:
-- Me dit pb: Objet pas passé
-- et solution: Passe moi le gagnant
+- Sais immédiatement pb: mauvais objet reçu
+- Et fix: Passer gagnant
 
 </Notes>
 
