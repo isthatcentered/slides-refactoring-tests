@@ -13,4 +13,7 @@ Sections shortcuts:
 - [Useless test failures](https://youtu.be/WSkOi0Ax-sQ?t=1518)
 - [Broken tests but working code](https://youtu.be/WSkOi0Ax-sQ?t=2195)
 
-
+## Additional links
+- [jest-dom](https://github.com/testing-library/jest-dom)
+- [jest-traceable](https://github.com/isthatcentered/traceable)
+- [Mutation testing](https://stryker-mutator.io/) 
