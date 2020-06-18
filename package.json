@@ -12,9 +12,10 @@
     "@code-surfer/themes": "^3.1.1",
     "code-surfer": "3.1.1",
     "mdx-deck": "3.1.0",
+    "netlify-cli": "^2.54.0",
     "prettier": "^2.0.5"
   },
-  "name": "my-deck",
+  "name": "slides-refactoring-tests",
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
