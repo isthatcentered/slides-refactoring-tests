@@ -1,23 +1,16 @@
-# MDX Deck + Code Surfer template
+# Refactoring tests
+Slides for my "Refactoring tests" talk
 
-This project was generated with the `npm init code-surfer-deck` command.
+## Slides
+[Refactoring tests](https://refactoring-tests.netlify.app/)
 
-## Development
+## Video (French version)
+[![Refactoring tests talk version Française](https://img.youtube.com/vi/WSkOi0Ax-sQ/0.jpg)](https://www.youtube.com/watch?v=WSkOi0Ax-sQ)
 
-To run the presentation deck in development mode:
+Sections shortcuts:
+- [Hard to navigate tests](https://youtu.be/WSkOi0Ax-sQ?t=208)
+- [Unclear tests](https://youtu.be/WSkOi0Ax-sQ?t=716)
+- [Useless test failures](https://youtu.be/WSkOi0Ax-sQ?t=1518)
+- [Broken tests but working code](https://youtu.be/WSkOi0Ax-sQ?t=2195)
 
-```sh
-npm start
-```
 
-Edit the [`deck.mdx`](deck.mdx) file to get started.
-
-## Exporting
-
-To build the presentation deck:
-
-```sh
-npm run build
-```
-
-For more documentation see [MDX Deck](https://github.com/jxnblk/mdx-deck) and [Code Surfer](https://codesurfer.pomb.us/)
