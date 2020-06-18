@@ -18,13 +18,24 @@ import {Inline, Caption, Figure, EmojiSlide, TestsVsDevKnowledgeTable } from "./
 import "./src/styles.css"
 import SlidesTheme from "./src/theme.js"
 import "typeface-gothic-a1"
-
+import videoCapSrc from "./static/video_cap.jpg"
 export const theme = SlidesTheme
 
 export const splitCodeSampleProps = {themes: [vsDark , theme]}
 
 export const FunFact = () => <div>Also</div>
   
+
+<a href="https://www.youtube.com/watch?v=WSkOi0Ax-sQ" target="_blank">   
+    <img
+        style={{display: "block",borderRadius: 5, boxShadow: "0 4px 6px -1px rgba(0,0,0,.2),0 2px 4px -1px rgba(0,0,0,.16)"}} 
+        src={videoCapSrc}
+        alt="" 
+    />
+    <span style={{fontStyle:"italic","display":"block","textAlign":"center","fontSize":"28px","paddingTop":"16px"}}>View the talk (French)</span>
+</a>
+
+---
 
 # 👋🌏
 
