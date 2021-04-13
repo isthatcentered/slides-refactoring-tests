@@ -394,7 +394,9 @@ test("<Signup/>", async () => {
 
 - Trouver moyen tests ressemblent
 
-- Histoire/détail change mais principes restent mm
+- Le sujet du test sera tjs different
+
+- Mais au niveau etapes, methode, visuellement, veut chaque test soit familié mm si ouvert premiere fois
 
 </Notes>
 
@@ -430,21 +432,80 @@ test("<LoginPage/>", () => {
 
 ```js showNumbers
 test("<LoginPage/>", () => {
-  // verify can't submit if empty form
-
-  // verify email validation
+  /const navigateSpy = jest.fn()
+  ;(useNavigate as jest.Mock<typeof useNavigate>).mockImplementation(
+    () => navigateSpy,
+  )
+  ;((User.createUser as any) as jest.MockInstance<
+  ReturnType<typeof User.createUser>,
+  any
+  >).mockResolvedValue(null as any)
+  ;((SocialLogin as any) as jest.MockInstance<
+  ReturnType<typeof SocialLogin>,
+  any
+  >).mockImplementation(() => null)
   
-  // Verify password validation
-    
-  // verify loading state
-    
-  // verify login fail displays error
-    
-  // verify login fail redirect error
-
-  // more stuff
+  const page = render(<Signin />)
+  
+  const submitButton = page.getByRole("button", {
+    name: /signin/i,
+  }) as HTMLButtonElement
+  
+  fireEvent.click(submitButton)
+  
+  expect(() => page.getByText(/Login & password required/i)).not.toThrow()
+  
+  const email = page.getByLabelText(/email/i)
+  fireEvent.change(email, { target: { value: "john@gmail.com" } })
+  
+  const password = page.getByLabelText(/password/i)
+  fireEvent.change(password, { target: { value: "helloworld" } })
+  
+  fireEvent.click(submitButton)
+  
+  expect(() => page.getByText(/Loading/i)).not.toThrow()
+  expect(submitButton.disabled).toBe(true)
+  
+  expect(User.createUser).toHaveBeenCalledWith({
+    email: "john@gmail.com",
+    password: "helloworld",
+  })
+  
+  await tick()
+  
+  expect(navigateSpy).toHaveBeenCalledWith("/")
+  
+  expect(SocialLogin).toHaveBeenLastCalledWith(
+    {
+      loginEnpointRootUrl: API_BASE_URL,
+    } as PropsType<typeof SocialLogin>,
+    {},
+)
+  
+  // ... more
 }) 
 ```
+
+</CodeSurfer>
+
+<Notes>
+
+- Juste 1 test ?
+- Dump ensemble cas tests pour page
+- Tout caser ensemble, verification validation/redirection/loading state, etc
+
+- Fait peur
+- Dur à prendre en main (Surface à apprendre très large)
+- Etapes probablement inter-dépendantes (je bouge A, je casse D et sais pas pkoi)
+- Imaginez si faut ajouter nouveau cas...
+
+- Coomment mieux ?
+
+</Notes>
+
+---
+
+<CodeSurfer>
 
 ```js 1[6:39]
 test("method -> condition -> behavior", ()=>{})
@@ -483,24 +544,18 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
-- Juste 1 test ?
-- Dump ensemble cas tests pensé sur moment
-
-
-- Fait peur
-- Dur à prendre en main (Surface à apprendre très large)
-- Fixer failure met danger autres cas test
-- Tous désactivé un truc pour check et oublié réactiver
-
-
 - Scoper via convention nommage
-- Aide découvrir cas spéciaux feature/penser à tout
+- Propose celle là mais pleins d'autres
+- Pouvez mm l'inventer, 
+- L'important = Aide découvrir cas spéciaux feature/penser à tout
 
 
-- Condition = qu'est-ce qui rend ce test spécial
+- Condition = qu'est-ce qui rend ce test spécial (pré-condition qui rend scénario spécial)
 - Comportement = résultat suite condition
+- Etant donnée login échoué, blah blah blah
+  
 - plusieurs cas possibles par condition (might be another condition)
-- (nesting test peut simplifier la vie là dessus)
+- séparation pré-condition (describe)/test (test) peut aider à se poser question
 
 </Notes>
 
@@ -514,6 +569,7 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
+- Aussi, bénéfice,
 - Avant renommage si fail pb validation:
 
 </Notes>
@@ -560,19 +616,57 @@ describe("<LoginPage/>", () => {
 
 ```js showNumbers subtitle="before"
 test("<LoginPage/>", () => {
-    // verify can't submit if empty form
-    
-    // verify email validation
-    
-    // Verify password validation
-    
-    // verify loading state
-    
-    // verify login fail displays error
-    
-    // verify login fail redirect error
-    
-    // more stuff
+  /const navigateSpy = jest.fn()
+  ;(useNavigate as jest.Mock<typeof useNavigate>).mockImplementation(
+    () => navigateSpy,
+  )
+  ;((User.createUser as any) as jest.MockInstance<
+  ReturnType<typeof User.createUser>,
+  any
+  >).mockResolvedValue(null as any)
+  ;((SocialLogin as any) as jest.MockInstance<
+  ReturnType<typeof SocialLogin>,
+  any
+  >).mockImplementation(() => null)
+  
+  const page = render(<Signin />)
+  
+  const submitButton = page.getByRole("button", {
+    name: /signin/i,
+  }) as HTMLButtonElement
+  
+  fireEvent.click(submitButton)
+  
+  expect(() => page.getByText(/Login & password required/i)).not.toThrow()
+  
+  const email = page.getByLabelText(/email/i)
+  fireEvent.change(email, { target: { value: "john@gmail.com" } })
+  
+  const password = page.getByLabelText(/password/i)
+  fireEvent.change(password, { target: { value: "helloworld" } })
+  
+  fireEvent.click(submitButton)
+  
+  expect(() => page.getByText(/Loading/i)).not.toThrow()
+  expect(submitButton.disabled).toBe(true)
+  
+  expect(User.createUser).toHaveBeenCalledWith({
+    email: "john@gmail.com",
+    password: "helloworld",
+  })
+  
+  await tick()
+  
+  expect(navigateSpy).toHaveBeenCalledWith("/")
+  
+  expect(SocialLogin).toHaveBeenLastCalledWith(
+    {
+      loginEnpointRootUrl: API_BASE_URL,
+    } as PropsType<typeof SocialLogin>,
+    {},
+)
+  
+  // ... more
 }) 
 ```
 
@@ -598,7 +692,7 @@ describe("<LoginPage/>", () => {
 
 <Step>
 
-```diff 7[300]
+```diff 
 ```
 
 ```diff 
@@ -613,7 +707,8 @@ describe("<LoginPage/>", () => {
 
 - Avant: 
 - Test vas couter cher en maintenance et énergie
-- 300 lignes à gérer sans faire d'erreur quelque soit pb
+- Enorme surface à apprendre
+- Si dois ajouter/fixer cas, prends aprem
 
 
 - Apres:
@@ -632,7 +727,7 @@ describe("<LoginPage/>", () => {
 <Notes>
 
 - Quand test qui fait tout
-- Rescoper via convention nommage
+- Re-scoper via convention nommage
 
 </Notes>
 
@@ -650,9 +745,8 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
-- On a rescopé tests
+- On a suite petits tests dédiés à pb précis
 - Next, pouvoir trouver marques
-
 
 - Etapes mélangées
 
