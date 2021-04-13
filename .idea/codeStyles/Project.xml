@@ -8,11 +8,6 @@
       </value>
     </option>
     <option name="RIGHT_MARGIN" value="300" />
-    <option name="HTML_ATTRIBUTE_WRAP" value="0" />
-    <option name="HTML_TEXT_WRAP" value="0" />
-    <option name="HTML_ALIGN_TEXT" value="true" />
-    <option name="HTML_ELEMENTS_TO_INSERT_NEW_LINE_BEFORE" value="body,div,p,form,h1,h2,h3,a" />
-    <option name="HTML_ENFORCE_QUOTES" value="true" />
     <CssCodeStyleSettings>
       <option name="VALUE_ALIGNMENT" value="2" />
       <option name="KEEP_SINGLE_LINE_BLOCKS" value="true" />
@@ -50,6 +45,9 @@
       <option name="SPACES_AROUND_ARROW" value="true" />
       <option name="SPACE_AROUND_ASSIGNMENT_IN_DECLARE" value="true" />
     </PHPCodeStyleSettings>
+    <ScalaCodeStyleSettings>
+      <option name="MULTILINE_STRING_CLOSING_QUOTES_ON_NEW_LINE" value="true" />
+    </ScalaCodeStyleSettings>
     <TypeScriptCodeStyleSettings version="0">
       <option name="FORCE_SEMICOLON_STYLE" value="true" />
       <option name="FIELD_PREFIX" value="__" />

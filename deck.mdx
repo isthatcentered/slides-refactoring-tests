@@ -157,19 +157,22 @@ test("<Signup/>", async () => {
 ---
 
 ## <b style={{color: theme.colors.primaryDark}}>Edouard Penin</b>
-<div style={{"display":"flex","justifyContent":"center","alignItems":"center","marginTop":"-40px","color":"#888888",}}>
-    <img style={{"width":"60px","marginRight":".25em"}} alt="" src="https://upload.wikimedia.org/wikipedia/fr/thumb/c/c8/Twitter_Bird.svg/1200px-Twitter_Bird.svg.png"/>
-    @isthatcentered
-</div> 
 
 <Notes>
 
+<div style={{"display":"flex","justifyContent":"center","alignItems":"center","marginTop":"-40px","color":"#888888",}}>
+    <img style={{"width":"60px","marginRight":".25em"}} alt="" src="https://upload.wikimedia.org/wikipedia/fr/thumb/c/c8/Twitter_Bird.svg/1200px-Twitter_Bird.svg.png"/>
+    @isthatcentered
+</div>
+
 - Edouard Penin
-- Consultant zenika nantes
-- (heureux nouvel arrivant depuis mars)
-- Si mon twitter devait dire ce que je fait de ma vie
-- Typescript, frontend, testing, et musique 
-- (je sais pas quelle conclusion en tirer)
+- Consultant/formateur zenika nantes
+- Pourquoi là pour vous parler tests ?
+- Parce que passé beaucoup plus de temps que justifié à réfléchir à toutes ces questions
+- Et puis à travers personnes formées,
+- teams/applis/clients travaillé (pizza team size ou geants)
+- j'ai aussi l'experience pour reconnaitre/prévoir avantages et inconvénients solution celon contexte
+- Veut pas dire toujours raison/pas mieux que ce que j'ai proposé, mais bon paquet choses apprises et découvertes au fil années à partager
 
 </Notes>
 
@@ -191,105 +194,103 @@ test("<Signup/>", async () => {
 
 
 
-<EmojiSlide caption="Tests are a runnable specification">
-🏃‍♂️📚
+<EmojiSlide caption="A test suite is a runnable specification">
+🏃‍♂️✅
 </EmojiSlide>  
 
 <Notes>
 
-- tests = spec executable
+- Spécification executable
+- AKA feedback constant, immédiat et automatique bon fonctionement appli
 - Source de vérité:
-- Comment chaque ecran app doit se comporter
-- comment chaque edge case doit être géré
+    - Comment chaque ecran app doit se comporter
+    - comment chaque edge case doit être géré
 
 </Notes>
 
 ---
 
-<TestsVsDevKnowledgeTable dev="🧩" tests="📚" result="😀" />
+<EmojiSlide caption="Watches over the whole application so that you don't have to">
+🌍🕵️‍♂️
+</EmojiSlide>
 
 <Notes>
 
-- Lors ajout feature/refactor 
+- Lors ajout feature/refactor
 - Permet concentrer / feature only
-- Test watches for you
+- Oublier reste
+- Partenaire en pair pro
+    - Là pour faire singe si cassé truc à l'autre bout appli avec dernier changement
+    - Peux ajuster stratégie immédiatement, pas après 10 jours de dev sur feature
+
+</Notes>
+
+---
+
+
+<TestsVsDevKnowledgeTable dev="🧩" tests="📚📚📚" result="😀" />
+
+<Notes>
+
+- Parait idéal, 
+- Concentre sur piece puzzle/feature, tests débrouillent avec reste
+- = Journée beaucoup moins fatiguante (charge mentale focus one thing)
 - = Avance + vite
 - = + features
 - = - bugs
+- Ca = dans l'ideal
+- pb arrive qd deadline approche
+- Deadline = pression = stress
+- Donc why refacto/prendre soin tests/dépenser temps à rendre plus compréhensibles ?
+- Tests font pas tourner appli, pas vitaux pour fonctionner
+- donc si ils m'empêchent d'avancer vite/dur comprendre, ils sautent
+- (ou "commenté pour le reactiver plus tard")
+- Et pb avec test en moins
 
 </Notes>
 
 ---
 
-<EmojiSlide caption="The always lurking deadline" >⏰☠️</EmojiSlide>
+<TestsVsDevKnowledgeTable dev="📚🧩" tests="📚📚" result="😐" />
 
 <Notes>
 
-- Problème arrive quand deadline fait sentir
-- Par défaut Test = premier truc à sauter qd pression
-- Donc pkoi refactorer/prendre soin test/dépenser temps à rendre plus compréhensibles ?
-
-</Notes>
-
----
-
-<EmojiSlide caption="Complicated tests end up abandoned" >😱🙅‍♂️</EmojiSlide>
-
-<Notes>
-
-- Parce que si test fait peur -> test saute
-- ou "commenté pour le reactiver plus tard"
-
-</Notes>
-
----
-
-<TestsVsDevKnowledgeTable dev="🧩" tests="📚" result="😀" />
-
-<Notes>
-
-- Donc pb avec test en moins
-- Vite fait mal tourner
 - Test en moins = pièce en plus en tête
-
-</Notes>
-
----
-
-<TestsVsDevKnowledgeTable dev="🧩📕" tests="📗📘" result="😐" />
-
-<Notes>
-
-- Si supprime test
 - Doit gérer feature + effet de bord code non testé
-- MANUELLEMNT
-- Doit penser à tous cas tests 
+- Tests = spec auto. Mais plus tests. DOnc,
+- Doit connaitre par coeur toutes règles/edges cases de autre feature 
+- Et verif manuellement
+- Pourquoi pas, fun si nouveau dev
+- Inertie créée
 
 </Notes>
 
 ---
 
-
-<TestsVsDevKnowledgeTable dev="🧩📕📗" tests="📘" result="😓" />
+<TestsVsDevKnowledgeTable dev="📚📚🧩" tests="📚" result="😕" />
 
 <Notes>
 
-- ++ tests commentés -> ++ cas tests à garder en tête
-- Effets de bords à anticiper
+- Facile ajouter test quand tout déjà prêt
+- Dur quand moitié tests marchent pas
+- Du coup - en - tests écris
+- Demande + en + énergie
+- + en + barrières à dépasser pour écrire test
+
+</Notes>
+
+---
+
+<TestsVsDevKnowledgeTable dev="📚📚📚🧩" tests="" result="😵" />
+
+<Notes>
+
+- EN gros, arrive moment ou
+- Plus de test/plus confiance
+- A chaque changement doit tout vérifier
+- impossible toute app en tête
 - 2 pas arrières pour 1 en avant
-- modifie truc -> créé bugs 
-
-</Notes>
-
----
-
-<TestsVsDevKnowledgeTable dev="🧩📚" tests="" result="🤯" />
-
-<Notes>
-
-- Jusque moment ou tendance complètement inversée
-- A chaque changement doit tout vérifier 
-- impossible toute app en tête 
+- J'ajoute truc -> casse deux 
 
 </Notes>
 
@@ -297,22 +298,24 @@ test("<Signup/>", async () => {
 
 <EmojiSlide>
     <span>
-        📈
+        😤 
     </span>
     <Appear>
         <span>
         😤 
         </span>
         <span>💸</span>
+        <span>👎</span>
     </Appear>
 </EmojiSlide>
 
 <Notes>
 
-- Aka
-- So bugs
-- frutrated users
+- Traduit par
+- Equipe frustrée (dev/business)
+- ++ bugs donc users frustrés
 - lost money
+- Credibility
 - but aujourd'hui: 
 
 </Notes>
@@ -333,6 +336,9 @@ test("<Signup/>", async () => {
 - Identifier smells qui font test difficile maintenir
 - Voir pistes pour faire mieux
 - combo smell -> refactor
+- POur que, dans periodes stress
+- Ajouter/modifier test soit facile
+- Mieux, tests aident à faire évoluer appli
 
 </Notes>
 
