@@ -201,7 +201,7 @@ test("<Signup/>", async () => {
 <Notes>
 
 - Spécification executable
-- AKA feedback constant, immédiat et automatique bon fonctionement appli
+- AKA feedback constant, immédiat et automatique bon fonctionement appli à chaque changement
 - Source de vérité:
     - Comment chaque ecran app doit se comporter
     - comment chaque edge case doit être géré
@@ -273,9 +273,9 @@ test("<Signup/>", async () => {
 
 - Facile ajouter test quand tout déjà prêt
 - Dur quand moitié tests marchent pas
-- Du coup - en - tests écris
-- Demande + en + énergie
 - + en + barrières à dépasser pour écrire test
+- Demande + en + énergie
+- Du coup - en - tests écris
 
 </Notes>
 
@@ -491,6 +491,10 @@ test("<LoginPage/>", () => {
 <Notes>
 
 - Juste 1 test ?
+
+- Note, pour tous exemples, pas besoin lire, ils sont difficiles à comprendre, c'est le but, suis là pour mettre en valeur étapes importantes
+- (z'allez comprendre pkoi je dis ça au prochain slide)
+  
 - Dump ensemble cas tests pour page
 - Tout caser ensemble, verification validation/redirection/loading state, etc
 
@@ -863,14 +867,15 @@ test("<LoginPage/>", () => {
 - Vérifie redirigé vers page d'accueil quand on se log
 
 
-- Quand test fail veut cibler rapidement pb
-- Localiser assertion puis remonter
+- Quand test fail et msg failure insuffisant, veut cibler rapidement pb
+- [Localiser assertion] puis [actions] puis [setup]
 - Ici mélangées
 - Dur trouver rapidement info
 
-- Grouper par type
+- Comment mieux ?
+- Identifié trois groupe:
+- A, A, A
 - Ajouter espaces  
-- AAA
 - + add spaces
 
 </Notes>
@@ -1014,7 +1019,7 @@ test("<LoginPage/>", () => {
 
 <Notes>
 
-- AAA
+- Regroupe étape en AAA
 
 </Notes>
 
@@ -1191,6 +1196,7 @@ test("add() validation passed saves product to database", async () => {
 - Face Licorne
 - Standardize
 - Regarde comment fait ailleurs, et fait pareil
+- J'ai déjà savoir nécéssaire quand arrive sur test
 
 </Notes>
 
@@ -1204,11 +1210,12 @@ test("add() validation passed saves product to database", async () => {
 
 <Notes>
 
-- Travaillé 
-- Nommage
-- structure
-- Conventions
-- Facilité prise en main test
+- Chaque test familié quelque soit team member qui a écris
+- Mm si découvre test
+- mm Découpage (méthode -> pre-condition -> comportement)
+- mm Structure/visuel (A, A, A)
+- mm Implémentation (Standardization méthode)
+- Friction réduite
 
 </Notes>
 
