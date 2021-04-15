@@ -170,9 +170,9 @@ test("<Signup/>", async () => {
 - Pourquoi là pour vous parler tests ?
 - Parce que passé beaucoup plus de temps que justifié à réfléchir à toutes ces questions
 - Et puis à travers personnes formées,
-- teams/applis/clients travaillé (pizza team size ou geants)
-- j'ai aussi l'experience pour reconnaitre/prévoir avantages et inconvénients solution celon contexte
-- Veut pas dire toujours raison/pas mieux que ce que j'ai proposé, mais bon paquet choses apprises et découvertes au fil années à partager
+- Veut pas dire toujours raison/pas mieux que ce que propose
+- teams/applis/clients travaillé (tout petits et très grands)
+- Pas mal de choses à partager et assez retours experience pour reconnaitre/prévoir avantages et inconvénients solution celon contexte
 
 </Notes>
 
@@ -233,18 +233,21 @@ test("<Signup/>", async () => {
 <Notes>
 
 - Parait idéal, 
-- Concentre sur piece puzzle/feature, tests débrouillent avec reste
-- = Journée beaucoup moins fatiguante (charge mentale focus one thing)
-- = Avance + vite
-- = + features
-- = - bugs
+- As dev, meilleur journée bc charge mentale --
+- As team, livrer + features + vite avec + qualité 
+- bc filet/guardien autour nous évite tout un cycle dpeloy -> QA si créé bug
+
+
 - Ca = dans l'ideal
 - pb arrive qd deadline approche
 - Deadline = pression = stress
 - Donc why refacto/prendre soin tests/dépenser temps à rendre plus compréhensibles ?
 - Tests font pas tourner appli, pas vitaux pour fonctionner
-- donc si ils m'empêchent d'avancer vite/dur comprendre, ils sautent
-- (ou "commenté pour le reactiver plus tard")
+- donc si ils m'empêchent d'avancer vite 
+    - bc dur comprendre
+    - dois réécrire tout test bc changé nom de var dans code
+- ils sautent
+- Il justifient pas leur poid
 - Et pb avec test en moins
 
 </Notes>
@@ -402,6 +405,18 @@ test("<Signup/>", async () => {
 
 --- 
 
+<EmojiSlide>🙋‍♂️</EmojiSlide>
+
+<Notes>
+
+- Pas besoin lire code
+- Dur à comprendre, c'est but
+- moi guide
+
+</Notes>
+
+---
+
 <!--
 ****************************
 ****************************
@@ -414,6 +429,7 @@ test("<Signup/>", async () => {
 
 <Notes>
 
+- Premier dans categorie dur à naviguer
 - Tout en un
 
 </Notes>
@@ -490,20 +506,19 @@ test("<LoginPage/>", () => {
 
 <Notes>
 
-- Juste 1 test ?
-
-- Note, pour tous exemples, pas besoin lire, ils sont difficiles à comprendre, c'est le but, suis là pour mettre en valeur étapes importantes
-- (z'allez comprendre pkoi je dis ça au prochain slide)
+- Juste 1 test pour toute page ?
+- verification validation/redirection/loading state, etc ?
   
-- Dump ensemble cas tests pour page
-- Tout caser ensemble, verification validation/redirection/loading state, etc
 
-- Fait peur
-- Dur à prendre en main (Surface à apprendre très large)
-- Etapes probablement inter-dépendantes (je bouge A, je casse D et sais pas pkoi)
+- [Dump ensemble cas tests pour page]
+- Quoi pb ?
+    - Fait peur
+    - Surface à apprendre très large
+    - Etapes probablement inter-dépendantes (je bouge A, je casse D et sais pas pkoi)
 - Imaginez si faut ajouter nouveau cas...
 
 - Coomment mieux ?
+- Au lieu test géant, ensemble petits tests dédiés à scénario précis
 
 </Notes>
 
@@ -511,28 +526,47 @@ test("<LoginPage/>", () => {
 
 <CodeSurfer>
 
-```js 1[6:39]
-test("method -> condition -> behavior", ()=>{})
+```js 1[6:39] showNumbers
+test("method -> condition -> behavior", ()=> {})
 ```
 
-```js 1[6:18]
-test("<LoginPage/> -> condition -> behavior", ()=>{})
+```js 1[6:18] showNumbers
+test("<LoginPage/> -> condition -> behavior", ()=> {})
 ```
 
-```js 1[23:35]
-test("<LoginPage/> -> failed login -> behavior", ()=>{})
-```
-
-```js 1[39:60]
-test("<LoginPage/> -> failed login -> displays server error", ()=>{})
-```
-
-```js 1[7:54]
-test("<LoginPage/> failed login displays server error", ()=>{})
+```js 1[23:35],2 showNumbers
+test("<LoginPage/> -> condition -> behavior", ()=> {
+  expect(() => page.getByText("Mot de passe ou nom d'utilisateur invalide")).not.toThrow()
+})
 ```
 
 
-```js 2:6
+```js 1[23:35] showNumbers
+test("<LoginPage/> -> failed login -> behavior", ()=> {
+  expect(() => page.getByText("Mot de passe ou nom d'utilisateur invalide")).not.toThrow()
+})
+```
+
+```js 1[38:46] showNumbers
+test("<LoginPage/> -> failed login -> behavior", ()=> {
+  expect(() => page.getByText("Mot de passe ou nom d'utilisateur invalide")).not.toThrow()
+})
+```
+
+```js 1[39:60] showNumbers
+test("<LoginPage/> -> failed login -> displays server error", ()=> {
+  expect(() => page.getByText("Mot de passe ou nom d'utilisateur invalide")).not.toThrow()
+})
+```
+
+```js 1[7:54] showNumbers
+test("<LoginPage/> failed login displays server error", ()=> {
+  expect(() => page.getByText("Mot de passe ou nom d'utilisateur invalide")).not.toThrow()
+})
+```
+
+
+```js 2:6 showNumbers
 describe("<LoginPage/>", () => {
   describe("Failed login", () => {
     test("Displays server error", ()=>{})
@@ -548,17 +582,22 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
-- Scoper via convention nommage
-- Propose celle là mais pleins d'autres
-- Pouvez mm l'inventer, 
-- L'important = Aide découvrir cas spéciaux feature/penser à tout
+- Aider convention nommage
+- Donne framework pour découper tests et mm découvrir scénarios pas pensé
+- Propose celle là mais pleins d'autres, pouvez mm l'inventer, 
+- L'important = parle/aide à écrire tests/critères acceptance 
 
 
-- Condition = qu'est-ce qui rend ce test spécial (pré-condition qui rend scénario spécial)
-- Comportement = résultat suite condition
-- Etant donnée login échoué, blah blah blah
+- [methode] -> sujet du test (repo.add/createUser/...) 
+- [Contition] 
+- remonter partie code précédent pour concret
+- -> qu'est-ce qui rend ce test spécial (pré-condition qui rend scénario spécial)  
+- [login failed]
+- [Comportement] = résultat suite condition
+- [afficher erreur serveur]
+- [Etant donnée login échoué, blah blah blah]
   
-- plusieurs cas possibles par condition (might be another condition)
+- [plusieurs cas possibles par condition (might be another condition)]
 - séparation pré-condition (describe)/test (test) peut aider à se poser question
 
 </Notes>
@@ -604,7 +643,7 @@ describe("<LoginPage/>", () => {
 
 - Bon nom test = quel est pb
 - Lancer investigations
-- Réduire surface debug  
+- Pas besoin débugger test pour débugger appli
 
 </Notes>
 
@@ -731,7 +770,7 @@ describe("<LoginPage/>", () => {
 <Notes>
 
 - Quand test qui fait tout
-- Re-scoper via convention nommage
+- Re-scoper/découper aidant convention nommage
 
 </Notes>
 
@@ -865,18 +904,20 @@ test("<LoginPage/>", () => {
 <Notes>
 
 - Vérifie redirigé vers page d'accueil quand on se log
-
-
 - Quand test fail et msg failure insuffisant, veut cibler rapidement pb
-- [Localiser assertion] puis [actions] puis [setup]
-- Ici mélangées
-- Dur trouver rapidement info
+- Aka idée attentes (assertions), comment fonctionne (actions font assertions passent), données nécéssaires test (setup)
 
+- Ici mélangées [assertion] [actions] [setup]
+- [Pb ?]
+    - Pas standardisé, pas carte précise A then B then C
+    - Potentiellement moins stricte/qualité (dépendances entre étapes)
 - Comment mieux ?
-- Identifié trois groupe:
-- A, A, A
-- Ajouter espaces  
-- + add spaces
+- Identifié trois groupes (setup, actions, attentes) -> Rendre explicites
+- [setup], [actions], [attentes]
+- Déroulement clair et valide pour tous tests
+- [A], [A], [A]
+- [Ajouter espaces]
+- Tout de suite, quelque soit sujet test, je sais déjà comment aborder/ou trouver quoi
 
 </Notes>
 
@@ -1002,11 +1043,14 @@ test("<LoginPage/>", () => {
 
 - Avant: 
 - Si failure, falloir chercher pièces
+- Chaque test parrait nouveau
 
 
 - Après
+- Standardisé étapes de tous test
 - Peux localiser rapidement assertions et remonter
-- Accessoirement, spaces = fais mois peur 
+- Accessoirement, spaces = fais mois peur
+- Quelque soit sujet test, je connais déjà moitié fonctionnement
 
 </Notes>
 
@@ -1128,6 +1172,8 @@ test("add() validation passed saves product to database", async () => {
 - Pourtant font exactement mm chose
 - "Prend truc, ajout, verifie ajouté"
 - Donc mm chôse, implémentation complètement différente
+- PB ?
+- Bah tout à coup dois apprendre à me servir des mocks -> pas mm temps nécéssaire
 - Comment faire mieux ?
 
 </Notes>   
@@ -1243,6 +1289,8 @@ test("add() validation passed saves product to database", async () => {
 - Mettre en valeur ce qui importance dans test
 - Cacher le reste
 - Trouver bon niveau de détail pour compréhension rapide
+- Pour si test ko
+- Pas investiguer choses qui ont aucune importance
 
 </Notes>
 
@@ -1620,13 +1668,20 @@ function renderLoginPage() {
 
 - Test vérifie redirigé vers page d'accueil quand login
 
+- Si regarde recette test (actions à effectuer pour recréer cas de test)
+- 5 lignes mais Impossible comprendre 
+- Pb ? Plutot qu'arriver sur test, passer 2 sec sur liste étapes nécéssaires pour que passe et lancer investigations
+- Dois passer temps à décoder ce qui se passe, comprendre étapes, fonctionnement test
+- Sors complètement contexte, pas objectif
 
-- Actions: 5 lignes mais Impossible comprendre 
-- Suite micro instructions, à nous donner sens
 
-
+- Comment mieux ?
 - Objectif: Trouver concepts/idées cachées sous instructions et faire apparaitre
+
+
 - Quel concept derrière X ? Y -> cacher détail, faire apparaitre concept (extraire utilitaire et appliquer)
+
+
 - Comme helpers utiles partout -> ajouter à framework (prend render, rééxporte avec helpers)
 
 
@@ -1769,7 +1824,7 @@ test("<LoginPage/>", async () => {
 - Après
 - Recette simple pour recréer etat testé
 - Se lit comme un guide utilisateur/spec
-- (bonus) Centralized logique tests. Si évolution, 1 seul endroit à changer 
+- Si test cassé, en 2 secondes comprends test et prêt à débugger 
 
 </Notes>
 
@@ -1783,7 +1838,6 @@ test("<LoginPage/>", async () => {
 <Notes>
 
 - Quand suite instruction qui veulent rien dire
-- Extraire utilitaire pour 
 - Décrit le quoi (type), pas le comment (firevent type change avec value "blah")
 
 </Notes>
@@ -1805,7 +1859,7 @@ test("<LoginPage/>", async () => {
 
 - Clarifié/Donné sens à recette/étapes test
 - Next: Mettre en valeur détails importants
-- Aka fait test fail/pass
+- Aka, quoi dans mise en place fait test fail/pass
 
 </Notes>
 
@@ -1943,14 +1997,20 @@ test("Valiation success adds user to repository", () => {
 - Test vérifie utilisateur bien ajouté à bdd
 
 
-- Long setup user
+- Commence par long setup user
 - Validateur identité ? -> probablement un truc avec user
-- Incapable de dire quelle prop fait test pass/fail
+- Pb? Incapable de dire quelle prop fait test pass/fail
+- Surface débug large -> creuser validateur ident
+  
+
 - Comment mieux ?
 
 
-- Générer automatiquement toutes props qui comptent pas
-- Spécifier seulement importantes 
+- Objectif: Veux voir seullement détails qui comptent
+  
+
+- Méthode: générer automatiquement toutes props qui comptent pas
+- Overrides -> Spécifier seulement importantes 
 - Vois seullement props importantant
 
 
@@ -2040,7 +2100,7 @@ test("Valiation success adds user to repository", () => {
 
 - Après:
 - Immédiatement clair Combo email password important
-- Sait que reste user pas important si debug
+- Si test fail, vais pas perdre temps sur (nom/prenom/...) alors qu'en fait comptent pas
 
 </Notes>
 
@@ -2076,13 +2136,11 @@ test("Valiation success adds user to repository", () => {
 
 <Notes>
 
-- Mis en valeur pièce comptent dans test
+- Mis en valeur détails comptent dans test
 
 
-- Parfois ces pièces doivent avoir valeur spéciique pour test fonctionne 
-- (validation -> email doit être email valide)
-- Parfois on s'en moque 
-- (aucune validation email, peut passer string) 
+- Parfois ces pièces doivent avoir valeur spéciique pour test fonctionne (combo mail/ldap)
+- Parfois on s'en moque (juste vérifier valeur passé à collab/présente) 
 
 
 - Valeurs suspectes = valeurs qui paraissent importantes, mais en fait non
@@ -2158,12 +2216,20 @@ test("<LoginPage/>", async () => {
 - Why 2, why not 1
 - And why not 0
 - Whay "20/03/2018" why not 21st ?
+  
+
+
 - Qu'est-ce qui dans cet email fait que test passe ou echoue ?
+- Ou défini combo valide ?
+- PB ? 
 - Mène à programmation par superstition
+- Piste de débugging inutile si test fail (aka temps perdu)
+
+
 - Commen mieux ?
+- Objectif:  Rendre clair si test fail, pas besoin regarder là
+  
 
-
-- Rendre clair si test fail, pas besoin regarder là
 - Dé-spécifier valeurs
 - Utiliser placeholder
 - Nommer objet auquel appartiennent
@@ -2328,8 +2394,10 @@ test("<LoginPage/>", async () => {
 
 
 - Après
-- Gain temps, pb ailleurs
-- Meilleur failure 
+- Gain temps
+- Clair si test fail, pas besoin regarder là
+- pb ailleurs
+- Meilleure failure 
 
 </Notes>
 
@@ -2598,9 +2666,9 @@ test("Matching user in db returns match", async () => {
 
 <Notes>
 
-- Vu comment clarifier déroulement test
-- Mettre en valeur détail important
-- Donner du sens aux différents éléments/objets qui composent test  
+- Vu comment clarifier recette/étapes test
+- Mettre en valeur détail important et cacher reste
+- Donner un sens aux différents éléments/objets qui composent test  
 
 </Notes>
 
@@ -3342,10 +3410,11 @@ const traceable = (object, identifier) => {
 <Notes>
 
 - Vu comment 
-- donner context à erreurs
-- Faciliter identification pb
-- Tagger objets pour faciliter debug
-- Si test fail, capable comprendre pkoi rapidement
+- donner context à erreurs (button not disabled > expected true but false)
+- Faciliter identification pb (Attendais John, eu bob)
+- Tagger objets pour faciliter debug (turn winner vs turn looser)
+- Si test fail, reste en flow
+- Pas besoin de stopper et ouvrir test pour comprendre et fixer pb
 
 </Notes>
 
@@ -3948,6 +4017,7 @@ test(`Lists all validation failures`, () => {
 
 - Quand test lié autres parties spec
 - relâcher/généraliser assertion
+- Oublier détail, concentrer sur concepte général
 
 </Notes>
 
@@ -4186,7 +4256,7 @@ test("add() validation passed saves user to database", async () => {
 
 <Notes>
 
-- Amélioré expressivité tests
+- Facilité compréhension de tests
 
 </Notes>
 
@@ -4223,6 +4293,7 @@ test("add() validation passed saves user to database", async () => {
 - Chaque refactor apporte mm bénéfices:
 - Mieux communiquer déroulement
 - Réduire surface débug
+- Pour avancer plus vite
 
 </Notes>
 
