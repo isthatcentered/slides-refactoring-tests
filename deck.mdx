@@ -3751,6 +3751,9 @@ test(`Returns first item in table`, async () => {
 ```diff 7:8
 ```
 
+```diff 11
+```
+
 ```diff 2[30:43],11[28:33]
 ```
 
@@ -3764,11 +3767,16 @@ test(`Returns first item in table`, async () => {
 
 - The fuck did john come from ?!
 - Aucune mention dans tout le setup
-- John vient fixture
-- Test dépend environnement (mais aucun controle dessus)
-- Si changement fixture/si environnement change -> test casse
-- Mais veut pas dire fonction cassée
-- Fausses alertes
+- [John vient fixture]
+- Test dépend environnement et fixtures vont avec 
+  
+
+- PB?
+- aucun controle sur env
+- si qqun autre bout appli pour faire passer test change nom utilisateur 1, test casse
+- absurde, puisque marche
+- donc perdre temps à débugger pb qui existe pas (dans code)
+- trop fausses alertes = ignore vraies
 - Comment mieux ?
 
 
@@ -3776,6 +3784,7 @@ test(`Returns first item in table`, async () => {
 - Créé user et ajouter
 - (Assume DB starts empty + reset)
 - Capable faire lien nom -> donnée reçue
+- Toutes données nécéssaires pour agir dans test
 - controle données
 
 </Notes>
@@ -3972,7 +3981,10 @@ test(`Lists all validation failures`, () => {
 - Donc test devrait pas casser si spec msg validation change ("price cannot be empty")
 
 
-- Débarasser dépendance msg erreur
+- PB ? agaçant de fixer un test quand tout marche, faux positif, perte confiance
+  
+
+- Objectif: Débarasser dépendance msg erreur
 - Veut forme (string) pas détail "blah is required"
 - Donc utiliser matcher permet vérifier forme
 - Message validation peut changer sans casser test
@@ -4182,12 +4194,14 @@ test("add() validation passed saves user to database", async () => {
 
 - Vrais collabs -> validateur ident
 - Imagine ldap spécifique nécéssaire pour passer validation
-- Casse si règle validation changent
+  
+
+- PB? Casse si règle validation changent
 - Si ldap plus valide
 - Donc test vérifie implicitement fonctionnement validateur ident
 
 
-- Seule logique quoi doit impacter test = repo
+- Objectif: Seule logique quoi doit impacter test = repo
 - logique collabs nous embête -> remplacer par faux
 - Au passage gain controle: Pour test besoin validateur accepte user 
 - Maintenant nous qui décidons
