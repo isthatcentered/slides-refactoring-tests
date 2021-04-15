@@ -2446,8 +2446,8 @@ test("<LoginPage/>", async () => {
 <CodeSurfer>
 
 ```js showNumbers
-// Calls do something
-doSomething()
+// Creates express router
+const router = express.Router()
 ```
 
 ```js showNumbers 2:5
@@ -2714,6 +2714,24 @@ test("Matching user in db returns match", async () => {
 
 </Notes>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ---
 
 <!-- 👉 REFACTOR START 👈 -->
@@ -2724,9 +2742,17 @@ test("Matching user in db returns match", async () => {
 
 <Notes>
 
-- Vérifie char() retourne tableau contenant chaque char string
+- Test échoue avec erreur suivante
 - C'est quoi 0, c'est quoi 5 ?
 - Aucun contexte pour comprendre signification valeurs
+- Vérifie char() retourne tableau contenant chaque char string
+- PB ? Test fail pendant refactor, pas contexte nécéssaire pour corriger pb sans stopper et aller éplucher test
+- changement de context 
+- Aka double perte de temps: prise en main test + retourner à tâche en cours
+
+
+- Comment mieux ?
+- Idéalement, failure permet comprendre et cibler cause pb sans ouvrir test
 
 </Notes>
 
@@ -2784,6 +2810,7 @@ test("chars() returns every char in string", () => {
 - Clarifies 5 & 0 numbers are array length
 - Event prints the array 
 - Donné contexte/signification aux chiffres
+- Comprends que code source retourne tableau temporaire au lieu du résultat (ou pas implémenté à ce niveau)
 
 </Notes>
 
@@ -2948,6 +2975,11 @@ test("Cannot re-submit form until post completion", () => {
 - Dump deux tableaux, à nous trouver diff
 - Noyés d'infos (inutiles)
 - J'imagine pb tri. Mais lequel... (mauvais sens ? pas ordonné ?)
+- PB ? Comme tous tests sections:
+    - perte temps/flow changement contexte 
+    - et si CI, prier reproduisible en local
+    
+- Comment mieux ?
 
 </Notes>
 
@@ -2988,17 +3020,20 @@ test(`Orders users by id descending`, () => {
 
 <Notes>
 
-- Comment mieux ?
-- Actuellement, demande un diff entre deux objets complets
-- Donc Noyés infos 
+- Actuellement,noyés infos 
+  
 
+- Pkoi ? Compare deux tableau d'objets complets (aka nom+prenom+date naissance, etc)
 
 - Objectif: 
-- Identifier si items dans bon ordre
-- Tri via id
+- Pb tri, identifier rapidement quel item est/sont pas dans bon ordre
+  
+
+- Réduire infos contenues dans deux tableau au strict nécéssaire
 - Plutot faire un diff entre 2 tableaux users -> diff deux tableaux id 
 - Sélection prop id 
 - Match contre tableau id attendu
+- Id = info simple pour comparer ordre attendu/recu
 
 </Notes>
 
@@ -3011,6 +3046,7 @@ test(`Orders users by id descending`, () => {
 <Notes>
 
 - Failure montre pb tri: Tous items mais pas bon ordre
+- Diagnostique clair, pas besoin passage test
 - (note pour aider ids= 1,2,3 plutot que 12,14,18)
 
 </Notes>
@@ -3088,8 +3124,13 @@ test(`Gets user by id`, async () => {
 <Notes>
 
 - compare deux objets pleins again
-- Veut vérifier bon user récupérer
-- Donc veut moyen identifier/différentier users rapidement
+- Pourrait faire pareil et map(id) mais pas beaucoup plus avancé
+- Veut message erreur parle language test
+- Aka dise "mauvais utilisateur retourné"
+- Donc comment identifier rapidement user ? -> nom
+
+
+
 - Sélect prop identifiant
 - Transfo résult
 
@@ -3107,7 +3148,6 @@ test(`Gets user by id`, async () => {
 <Notes>
 
 - Résultat clair, "retourne pas bon user"
-- Aurait pu utiliser id, mais moins clair que mauvais user reçu
 
 </Notes>
 
@@ -3201,7 +3241,7 @@ test(`Gets user by id`, async () => {
 - Vu donner sens valeurs affichées dans erreur
 - Parfois valeur compte pas
 - Veut juste vérifier passé bon objet/appelé méthode avec bons params  
-- John doe = arrive pas à identifier objets passés
+- John doe = arrive pas à identifier pkoi objets passés pas bons (squoi leur pb ?)
 
 </Notes>
 
@@ -3223,9 +3263,9 @@ test(`Gets user by id`, async () => {
 
 
 - Pour vérifier ca: check ui.notifyWinner appelé avec bon paramètres
-- Aka test délégation: méthode appelé avec bon params = working
-- Ici, pb claire, pas reçu ce que j'attendais
-- Mais pas clair: quoi reçu à la place? quoi'attendais?
+  
+- Regarde failure: On attendais info spécifiques A et eu infos spécifiques B
+- Mais pas clair: quoi reçu à la place? quoi'attendais? 
 
 </Notes>
 
@@ -3244,6 +3284,15 @@ test(`Displays turn winner`, (  ) => {
 
     expect(ui.notifyWinner).toHaveBeenCalledWith(winner)
 })
+```
+
+```diff 2:3
+```
+
+```diff 7
+```
+
+```diff 9
 ```
 
 ```diff 2:3
@@ -3285,17 +3334,24 @@ test(`Displays turn winner`, (  ) => {
 <Notes>
 
 - Comment traduit niveau test ? 
+  
+
 - Créé joueurs
+  
+
 - Vérifie notifyWinner appelé avec gagnant
+  
+
 - Encore une fois utilise user complet, donc dump user complet dans failure test
-- Mais ici pas retour, rien à transformer. Peux pas modifier résultats comme avant 
-- Objectif: pouvoir identifier rapidement reçu et attendu
-- Comment ?
+  
+
+- Mais ici pas retour, rien à transformer. Passage gagnant à notifyWinner à intérieur code source. 
+- Comment peux identifier rapidement reçu et attendu
 
 
 - Tagger objets
-- Si valeurs pas utilisées, juste remplacer par string
-- Ici besoin, donc via fonction
+- Si valeurs pas utilisées (juste déléguées), juste remplacer par string
+- Si besoin (prop utilisée à autre endroit code), peux tagger l'objet
 
 </Notes>
 
@@ -3503,10 +3559,11 @@ test(`Displays a loader on page refresh`, ( ) => {
 
 
 - View, pourtant !test via ui
-- Chercher controller
-- Sait sous capeau getData() appelé quand click refresh
-- Loader affiché si loading = true
-- Donc call getData() et vérifie -> loading mis à true
+- Chercher controller -> déclencher refresh via methode -> vérif prop loading set true
+
+
+- Pb? 
+- Si implémentation change, test casse
 - Si refactor et getData plus chargé assigner loading=true -> test casse
 - Aka test peut être cassé, mais ui ok
 - Inversement, test peut passer mais ui cassée (loading true garantis pas laoder affiché)
