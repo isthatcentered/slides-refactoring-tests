@@ -23,19 +23,8 @@ export const theme = SlidesTheme
 
 export const splitCodeSampleProps = {themes: [vsDark , theme]}
 
-export const FunFact = () => <div>Also</div>
+export const FunFact = () => <div>Also</div>;
   
-
-<a href="https://www.youtube.com/watch?v=WSkOi0Ax-sQ" target="_blank">   
-    <img
-        style={{display: "block",borderRadius: 5, boxShadow: "0 4px 6px -1px rgba(0,0,0,.2),0 2px 4px -1px rgba(0,0,0,.16)"}} 
-        src={videoCapSrc}
-        alt="" 
-    />
-    <span style={{fontStyle:"italic","display":"block","textAlign":"center","fontSize":"28px","paddingTop":"16px"}}>View the talk (French)</span>
-</a>
-
----
 
 # 👋🌏
 
@@ -156,20 +145,25 @@ test("<Signup/>", async () => {
 
 ---
 
-## <b style={{color: theme.colors.primaryDark}}>Edouard Penin</b>
-<div style={{"display":"flex","justifyContent":"center","alignItems":"center","marginTop":"-40px","color":"#888888",}}>
-    <img style={{"width":"60px","marginRight":".25em"}} alt="" src="https://upload.wikimedia.org/wikipedia/fr/thumb/c/c8/Twitter_Bird.svg/1200px-Twitter_Bird.svg.png"/>
-    @isthatcentered
-</div> 
+<img style={{"width":"650px",}} alt="" src="https://www.bordeauxmecenes.org/wp-content/uploads/2019/11/zenikalogo.png"/>
+
+## <b style={{color: theme.colors.primaryDark, marginTop: -100, display: "block"}}>Edouard Penin</b>
 
 <Notes>
 
+<div style={{"display":"flex","justifyContent":"center","alignItems":"center","marginTop":"-40px","color":"#888888",}}>
+    <img style={{"width":"60px","marginRight":".25em"}} alt="" src="https://upload.wikimedia.org/wikipedia/fr/thumb/c/c8/Twitter_Bird.svg/1200px-Twitter_Bird.svg.png"/>
+    @isthatcentered
+</div>
+
 - Edouard Penin
-- Consultant zenika nantes
-- (heureux nouvel arrivant depuis mars)
-- Si mon twitter devait dire ce que je fait de ma vie
-- Typescript, frontend, testing, et musique 
-- (je sais pas quelle conclusion en tirer)
+- Consultant/formateur zenika nantes
+- Pourquoi là pour vous parler tests ?
+- Parce que passé beaucoup plus de temps que justifié à réfléchir à toutes ces questions
+- Et puis à travers personnes formées,
+- Veut pas dire toujours raison/pas mieux que ce que propose
+- teams/applis/clients travaillé (tout petits et très grands)
+- Pas mal de choses à partager et assez retours experience pour reconnaitre/prévoir avantages et inconvénients solution celon contexte
 
 </Notes>
 
@@ -191,105 +185,106 @@ test("<Signup/>", async () => {
 
 
 
-<EmojiSlide caption="Tests are a runnable specification">
-🏃‍♂️📚
+<EmojiSlide caption="A test suite is a runnable specification">
+🏃‍♂️✅
 </EmojiSlide>  
 
 <Notes>
 
-- tests = spec executable
+- Spécification executable
+- AKA feedback constant, immédiat et automatique bon fonctionement appli à chaque changement
 - Source de vérité:
-- Comment chaque ecran app doit se comporter
-- comment chaque edge case doit être géré
+    - Comment chaque ecran app doit se comporter
+    - comment chaque edge case doit être géré
 
 </Notes>
 
 ---
 
-<TestsVsDevKnowledgeTable dev="🧩" tests="📚" result="😀" />
+<EmojiSlide caption="Watches over the whole application so that you don't have to">
+🌍🕵️‍♂️
+</EmojiSlide>
 
 <Notes>
 
-- Lors ajout feature/refactor 
+- Lors ajout feature/refactor
 - Permet concentrer / feature only
-- Test watches for you
-- = Avance + vite
-- = + features
-- = - bugs
+- Oublier reste
+- Partenaire en pair pro
+    - Là pour faire singe si cassé truc à l'autre bout appli avec dernier changement
+    - Peux ajuster stratégie immédiatement, pas après 10 jours de dev sur feature
 
 </Notes>
 
 ---
 
-<EmojiSlide caption="The always lurking deadline" >⏰☠️</EmojiSlide>
+
+<TestsVsDevKnowledgeTable dev="🧩" tests="📚📚📚" result="😀" />
 
 <Notes>
 
-- Problème arrive quand deadline fait sentir
-- Par défaut Test = premier truc à sauter qd pression
-- Donc pkoi refactorer/prendre soin test/dépenser temps à rendre plus compréhensibles ?
+- Parait idéal, 
+- As dev, meilleur journée bc charge mentale --
+- As team, livrer + features + vite avec + qualité 
+- bc filet/guardien autour nous évite tout un cycle dpeloy -> QA si créé bug
+
+
+- Ca = dans l'ideal
+- pb arrive qd deadline approche
+- Deadline = pression = stress
+- Donc why refacto/prendre soin tests/dépenser temps à rendre plus compréhensibles ?
+- Tests font pas tourner appli, pas vitaux pour fonctionner
+- donc si ils m'empêchent d'avancer vite 
+    - bc dur comprendre
+    - dois réécrire tout test bc changé nom de var dans code
+- ils sautent
+- Il justifient pas leur poid
+- Et pb avec test en moins
 
 </Notes>
 
 ---
 
-<EmojiSlide caption="Complicated tests end up abandoned" >😱🙅‍♂️</EmojiSlide>
+<TestsVsDevKnowledgeTable dev="📚🧩" tests="📚📚" result="😐" />
 
 <Notes>
 
-- Parce que si test fait peur -> test saute
-- ou "commenté pour le reactiver plus tard"
-
-</Notes>
-
----
-
-<TestsVsDevKnowledgeTable dev="🧩" tests="📚" result="😀" />
-
-<Notes>
-
-- Donc pb avec test en moins
-- Vite fait mal tourner
 - Test en moins = pièce en plus en tête
-
-</Notes>
-
----
-
-<TestsVsDevKnowledgeTable dev="🧩📕" tests="📗📘" result="😐" />
-
-<Notes>
-
-- Si supprime test
 - Doit gérer feature + effet de bord code non testé
-- MANUELLEMNT
-- Doit penser à tous cas tests 
+- Tests = spec auto. Mais plus tests. DOnc,
+- Doit connaitre par coeur toutes règles/edges cases de autre feature 
+- Et verif manuellement
+- Pourquoi pas, fun si nouveau dev
+- Inertie créée
 
 </Notes>
 
 ---
 
-
-<TestsVsDevKnowledgeTable dev="🧩📕📗" tests="📘" result="😓" />
+<TestsVsDevKnowledgeTable dev="📚📚🧩" tests="📚" result="😕" />
 
 <Notes>
 
-- ++ tests commentés -> ++ cas tests à garder en tête
-- Effets de bords à anticiper
+- Facile ajouter test quand tout déjà prêt
+- Dur quand moitié tests marchent pas
+- + en + barrières à dépasser pour écrire test
+- Demande + en + énergie
+- Du coup - en - tests écris
+
+</Notes>
+
+---
+
+<TestsVsDevKnowledgeTable dev="📚📚📚🧩" tests="" result="😵" />
+
+<Notes>
+
+- EN gros, arrive moment ou
+- Plus de test/plus confiance
+- A chaque changement doit tout vérifier
+- impossible toute app en tête
 - 2 pas arrières pour 1 en avant
-- modifie truc -> créé bugs 
-
-</Notes>
-
----
-
-<TestsVsDevKnowledgeTable dev="🧩📚" tests="" result="🤯" />
-
-<Notes>
-
-- Jusque moment ou tendance complètement inversée
-- A chaque changement doit tout vérifier 
-- impossible toute app en tête 
+- J'ajoute truc -> casse deux 
 
 </Notes>
 
@@ -297,22 +292,24 @@ test("<Signup/>", async () => {
 
 <EmojiSlide>
     <span>
-        📈
+        😤 
     </span>
     <Appear>
         <span>
         😤 
         </span>
         <span>💸</span>
+        <span>👎</span>
     </Appear>
 </EmojiSlide>
 
 <Notes>
 
-- Aka
-- So bugs
-- frutrated users
+- Traduit par
+- Equipe frustrée (dev/business)
+- ++ bugs donc users frustrés
 - lost money
+- Credibility
 - but aujourd'hui: 
 
 </Notes>
@@ -333,6 +330,9 @@ test("<Signup/>", async () => {
 - Identifier smells qui font test difficile maintenir
 - Voir pistes pour faire mieux
 - combo smell -> refactor
+- POur que, dans periodes stress
+- Ajouter/modifier test soit facile
+- Mieux, tests aident à faire évoluer appli
 
 </Notes>
 
@@ -388,11 +388,25 @@ test("<Signup/>", async () => {
 
 - Trouver moyen tests ressemblent
 
-- Histoire/détail change mais principes restent mm
+- Le sujet du test sera tjs different
+
+- Mais au niveau etapes, methode, visuellement, veut chaque test soit familié mm si ouvert premiere fois
 
 </Notes>
 
 --- 
+
+<EmojiSlide>🙋‍♂️</EmojiSlide>
+
+<Notes>
+
+- Pas besoin lire code
+- Dur à comprendre, c'est but
+- moi guide
+
+</Notes>
+
+---
 
 <!--
 ****************************
@@ -406,6 +420,7 @@ test("<Signup/>", async () => {
 
 <Notes>
 
+- Premier dans categorie dur à naviguer
 - Tout en un
 
 </Notes>
@@ -424,44 +439,125 @@ test("<LoginPage/>", () => {
 
 ```js showNumbers
 test("<LoginPage/>", () => {
-  // verify can't submit if empty form
-
-  // verify email validation
+  /const navigateSpy = jest.fn()
+  ;(useNavigate as jest.Mock<typeof useNavigate>).mockImplementation(
+    () => navigateSpy,
+  )
+  ;((User.createUser as any) as jest.MockInstance<
+  ReturnType<typeof User.createUser>,
+  any
+  >).mockResolvedValue(null as any)
+  ;((SocialLogin as any) as jest.MockInstance<
+  ReturnType<typeof SocialLogin>,
+  any
+  >).mockImplementation(() => null)
   
-  // Verify password validation
-    
-  // verify loading state
-    
-  // verify login fail displays error
-    
-  // verify login fail redirect error
-
-  // more stuff
+  const page = render(<Signin />)
+  
+  const submitButton = page.getByRole("button", {
+    name: /signin/i,
+  }) as HTMLButtonElement
+  
+  fireEvent.click(submitButton)
+  
+  expect(() => page.getByText(/Login & password required/i)).not.toThrow()
+  
+  const email = page.getByLabelText(/email/i)
+  fireEvent.change(email, { target: { value: "john@gmail.com" } })
+  
+  const password = page.getByLabelText(/password/i)
+  fireEvent.change(password, { target: { value: "helloworld" } })
+  
+  fireEvent.click(submitButton)
+  
+  expect(() => page.getByText(/Loading/i)).not.toThrow()
+  expect(submitButton.disabled).toBe(true)
+  
+  expect(User.createUser).toHaveBeenCalledWith({
+    email: "john@gmail.com",
+    password: "helloworld",
+  })
+  
+  await tick()
+  
+  expect(navigateSpy).toHaveBeenCalledWith("/")
+  
+  expect(SocialLogin).toHaveBeenLastCalledWith(
+    {
+      loginEnpointRootUrl: API_BASE_URL,
+    } as PropsType<typeof SocialLogin>,
+    {},
+)
+  
+  // ... more
 }) 
 ```
 
-```js 1[6:39]
-test("method -> condition -> behavior", ()=>{})
+</CodeSurfer>
+
+<Notes>
+
+- Juste 1 test pour toute page ?
+- verification validation/redirection/loading state, etc ?
+  
+
+- [Dump ensemble cas tests pour page]
+- Quoi pb ?
+    - Fait peur
+    - Surface à apprendre très large
+    - Etapes probablement inter-dépendantes (je bouge A, je casse D et sais pas pkoi)
+- Imaginez si faut ajouter nouveau cas...
+
+- Coomment mieux ?
+- Au lieu test géant, ensemble petits tests dédiés à scénario précis
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```js 1[6:39] showNumbers
+test("method -> condition -> behavior", ()=> {})
 ```
 
-```js 1[6:18]
-test("<LoginPage/> -> condition -> behavior", ()=>{})
+```js 1[6:18] showNumbers
+test("<LoginPage/> -> condition -> behavior", ()=> {})
 ```
 
-```js 1[23:35]
-test("<LoginPage/> -> failed login -> behavior", ()=>{})
-```
-
-```js 1[39:60]
-test("<LoginPage/> -> failed login -> displays server error", ()=>{})
-```
-
-```js 1[7:54]
-test("<LoginPage/> failed login displays server error", ()=>{})
+```js 1[23:35],2 showNumbers
+test("<LoginPage/> -> condition -> behavior", ()=> {
+  expect(() => page.getByText("Mot de passe ou nom d'utilisateur invalide")).not.toThrow()
+})
 ```
 
 
-```js 2:6
+```js 1[23:35] showNumbers
+test("<LoginPage/> -> failed login -> behavior", ()=> {
+  expect(() => page.getByText("Mot de passe ou nom d'utilisateur invalide")).not.toThrow()
+})
+```
+
+```js 1[38:46] showNumbers
+test("<LoginPage/> -> failed login -> behavior", ()=> {
+  expect(() => page.getByText("Mot de passe ou nom d'utilisateur invalide")).not.toThrow()
+})
+```
+
+```js 1[39:60] showNumbers
+test("<LoginPage/> -> failed login -> displays server error", ()=> {
+  expect(() => page.getByText("Mot de passe ou nom d'utilisateur invalide")).not.toThrow()
+})
+```
+
+```js 1[7:54] showNumbers
+test("<LoginPage/> failed login displays server error", ()=> {
+  expect(() => page.getByText("Mot de passe ou nom d'utilisateur invalide")).not.toThrow()
+})
+```
+
+
+```js 2:6 showNumbers
 describe("<LoginPage/>", () => {
   describe("Failed login", () => {
     test("Displays server error", ()=>{})
@@ -477,24 +573,23 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
-- Juste 1 test ?
-- Dump ensemble cas tests pensé sur moment
+- Aider convention nommage
+- Donne framework pour découper tests et mm découvrir scénarios pas pensé
+- Propose celle là mais pleins d'autres, pouvez mm l'inventer, 
+- L'important = parle/aide à écrire tests/critères acceptance 
 
 
-- Fait peur
-- Dur à prendre en main (Surface à apprendre très large)
-- Fixer failure met danger autres cas test
-- Tous désactivé un truc pour check et oublié réactiver
-
-
-- Scoper via convention nommage
-- Aide découvrir cas spéciaux feature/penser à tout
-
-
-- Condition = qu'est-ce qui rend ce test spécial
-- Comportement = résultat suite condition
-- plusieurs cas possibles par condition (might be another condition)
-- (nesting test peut simplifier la vie là dessus)
+- [methode] -> sujet du test (repo.add/createUser/...) 
+- [Contition] 
+- remonter partie code précédent pour concret
+- -> qu'est-ce qui rend ce test spécial (pré-condition qui rend scénario spécial)  
+- [login failed]
+- [Comportement] = résultat suite condition
+- [afficher erreur serveur]
+- [Etant donnée login échoué, blah blah blah]
+  
+- [plusieurs cas possibles par condition (might be another condition)]
+- séparation pré-condition (describe)/test (test) peut aider à se poser question
 
 </Notes>
 
@@ -508,6 +603,7 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
+- Aussi, bénéfice,
 - Avant renommage si fail pb validation:
 
 </Notes>
@@ -538,7 +634,7 @@ describe("<LoginPage/>", () => {
 
 - Bon nom test = quel est pb
 - Lancer investigations
-- Réduire surface debug  
+- Pas besoin débugger test pour débugger appli
 
 </Notes>
 
@@ -554,19 +650,57 @@ describe("<LoginPage/>", () => {
 
 ```js showNumbers subtitle="before"
 test("<LoginPage/>", () => {
-    // verify can't submit if empty form
-    
-    // verify email validation
-    
-    // Verify password validation
-    
-    // verify loading state
-    
-    // verify login fail displays error
-    
-    // verify login fail redirect error
-    
-    // more stuff
+  /const navigateSpy = jest.fn()
+  ;(useNavigate as jest.Mock<typeof useNavigate>).mockImplementation(
+    () => navigateSpy,
+  )
+  ;((User.createUser as any) as jest.MockInstance<
+  ReturnType<typeof User.createUser>,
+  any
+  >).mockResolvedValue(null as any)
+  ;((SocialLogin as any) as jest.MockInstance<
+  ReturnType<typeof SocialLogin>,
+  any
+  >).mockImplementation(() => null)
+  
+  const page = render(<Signin />)
+  
+  const submitButton = page.getByRole("button", {
+    name: /signin/i,
+  }) as HTMLButtonElement
+  
+  fireEvent.click(submitButton)
+  
+  expect(() => page.getByText(/Login & password required/i)).not.toThrow()
+  
+  const email = page.getByLabelText(/email/i)
+  fireEvent.change(email, { target: { value: "john@gmail.com" } })
+  
+  const password = page.getByLabelText(/password/i)
+  fireEvent.change(password, { target: { value: "helloworld" } })
+  
+  fireEvent.click(submitButton)
+  
+  expect(() => page.getByText(/Loading/i)).not.toThrow()
+  expect(submitButton.disabled).toBe(true)
+  
+  expect(User.createUser).toHaveBeenCalledWith({
+    email: "john@gmail.com",
+    password: "helloworld",
+  })
+  
+  await tick()
+  
+  expect(navigateSpy).toHaveBeenCalledWith("/")
+  
+  expect(SocialLogin).toHaveBeenLastCalledWith(
+    {
+      loginEnpointRootUrl: API_BASE_URL,
+    } as PropsType<typeof SocialLogin>,
+    {},
+)
+  
+  // ... more
 }) 
 ```
 
@@ -592,7 +726,7 @@ describe("<LoginPage/>", () => {
 
 <Step>
 
-```diff 7[300]
+```diff 
 ```
 
 ```diff 
@@ -607,12 +741,14 @@ describe("<LoginPage/>", () => {
 
 - Avant: 
 - Test vas couter cher en maintenance et énergie
-- 300 lignes à gérer sans faire d'erreur quelque soit pb
+- Enorme surface à apprendre
+- Si dois ajouter/fixer cas, prends aprem
 
 
 - Apres:
 - Set petits tests concentrés sur pb unique
 - Peu de code à gérer
+- "=" + agile, si regle change, facile
 - Meilleur infos failure
 
 </Notes> 
@@ -626,7 +762,7 @@ describe("<LoginPage/>", () => {
 <Notes>
 
 - Quand test qui fait tout
-- Rescoper via convention nommage
+- Re-scoper/découper aidant convention nommage
 
 </Notes>
 
@@ -644,9 +780,8 @@ describe("<LoginPage/>", () => {
 
 <Notes>
 
-- On a rescopé tests
+- On a suite petits tests dédiés à pb précis
 - Next, pouvoir trouver marques
-
 
 - Etapes mélangées
 
@@ -761,17 +896,20 @@ test("<LoginPage/>", () => {
 <Notes>
 
 - Vérifie redirigé vers page d'accueil quand on se log
+- Quand test fail et msg failure insuffisant, veut cibler rapidement pb
+- Aka idée attentes (assertions), comment fonctionne (actions font assertions passent), données nécéssaires test (setup)
 
-
-- Quand test fail veut cibler rapidement pb
-- Localiser assertion puis remonter
-- Ici mélangées
-- Dur trouver rapidement info
-
-- Grouper par type
-- Ajouter espaces  
-- AAA
-- + add spaces
+- Ici mélangées [assertion] [actions] [setup]
+- [Pb ?]
+    - Pas standardisé, pas carte précise A then B then C
+    - Potentiellement moins stricte/qualité (dépendances entre étapes)
+- Comment mieux ?
+- Identifié trois groupes (setup, actions, attentes) -> Rendre explicites
+- [setup], [actions], [attentes]
+- Déroulement clair et valide pour tous tests
+- [A], [A], [A]
+- [Ajouter espaces]
+- Tout de suite, quelque soit sujet test, je sais déjà comment aborder/ou trouver quoi
 
 </Notes>
 
@@ -897,11 +1035,14 @@ test("<LoginPage/>", () => {
 
 - Avant: 
 - Si failure, falloir chercher pièces
+- Chaque test parrait nouveau
 
 
 - Après
+- Standardisé étapes de tous test
 - Peux localiser rapidement assertions et remonter
-- Accessoirement, spaces = fais mois peur 
+- Accessoirement, spaces = fais mois peur
+- Quelque soit sujet test, je connais déjà moitié fonctionnement
 
 </Notes>
 
@@ -914,7 +1055,7 @@ test("<LoginPage/>", () => {
 
 <Notes>
 
-- AAA
+- Regroupe étape en AAA
 
 </Notes>
 
@@ -1023,6 +1164,8 @@ test("add() validation passed saves product to database", async () => {
 - Pourtant font exactement mm chose
 - "Prend truc, ajout, verifie ajouté"
 - Donc mm chôse, implémentation complètement différente
+- PB ?
+- Bah tout à coup dois apprendre à me servir des mocks -> pas mm temps nécéssaire
 - Comment faire mieux ?
 
 </Notes>   
@@ -1091,6 +1234,7 @@ test("add() validation passed saves product to database", async () => {
 - Face Licorne
 - Standardize
 - Regarde comment fait ailleurs, et fait pareil
+- J'ai déjà savoir nécéssaire quand arrive sur test
 
 </Notes>
 
@@ -1104,11 +1248,12 @@ test("add() validation passed saves product to database", async () => {
 
 <Notes>
 
-- Travaillé 
-- Nommage
-- structure
-- Conventions
-- Facilité prise en main test
+- Chaque test familié quelque soit team member qui a écris
+- Mm si découvre test
+- mm Découpage (méthode -> pre-condition -> comportement)
+- mm Structure/visuel (A, A, A)
+- mm Implémentation (Standardization méthode)
+- Friction réduite
 
 </Notes>
 
@@ -1136,6 +1281,8 @@ test("add() validation passed saves product to database", async () => {
 - Mettre en valeur ce qui importance dans test
 - Cacher le reste
 - Trouver bon niveau de détail pour compréhension rapide
+- Pour si test ko
+- Pas investiguer choses qui ont aucune importance
 
 </Notes>
 
@@ -1513,20 +1660,28 @@ function renderLoginPage() {
 
 - Test vérifie redirigé vers page d'accueil quand login
 
+- Si regarde recette test (actions à effectuer pour recréer cas de test)
+- 5 lignes mais Impossible comprendre 
+- Pb ? Plutot qu'arriver sur test, passer 2 sec sur liste étapes nécéssaires pour que passe et lancer investigations
+- Dois passer temps à décoder ce qui se passe, comprendre étapes, fonctionnement test
+- Sors complètement contexte, pas objectif
 
-- Actions: 5 lignes mais Impossible comprendre 
-- Suite micro instructions, à nous donner sens
 
-
+- Comment mieux ?
 - Objectif: Trouver concepts/idées cachées sous instructions et faire apparaitre
+
+
 - Quel concept derrière X ? Y -> cacher détail, faire apparaitre concept (extraire utilitaire et appliquer)
+
+
 - Comme helpers utiles partout -> ajouter à framework (prend render, rééxporte avec helpers)
 
 
 - Créé helpers pour concept page en général -> helper <LoginPage/> 
-- (intercators/page object: objet/ensemble méthodes dédiés tests page/objet)
 - renderLoginPage
 - Fini avec suite instruction type guide utilisateur
+- Si form login change (add captcha, un seul endroit à changer)
+- (intercators/page object: objet/ensemble méthodes dédiés tests page/objet)
 
 </Notes>
 
@@ -1662,7 +1817,7 @@ test("<LoginPage/>", async () => {
 - Après
 - Recette simple pour recréer etat testé
 - Se lit comme un guide utilisateur/spec
-- (bonus) Centralized logique tests. Si évolution, 1 seul endroit à changer 
+- Si test cassé, en 2 secondes comprends test et prêt à débugger 
 
 </Notes>
 
@@ -1676,7 +1831,6 @@ test("<LoginPage/>", async () => {
 <Notes>
 
 - Quand suite instruction qui veulent rien dire
-- Extraire utilitaire pour 
 - Décrit le quoi (type), pas le comment (firevent type change avec value "blah")
 
 </Notes>
@@ -1698,7 +1852,7 @@ test("<LoginPage/>", async () => {
 
 - Clarifié/Donné sens à recette/étapes test
 - Next: Mettre en valeur détails importants
-- Aka fait test fail/pass
+- Aka, quoi dans mise en place fait test fail/pass
 
 </Notes>
 
@@ -1836,14 +1990,20 @@ test("Valiation success adds user to repository", () => {
 - Test vérifie utilisateur bien ajouté à bdd
 
 
-- Long setup user
+- Commence par long setup user
 - Validateur identité ? -> probablement un truc avec user
-- Incapable de dire quelle prop fait test pass/fail
+- Pb? Incapable de dire quelle prop fait test pass/fail
+- Surface débug large -> creuser validateur ident
+  
+
 - Comment mieux ?
 
 
-- Générer automatiquement toutes props qui comptent pas
-- Spécifier seulement importantes 
+- Objectif: Veux voir seullement détails qui comptent
+  
+
+- Méthode: générer automatiquement toutes props qui comptent pas
+- Overrides -> Spécifier seulement importantes 
 - Vois seullement props importantant
 
 
@@ -1933,7 +2093,7 @@ test("Valiation success adds user to repository", () => {
 
 - Après:
 - Immédiatement clair Combo email password important
-- Sait que reste user pas important si debug
+- Si test fail, vais pas perdre temps sur (nom/prenom/...) alors qu'en fait comptent pas
 
 </Notes>
 
@@ -1969,13 +2129,11 @@ test("Valiation success adds user to repository", () => {
 
 <Notes>
 
-- Mis en valeur pièce comptent dans test
+- Mis en valeur détails comptent dans test
 
 
-- Parfois ces pièces doivent avoir valeur spéciique pour test fonctionne 
-- (validation -> email doit être email valide)
-- Parfois on s'en moque 
-- (aucune validation email, peut passer string) 
+- Parfois ces pièces doivent avoir valeur spéciique pour test fonctionne (combo mail/ldap)
+- Parfois on s'en moque (juste vérifier valeur passé à collab/présente) 
 
 
 - Valeurs suspectes = valeurs qui paraissent importantes, mais en fait non
@@ -2051,12 +2209,20 @@ test("<LoginPage/>", async () => {
 - Why 2, why not 1
 - And why not 0
 - Whay "20/03/2018" why not 21st ?
+  
+
+
 - Qu'est-ce qui dans cet email fait que test passe ou echoue ?
+- Ou défini combo valide ?
+- PB ? 
 - Mène à programmation par superstition
+- Piste de débugging inutile si test fail (aka temps perdu)
+
+
 - Commen mieux ?
+- Objectif:  Rendre clair si test fail, pas besoin regarder là
+  
 
-
-- Rendre clair si test fail, pas besoin regarder là
 - Dé-spécifier valeurs
 - Utiliser placeholder
 - Nommer objet auquel appartiennent
@@ -2221,8 +2387,10 @@ test("<LoginPage/>", async () => {
 
 
 - Après
-- Gain temps, pb ailleurs
-- Meilleur failure 
+- Gain temps
+- Clair si test fail, pas besoin regarder là
+- pb ailleurs
+- Meilleure failure 
 
 </Notes>
 
@@ -2271,8 +2439,8 @@ test("<LoginPage/>", async () => {
 <CodeSurfer>
 
 ```js showNumbers
-// Calls do something
-doSomething()
+// Creates express router
+const router = express.Router()
 ```
 
 ```js showNumbers 2:5
@@ -2491,9 +2659,9 @@ test("Matching user in db returns match", async () => {
 
 <Notes>
 
-- Vu comment clarifier déroulement test
-- Mettre en valeur détail important
-- Donner du sens aux différents éléments/objets qui composent test  
+- Vu comment clarifier recette/étapes test
+- Mettre en valeur détail important et cacher reste
+- Donner un sens aux différents éléments/objets qui composent test  
 
 </Notes>
 
@@ -2539,6 +2707,24 @@ test("Matching user in db returns match", async () => {
 
 </Notes>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ---
 
 <!-- 👉 REFACTOR START 👈 -->
@@ -2549,9 +2735,17 @@ test("Matching user in db returns match", async () => {
 
 <Notes>
 
-- Vérifie char() retourne tableau contenant chaque char string
+- Test échoue avec erreur suivante
 - C'est quoi 0, c'est quoi 5 ?
 - Aucun contexte pour comprendre signification valeurs
+- Vérifie char() retourne tableau contenant chaque char string
+- PB ? Test fail pendant refactor, pas contexte nécéssaire pour corriger pb sans stopper et aller éplucher test
+- changement de context 
+- Aka double perte de temps: prise en main test + retourner à tâche en cours
+
+
+- Comment mieux ?
+- Idéalement, failure permet comprendre et cibler cause pb sans ouvrir test
 
 </Notes>
 
@@ -2609,6 +2803,7 @@ test("chars() returns every char in string", () => {
 - Clarifies 5 & 0 numbers are array length
 - Event prints the array 
 - Donné contexte/signification aux chiffres
+- Comprends que code source retourne tableau temporaire au lieu du résultat (ou pas implémenté à ce niveau)
 
 </Notes>
 
@@ -2773,6 +2968,11 @@ test("Cannot re-submit form until post completion", () => {
 - Dump deux tableaux, à nous trouver diff
 - Noyés d'infos (inutiles)
 - J'imagine pb tri. Mais lequel... (mauvais sens ? pas ordonné ?)
+- PB ? Comme tous tests sections:
+    - perte temps/flow changement contexte 
+    - et si CI, prier reproduisible en local
+    
+- Comment mieux ?
 
 </Notes>
 
@@ -2813,17 +3013,20 @@ test(`Orders users by id descending`, () => {
 
 <Notes>
 
-- Comment mieux ?
-- Actuellement, demande un diff entre deux objets complets
-- Donc Noyés infos 
+- Actuellement,noyés infos 
+  
 
+- Pkoi ? Compare deux tableau d'objets complets (aka nom+prenom+date naissance, etc)
 
 - Objectif: 
-- Identifier si items dans bon ordre
-- Tri via id
+- Pb tri, identifier rapidement quel item est/sont pas dans bon ordre
+  
+
+- Réduire infos contenues dans deux tableau au strict nécéssaire
 - Plutot faire un diff entre 2 tableaux users -> diff deux tableaux id 
 - Sélection prop id 
 - Match contre tableau id attendu
+- Id = info simple pour comparer ordre attendu/recu
 
 </Notes>
 
@@ -2836,6 +3039,7 @@ test(`Orders users by id descending`, () => {
 <Notes>
 
 - Failure montre pb tri: Tous items mais pas bon ordre
+- Diagnostique clair, pas besoin passage test
 - (note pour aider ids= 1,2,3 plutot que 12,14,18)
 
 </Notes>
@@ -2913,8 +3117,13 @@ test(`Gets user by id`, async () => {
 <Notes>
 
 - compare deux objets pleins again
-- Veut vérifier bon user récupérer
-- Donc veut moyen identifier/différentier users rapidement
+- Pourrait faire pareil et map(id) mais pas beaucoup plus avancé
+- Veut message erreur parle language test
+- Aka dise "mauvais utilisateur retourné"
+- Donc comment identifier rapidement user ? -> nom
+
+
+
 - Sélect prop identifiant
 - Transfo résult
 
@@ -2932,7 +3141,6 @@ test(`Gets user by id`, async () => {
 <Notes>
 
 - Résultat clair, "retourne pas bon user"
-- Aurait pu utiliser id, mais moins clair que mauvais user reçu
 
 </Notes>
 
@@ -3026,7 +3234,7 @@ test(`Gets user by id`, async () => {
 - Vu donner sens valeurs affichées dans erreur
 - Parfois valeur compte pas
 - Veut juste vérifier passé bon objet/appelé méthode avec bons params  
-- John doe = arrive pas à identifier objets passés
+- John doe = arrive pas à identifier pkoi objets passés pas bons (squoi leur pb ?)
 
 </Notes>
 
@@ -3048,9 +3256,9 @@ test(`Gets user by id`, async () => {
 
 
 - Pour vérifier ca: check ui.notifyWinner appelé avec bon paramètres
-- Aka test délégation: méthode appelé avec bon params = working
-- Ici, pb claire, pas reçu ce que j'attendais
-- Mais pas clair: quoi reçu à la place? quoi'attendais?
+  
+- Regarde failure: On attendais info spécifiques A et eu infos spécifiques B
+- Mais pas clair: quoi reçu à la place? quoi'attendais? 
 
 </Notes>
 
@@ -3069,6 +3277,15 @@ test(`Displays turn winner`, (  ) => {
 
     expect(ui.notifyWinner).toHaveBeenCalledWith(winner)
 })
+```
+
+```diff 2:3
+```
+
+```diff 7
+```
+
+```diff 9
 ```
 
 ```diff 2:3
@@ -3110,17 +3327,24 @@ test(`Displays turn winner`, (  ) => {
 <Notes>
 
 - Comment traduit niveau test ? 
+  
+
 - Créé joueurs
+  
+
 - Vérifie notifyWinner appelé avec gagnant
+  
+
 - Encore une fois utilise user complet, donc dump user complet dans failure test
-- Mais ici pas retour, rien à transformer. Peux pas modifier résultats comme avant 
-- Objectif: pouvoir identifier rapidement reçu et attendu
-- Comment ?
+  
+
+- Mais ici pas retour, rien à transformer. Passage gagnant à notifyWinner à intérieur code source. 
+- Comment peux identifier rapidement reçu et attendu
 
 
 - Tagger objets
-- Si valeurs pas utilisées, juste remplacer par string
-- Ici besoin, donc via fonction
+- Si valeurs pas utilisées (juste déléguées), juste remplacer par string
+- Si besoin (prop utilisée à autre endroit code), peux tagger l'objet
 
 </Notes>
 
@@ -3235,10 +3459,11 @@ const traceable = (object, identifier) => {
 <Notes>
 
 - Vu comment 
-- donner context à erreurs
-- Faciliter identification pb
-- Tagger objets pour faciliter debug
-- Si test fail, capable comprendre pkoi rapidement
+- donner context à erreurs (button not disabled > expected true but false)
+- Faciliter identification pb (Attendais John, eu bob)
+- Tagger objets pour faciliter debug (turn winner vs turn looser)
+- Si test fail, reste en flow
+- Pas besoin de stopper et ouvrir test pour comprendre et fixer pb
 
 </Notes>
 
@@ -3327,10 +3552,11 @@ test(`Displays a loader on page refresh`, ( ) => {
 
 
 - View, pourtant !test via ui
-- Chercher controller
-- Sait sous capeau getData() appelé quand click refresh
-- Loader affiché si loading = true
-- Donc call getData() et vérifie -> loading mis à true
+- Chercher controller -> déclencher refresh via methode -> vérif prop loading set true
+
+
+- Pb? 
+- Si implémentation change, test casse
 - Si refactor et getData plus chargé assigner loading=true -> test casse
 - Aka test peut être cassé, mais ui ok
 - Inversement, test peut passer mais ui cassée (loading true garantis pas laoder affiché)
@@ -3518,6 +3744,9 @@ test(`Returns first item in table`, async () => {
 ```diff 7:8
 ```
 
+```diff 11
+```
+
 ```diff 2[30:43],11[28:33]
 ```
 
@@ -3531,11 +3760,16 @@ test(`Returns first item in table`, async () => {
 
 - The fuck did john come from ?!
 - Aucune mention dans tout le setup
-- John vient fixture
-- Test dépend environnement (mais aucun controle dessus)
-- Si changement fixture/si environnement change -> test casse
-- Mais veut pas dire fonction cassée
-- Fausses alertes
+- [John vient fixture]
+- Test dépend environnement et fixtures vont avec 
+  
+
+- PB?
+- aucun controle sur env
+- si qqun autre bout appli pour faire passer test change nom utilisateur 1, test casse
+- absurde, puisque marche
+- donc perdre temps à débugger pb qui existe pas (dans code)
+- trop fausses alertes = ignore vraies
 - Comment mieux ?
 
 
@@ -3543,6 +3777,7 @@ test(`Returns first item in table`, async () => {
 - Créé user et ajouter
 - (Assume DB starts empty + reset)
 - Capable faire lien nom -> donnée reçue
+- Toutes données nécéssaires pour agir dans test
 - controle données
 
 </Notes>
@@ -3739,7 +3974,10 @@ test(`Lists all validation failures`, () => {
 - Donc test devrait pas casser si spec msg validation change ("price cannot be empty")
 
 
-- Débarasser dépendance msg erreur
+- PB ? agaçant de fixer un test quand tout marche, faux positif, perte confiance
+  
+
+- Objectif: Débarasser dépendance msg erreur
 - Veut forme (string) pas détail "blah is required"
 - Donc utiliser matcher permet vérifier forme
 - Message validation peut changer sans casser test
@@ -3841,6 +4079,7 @@ test(`Lists all validation failures`, () => {
 
 - Quand test lié autres parties spec
 - relâcher/généraliser assertion
+- Oublier détail, concentrer sur concepte général
 
 </Notes>
 
@@ -3948,12 +4187,14 @@ test("add() validation passed saves user to database", async () => {
 
 - Vrais collabs -> validateur ident
 - Imagine ldap spécifique nécéssaire pour passer validation
-- Casse si règle validation changent
+  
+
+- PB? Casse si règle validation changent
 - Si ldap plus valide
 - Donc test vérifie implicitement fonctionnement validateur ident
 
 
-- Seule logique quoi doit impacter test = repo
+- Objectif: Seule logique quoi doit impacter test = repo
 - logique collabs nous embête -> remplacer par faux
 - Au passage gain controle: Pour test besoin validateur accepte user 
 - Maintenant nous qui décidons
@@ -4079,7 +4320,7 @@ test("add() validation passed saves user to database", async () => {
 
 <Notes>
 
-- Amélioré expressivité tests
+- Facilité compréhension de tests
 
 </Notes>
 
@@ -4116,6 +4357,7 @@ test("add() validation passed saves user to database", async () => {
 - Chaque refactor apporte mm bénéfices:
 - Mieux communiquer déroulement
 - Réduire surface débug
+- Pour avancer plus vite
 
 </Notes>
 

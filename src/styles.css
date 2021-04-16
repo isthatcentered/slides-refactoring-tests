@@ -12,6 +12,21 @@ body {
   box-sizing: border-box;
 }
 
+#gatsby-focus-wrapper > div:before {
+	box-sizing: border-box;
+	content: "";
+	display: block;
+	width: 200px;
+	height: 64px;
+	background-image: url("./logo.png");
+	background-size: 100%;
+	position: fixed;
+	bottom: .5rem;
+	right: .5rem;
+	margin:.5rem;
+	z-index: 20;
+}
+
 [class$="-Presenter"] ul {
   margin: 0 0 16px;
   padding: 16px 0 16px 1em;
